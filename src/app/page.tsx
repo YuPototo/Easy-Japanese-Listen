@@ -1,9 +1,9 @@
-import SectionGrid from "@/components/SectionGrid";
+import AlbumGrid from '@/components/AlbumGrid'
 
 export default async function Home() {
     return (
         <main className="">
-            <SectionGrid />
+            <AlbumGrid />
         </main>
-    );
+    )
 }

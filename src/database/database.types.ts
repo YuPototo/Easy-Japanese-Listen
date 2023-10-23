@@ -34,6 +34,27 @@ export interface Database {
   }
   public: {
     Tables: {
+      album: {
+        Row: {
+          album_title: string
+          created_at: string
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          album_title: string
+          created_at?: string
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          album_title?: string
+          created_at?: string
+          id?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       test_section: {
         Row: {
           id: number
@@ -48,6 +69,40 @@ export interface Database {
           section_name?: string
         }
         Relationships: []
+      }
+      track: {
+        Row: {
+          album_id: number
+          created_at: string
+          id: number
+          storage_path: string
+          track_title: string
+          updated_at: string
+        }
+        Insert: {
+          album_id: number
+          created_at?: string
+          id?: number
+          storage_path: string
+          track_title: string
+          updated_at?: string
+        }
+        Update: {
+          album_id?: number
+          created_at?: string
+          id?: number
+          storage_path?: string
+          track_title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "track_album_id_fkey"
+            columns: ["album_id"]
+            referencedRelation: "album"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
