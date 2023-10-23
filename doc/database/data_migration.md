@@ -16,6 +16,12 @@ Step 3: Reset database to the current migration.
 supabase db reset
 ```
 
+## Deploy to Supabase
+
+```bash
+supabase db push
+```
+
 ## ref
 
 <https://supabase.com/docs/guides/cli/local-development?access-method=postgres>
