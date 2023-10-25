@@ -1,3 +1,4 @@
+import AudioPlayer, { Transcription } from '@/components/AudioPlayer'
 import { BUCKET_NAME } from '@/constants'
 import { Database } from '@/database/database.types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -9,11 +10,14 @@ type PageParam = {
 export default async function Page({ params }: PageParam) {
     const track = await getTrack(params.id)
     return (
-        <main className="">
+        <main className="m-4 flex flex-col items-center">
             {track !== null && (
                 <div>
                     <h1 className="mt-10 text-lg">{track.title}</h1>
-                    <audio controls src={track.audioUrl} />
+                    <AudioPlayer
+                        audioUrl={track.audioUrl}
+                        transcription={track.transcription}
+                    />
                 </div>
             )}
         </main>
@@ -24,6 +28,7 @@ type Track = {
     id: number
     title: string
     audioUrl: string
+    transcription: Transcription
 }
 
 async function getTrack(id: string): Promise<Track | null> {
@@ -47,9 +52,12 @@ async function getTrack(id: string): Promise<Track | null> {
         .from(BUCKET_NAME)
         .getPublicUrl(track.storage_path)
 
+    // todo: add runtime check for transcription
+
     return {
         id: track.id,
         title: track.track_title,
         audioUrl: audioData.publicUrl,
+        transcription: track.transcription as Transcription,
     }
 }

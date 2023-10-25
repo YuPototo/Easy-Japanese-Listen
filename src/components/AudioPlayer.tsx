@@ -15,11 +15,11 @@ type Content = {
     endTime: number
 }
 
-export type Transcription = Filler | Content
+export type Transcription = (Filler | Content)[]
 
 type Props = {
     audioUrl: string
-    transcription: Transcription[]
+    transcription: Transcription
 }
 export default function AudioPlayer({ audioUrl, transcription }: Props) {
     const [audio, setAudio] = useState<HTMLAudioElement | null>(null)

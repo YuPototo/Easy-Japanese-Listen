@@ -16,10 +16,16 @@ values
 
 -- Insert track
 insert into
-    public .track (track_title, storage_path, album_id)
+    public .track (
+        track_title,
+        transcription,
+        storage_path,
+        album_id
+    )
 values
     (
         'Track 1',
+        '[{"type":"filler","endTime":2},{"type":"content","content":"这是第1句话","endTime":4},{"type":"content","content":"这是第2句话","endTime":6},{"type":"content","content":"这是第3句话","endTime":8},{"type":"content","content":"这是第4句话","endTime":9999}]',
         'track_1.mp3',
         (
             select
@@ -32,6 +38,7 @@ values
     ),
     (
         'Track 2',
+        '[{"type":"filler","endTime":2},{"type":"content","content":"这是第1句话","endTime":4},{"type":"content","content":"这是第2句话","endTime":6},{"type":"content","content":"这是第3句话","endTime":8},{"type":"content","content":"这是第4句话","endTime":9999}]',
         'track_2.mp3',
         (
             select
@@ -44,6 +51,7 @@ values
     ),
     (
         'Track 3',
+        '[{"type":"filler","endTime":2},{"type":"content","content":"这是第1句话","endTime":4},{"type":"content","content":"这是第2句话","endTime":6},{"type":"content","content":"这是第3句话","endTime":8},{"type":"content","content":"这是第4句话","endTime":9999}]',
         'track_3.mp3',
         (
             select
@@ -56,6 +64,7 @@ values
     ),
     (
         'Track 4',
+        '[{"type":"filler","endTime":2},{"type":"content","content":"这是第1句话","endTime":4},{"type":"content","content":"这是第2句话","endTime":6},{"type":"content","content":"这是第3句话","endTime":8},{"type":"content","content":"这是第4句话","endTime":9999}]',
         'track_4.mp3',
         (
             select
@@ -68,6 +77,7 @@ values
     ),
     (
         'Track 5',
+        '[{"type":"filler","endTime":2},{"type":"content","content":"这是第1句话","endTime":4},{"type":"content","content":"这是第2句话","endTime":6},{"type":"content","content":"这是第3句话","endTime":8},{"type":"content","content":"这是第4句话","endTime":9999}]',
         'track_5.mp3',
         (
             select
@@ -80,6 +90,7 @@ values
     ),
     (
         'Track 6',
+        '[{"type":"filler","endTime":2},{"type":"content","content":"这是第1句话","endTime":4},{"type":"content","content":"这是第2句话","endTime":6},{"type":"content","content":"这是第3句话","endTime":8},{"type":"content","content":"这是第4句话","endTime":9999}]',
         'track_6.mp3',
         (
             select

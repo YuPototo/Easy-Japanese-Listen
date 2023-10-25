@@ -25,7 +25,7 @@ const transcription = [
         content: '这是第4句话',
         endTime: 9999,
     },
-] as Transcription[]
+] as Transcription
 
 export default async function Page() {
     return (

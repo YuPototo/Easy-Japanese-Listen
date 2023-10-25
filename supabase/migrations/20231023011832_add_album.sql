@@ -23,6 +23,7 @@ SELECT
 CREATE TABLE track (
     id SERIAL PRIMARY KEY,
     track_title varchar(255) NOT NULL,
+    transcription jsonb NOT NULL,
     album_id integer NOT NULL REFERENCES album(id),
     storage_path VARCHAR(255) NOT NULL,
     created_at timestamp with time zone NOT NULL DEFAULT now(),

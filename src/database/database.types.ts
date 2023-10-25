@@ -77,6 +77,7 @@ export interface Database {
           id: number
           storage_path: string
           track_title: string
+          transcription: Json
           updated_at: string
         }
         Insert: {
@@ -85,6 +86,7 @@ export interface Database {
           id?: number
           storage_path: string
           track_title: string
+          transcription: Json
           updated_at?: string
         }
         Update: {
@@ -93,6 +95,7 @@ export interface Database {
           id?: number
           storage_path?: string
           track_title?: string
+          transcription?: Json
           updated_at?: string
         }
         Relationships: [
