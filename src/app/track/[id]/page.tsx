@@ -1,6 +1,7 @@
-import AudioPlayer, { Transcription } from '@/components/AudioPlayer'
+import AudioPlayer from '@/components/AudioPlayer'
 import { BUCKET_NAME } from '@/constants'
 import { Database } from '@/database/database.types'
+import { Transcription } from '@/types/Transcription'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 type PageParam = {
@@ -48,7 +49,7 @@ async function getTrack(id: string): Promise<Track | null> {
 
     const track = data[0]
 
-    const { data: audioData } = supabase.storage
+    const { data: audioData } = await supabase.storage
         .from(BUCKET_NAME)
         .getPublicUrl(track.storage_path)
 

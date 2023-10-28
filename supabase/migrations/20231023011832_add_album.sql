@@ -4,35 +4,35 @@ insert into
 values
     ('audios', 'audios', true);
 
--- Add album table
-CREATE TABLE album (
-    id SERIAL PRIMARY KEY,
-    album_title varchar(255) NOT NULL,
-    created_at timestamp with time zone NOT NULL DEFAULT now(),
-    updated_at timestamp with time zone NOT NULL DEFAULT now()
+-- add album table
+create table album (
+    id serial primary key,
+    album_title varchar(255) not null,
+    created_at timestamp with time zone not null default now(),
+    updated_at timestamp with time zone not null default now()
 );
 
-ALTER TABLE
-    album ENABLE ROW LEVEL SECURITY;
+alter table
+    album enable row level security;
 
-CREATE POLICY "Enable read access for all users" ON "public"."album" AS PERMISSIVE FOR
-SELECT
-    TO public USING (true);
+create policy "enable read access for all users" on "public"."album" as permissive for
+select
+    to public using (true);
 
--- Add track table
-CREATE TABLE track (
-    id SERIAL PRIMARY KEY,
-    track_title varchar(255) NOT NULL,
-    transcription jsonb NOT NULL,
-    album_id integer NOT NULL REFERENCES album(id),
-    storage_path VARCHAR(255) NOT NULL,
-    created_at timestamp with time zone NOT NULL DEFAULT now(),
-    updated_at timestamp with time zone NOT NULL DEFAULT now()
+-- add track table
+create table track (
+    id serial primary key,
+    track_title varchar(255) not null,
+    transcription jsonb not null,
+    album_id integer not null references album(id),
+    storage_path varchar(255) not null,
+    created_at timestamp with time zone not null default now(),
+    updated_at timestamp with time zone not null default now()
 );
 
-ALTER TABLE
-    track ENABLE ROW LEVEL SECURITY;
+alter table
+    track enable row level security;
 
-CREATE POLICY "Enable read access for all users" ON "public"."track" AS PERMISSIVE FOR
-SELECT
-    TO public USING (true);
+create policy "enable read access for all users" on "public"."track" as permissive for
+select
+    to public using (true);
