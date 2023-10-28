@@ -9,6 +9,9 @@ type Props = {
     audioUrl: string
     transcription: Transcription
 }
+
+// todo: handle audio not found problem
+
 export default function AudioPlayer({ audioUrl, transcription }: Props) {
     const [audio, setAudio] = useState<HTMLAudioElement | null>(null)
     const [transcriptionPartIndex, setTranscriptionPart] = useState(0)

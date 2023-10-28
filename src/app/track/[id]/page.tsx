@@ -1,7 +1,7 @@
 import AudioPlayer from '@/components/AudioPlayer'
 import { BUCKET_NAME } from '@/constants'
 import { Database } from '@/database/database.types'
-import { Transcription } from '@/types/Transcription'
+import { TranscriptionSchema } from '@/lib/validator'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 type PageParam = {
@@ -10,12 +10,15 @@ type PageParam = {
 
 export default async function Page({ params }: PageParam) {
     const track = await getTrack(params.id)
+
     return (
         <main className="m-4 flex flex-col items-center">
-            {track !== null && (
+            {'error' in track ? (
+                <div className="text-red-500">{track.error}</div>
+            ) : (
                 <div>
                     <h1 className="mt-10 text-lg">{track.title}</h1>
-                    <AudioPlayer
+                    <AudioPlayerWrapper
                         audioUrl={track.audioUrl}
                         transcription={track.transcription}
                     />
@@ -25,41 +28,69 @@ export default async function Page({ params }: PageParam) {
     )
 }
 
+function AudioPlayerWrapper({
+    audioUrl,
+    transcription,
+}: {
+    audioUrl: string
+    transcription: unknown
+}) {
+    const parseTranscription = TranscriptionSchema.safeParse(transcription)
+
+    if (!parseTranscription.success) {
+        return (
+            <div className="text-red-500">invalid transcription structure</div>
+        )
+    }
+
+    return (
+        <AudioPlayer
+            audioUrl={audioUrl}
+            transcription={parseTranscription.data}
+        />
+    )
+}
+
 type Track = {
     id: number
     title: string
     audioUrl: string
-    transcription: Transcription
+    transcription: unknown
 }
 
-async function getTrack(id: string): Promise<Track | null> {
+type TrackError = {
+    error: string
+}
+
+async function getTrack(id: string): Promise<Track | TrackError> {
     const supabase = createClientComponentClient<Database>()
 
-    let { data, error } = await supabase.from('track').select('*').eq('id', id)
+    let { data, error: trackError } = await supabase
+        .from('track')
+        .select('*')
+        .eq('id', id)
 
-    if (error) {
-        console.error(error)
-        return null
+    if (trackError) {
+        console.error(trackError)
+        return { error: trackError.message }
     }
 
     if (data === null) {
         console.error('No data')
-        return null
+        return { error: 'Audio data not found' }
     }
 
     const track = data[0]
 
-    // todo: what if we don't get the audio data?
+    // audioData is { publicUrl: string }, will not be null
     const { data: audioData } = await supabase.storage
         .from(BUCKET_NAME)
         .getPublicUrl(track.storage_path)
-
-    // todo: add runtime check for transcription
 
     return {
         id: track.id,
         title: track.track_title,
         audioUrl: audioData.publicUrl,
-        transcription: track.transcription as Transcription,
+        transcription: track.transcription,
     }
 }
