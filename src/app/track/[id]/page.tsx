@@ -49,6 +49,7 @@ async function getTrack(id: string): Promise<Track | null> {
 
     const track = data[0]
 
+    // todo: what if we don't get the audio data?
     const { data: audioData } = await supabase.storage
         .from(BUCKET_NAME)
         .getPublicUrl(track.storage_path)
