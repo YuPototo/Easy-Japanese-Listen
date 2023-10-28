@@ -4,6 +4,8 @@ import { Database } from '@/database/database.types'
 import { TranscriptionSchema } from '@/lib/validator'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
+// todo: refactor this page
+
 type PageParam = {
     params: { id: string }
 }
@@ -35,6 +37,7 @@ function AudioPlayerWrapper({
     audioUrl: string
     transcription: unknown
 }) {
+    // Should I useMemo here?
     const parseTranscription = TranscriptionSchema.safeParse(transcription)
 
     if (!parseTranscription.success) {
