@@ -55,21 +55,6 @@ export interface Database {
         }
         Relationships: []
       }
-      test_section: {
-        Row: {
-          id: number
-          section_name: string
-        }
-        Insert: {
-          id?: number
-          section_name: string
-        }
-        Update: {
-          id?: number
-          section_name?: string
-        }
-        Relationships: []
-      }
       track: {
         Row: {
           album_id: number
