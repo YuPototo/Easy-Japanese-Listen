@@ -1,6 +1,7 @@
-import AudioPlayer, { Transcription } from '@/components/AudioPlayer'
+import AudioPlayer from '@/components/AudioPlayer'
+import { Transcription } from '@/types/Transcription'
 
-const transcription = [
+const transcription: Transcription = [
     {
         type: 'filler',
         endTime: 2.51,
@@ -57,7 +58,7 @@ const transcription = [
         speaker: '男',
         content: 'はい',
         endTime: 38.77,
-        skippable: true,
+        autoSkip: true,
     },
     {
         type: 'content',
@@ -86,7 +87,7 @@ const transcription = [
         content: '男のアルバイトの人はこの後まず何をしますか。',
         endTime: 99999,
     },
-] as Transcription
+]
 
 export default async function Page() {
     return (

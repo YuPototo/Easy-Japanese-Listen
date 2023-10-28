@@ -3,19 +3,7 @@
 import { useState } from 'react'
 import { Button } from './ui/button'
 import clsx from 'clsx'
-
-type Filler = {
-    type: 'filler'
-    endTime: number
-}
-
-type Content = {
-    type: 'content'
-    content: string
-    endTime: number
-}
-
-export type Transcription = (Filler | Content)[]
+import { Transcription } from '@/types/Transcription'
 
 type Props = {
     audioUrl: string
