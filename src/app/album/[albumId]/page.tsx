@@ -1,13 +1,13 @@
 import TrackList from '@/components/TrackList'
 
 type PageParam = {
-    params: { id: string }
+    params: { albumId: string }
 }
 
 export default async function Page({ params }: PageParam) {
     return (
         <main className="">
-            <TrackList id={params.id} />
+            <TrackList id={params.albumId} />
         </main>
     )
 }

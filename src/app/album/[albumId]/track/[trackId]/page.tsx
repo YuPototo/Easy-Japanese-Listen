@@ -4,14 +4,12 @@ import { Database } from '@/database/database.types'
 import { TranscriptionSchema } from '@/lib/validator'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
-// todo: refactor this page
-
 type PageParam = {
-    params: { id: string }
+    params: { albumId: string; trackId: string }
 }
 
 export default async function Page({ params }: PageParam) {
-    const track = await getTrack(params.id)
+    const track = await getTrack(params.trackId)
 
     return (
         <main className="m-4 flex flex-col items-center">
@@ -86,7 +84,7 @@ async function getTrack(id: string): Promise<Track | TrackError> {
     const track = data[0]
 
     // audioData is { publicUrl: string }, will not be null
-    const { data: audioData } = await supabase.storage
+    const { data: audioData } = supabase.storage
         .from(BUCKET_NAME)
         .getPublicUrl(track.storage_path)
 
