@@ -4,15 +4,18 @@ import { useState } from 'react'
 import { Button } from './ui/button'
 import clsx from 'clsx'
 import { Transcription } from '@/types/Transcription'
+import { PlayCircle } from 'lucide-react'
 
 type Props = {
+    title: string
     audioUrl: string
     transcription: Transcription
 }
 
 // todo: handle audio not found problem
 
-export default function AudioPlayer({ audioUrl, transcription }: Props) {
+export default function AudioPlayer({ title, audioUrl, transcription }: Props) {
+    const [started, setStarted] = useState(false)
     const [audio, setAudio] = useState<HTMLAudioElement | null>(null)
     const [transcriptionPartIndex, setTranscriptionPart] = useState(0)
     const [understood, setUnderstood] = useState(false)
@@ -63,6 +66,15 @@ export default function AudioPlayer({ audioUrl, transcription }: Props) {
         }
     }
 
+    if (!started) {
+        return (
+            <div className="flex flex-col items-center">
+                <div className="mt-16 mb-32">{title}</div>
+                <PlayCircle color="gray" size={100} />
+            </div>
+        )
+    }
+
     return (
         <div className="bg-red-50 p-4 flex flex-col rounded">
             <div className="flex justify-between">
@@ -94,7 +106,7 @@ export default function AudioPlayer({ audioUrl, transcription }: Props) {
                         showSentence || transcriptionPart.type === 'filler'
                     }
                 >
-                    原文
+                    没听懂
                 </Button>
 
                 <Button

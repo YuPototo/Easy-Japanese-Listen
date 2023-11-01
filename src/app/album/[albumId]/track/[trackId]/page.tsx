@@ -3,26 +3,36 @@ import { BUCKET_NAME } from '@/constants'
 import { Database } from '@/database/database.types'
 import { TranscriptionSchema } from '@/lib/validator'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import Link from 'next/link'
 
 type PageParam = {
     params: { albumId: string; trackId: string }
 }
 
 export default async function Page({ params }: PageParam) {
+    const albumTitle = await getAlbumTitle(params.albumId)
     const track = await getTrack(params.trackId)
+
+    const isTrack = 'id' in track
 
     return (
         <main className="m-4 flex flex-col items-center">
-            {'error' in track ? (
+            <div className="flex gap-2">
+                <Link href={`/album/${params.albumId}`}>{albumTitle}</Link>
+                &gt;
+                <div>{isTrack && track.title}</div>
+            </div>
+
+            {isTrack && (
+                <AudioPlayerWrapper
+                    title={track.title}
+                    audioUrl={track.audioUrl}
+                    transcription={track.transcription}
+                />
+            )}
+
+            {'error' in track && (
                 <div className="text-red-500">{track.error}</div>
-            ) : (
-                <div>
-                    <h1 className="mt-10 text-lg">{track.title}</h1>
-                    <AudioPlayerWrapper
-                        audioUrl={track.audioUrl}
-                        transcription={track.transcription}
-                    />
-                </div>
             )}
         </main>
     )
@@ -31,7 +41,9 @@ export default async function Page({ params }: PageParam) {
 function AudioPlayerWrapper({
     audioUrl,
     transcription,
+    title,
 }: {
+    title: string
     audioUrl: string
     transcription: unknown
 }) {
@@ -46,6 +58,7 @@ function AudioPlayerWrapper({
 
     return (
         <AudioPlayer
+            title={title}
             audioUrl={audioUrl}
             transcription={parseTranscription.data}
         />
@@ -61,6 +74,27 @@ type Track = {
 
 type TrackError = {
     error: string
+}
+
+async function getAlbumTitle(id: string): Promise<string> {
+    const supabase = createClientComponentClient<Database>()
+
+    const { data, error } = await supabase
+        .from('album')
+        .select('album_title')
+        .eq('id', id)
+
+    if (error) {
+        console.error(error)
+        return 'Error'
+    }
+
+    if (data === null) {
+        console.error('No data')
+        return 'Error'
+    }
+
+    return data[0].album_title
 }
 
 async function getTrack(id: string): Promise<Track | TrackError> {

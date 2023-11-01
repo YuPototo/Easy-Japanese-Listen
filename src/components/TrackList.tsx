@@ -23,7 +23,7 @@ export default async function TrackList({ id }: { id: string | number }) {
         <div>
             {sections?.map((el) => (
                 <div className="m-2" key={el.id}>
-                    <Link href={`/track/${el.id}`} className="p-2">
+                    <Link href={`/album/${id}/track/${el.id}`} className="p-2">
                         {el.track_title}
                     </Link>
                 </div>

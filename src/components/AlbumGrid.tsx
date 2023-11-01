@@ -5,14 +5,14 @@ import Link from 'next/link'
 
 export const revalidate = 3600 // revalidate the data at most every hour
 
-const getSections = cache(async () => {
+const getAlbums = cache(async () => {
     const supabase = createClientComponentClient<Database>()
     const { data } = await supabase.from('album').select('*')
     return data
 })
 
 export default async function AlbumGrid() {
-    const sections = await getSections()
+    const sections = await getAlbums()
 
     return (
         <div>
