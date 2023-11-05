@@ -17,18 +17,20 @@ export default async function Page({ params }: PageParam) {
 
     return (
         <main className="m-4 flex flex-col items-center">
-            <div className="flex gap-2">
+            <div className="self-start flex gap-2">
                 <Link href={`/album/${params.albumId}`}>{albumTitle}</Link>
                 &gt;
                 <div>{isTrack && track.title}</div>
             </div>
 
             {isTrack && (
-                <AudioPlayerWrapper
-                    title={track.title}
-                    audioUrl={track.audioUrl}
-                    transcription={track.transcription}
-                />
+                <div className="mt-6 w-full">
+                    <AudioPlayerWrapper
+                        title={track.title}
+                        audioUrl={track.audioUrl}
+                        transcription={track.transcription}
+                    />
+                </div>
             )}
 
             {'error' in track && (
@@ -58,7 +60,6 @@ function AudioPlayerWrapper({
 
     return (
         <AudioPlayer
-            title={title}
             audioUrl={audioUrl}
             transcription={parseTranscription.data}
         />
