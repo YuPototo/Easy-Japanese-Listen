@@ -9,9 +9,9 @@ create table track (
     updated_at timestamp with time zone not null default now()
 );
 
-alter table
-    track enable row level security;
-
-create policy "enable read access for all users" on "public"."track" as permissive for
-select
-    to public using (true);
+-- -- temporarily disable row level security
+-- alter table
+--     track enable row level security;
+-- create policy "enable read access for all users" on "public"."track" as permissive for
+-- select
+--     to public using (true);
