@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export const revalidate = 3600 // revalidate the data at most every hour
 
-const getSections = cache(async (id: string | number) => {
+const getTracks = cache(async (id: string | number) => {
     const supabase = createClientComponentClient<Database>()
     const { data } = await supabase
         .from('track')
@@ -17,10 +17,10 @@ const getSections = cache(async (id: string | number) => {
 })
 
 export default async function TrackList({ id }: { id: string | number }) {
-    const sections = await getSections(id)
+    const sections = await getTracks(id)
 
     return (
-        <div>
+        <div className="flex flex-col gap-4 text-lg items-center">
             {sections?.map((el) => (
                 <div className="m-2" key={el.id}>
                     <Link href={`/album/${id}/track/${el.id}`} className="p-2">

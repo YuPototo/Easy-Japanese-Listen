@@ -15,9 +15,13 @@ export default async function AlbumGrid() {
     const sections = await getAlbums()
 
     return (
-        <div>
+        <div className="flex flex-col gap-4 items-center">
             {sections?.map((el) => (
-                <Link href={`/album/${el.id}`} className="m-2" key={el.id}>
+                <Link
+                    href={`/album/${el.id}`}
+                    className="m-2 text-xl"
+                    key={el.id}
+                >
                     {el.album_title}
                 </Link>
             ))}
