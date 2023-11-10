@@ -4,21 +4,23 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
+/**
+ * Why use `bntColor` instead of `color`?
+ *   - becuase there would be type confict with html button type
+ */
+
 const buttonVariants = cva(
-    'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+    'border inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
     {
         variants: {
-            variant: {
-                default:
-                    'bg-primary text-primary-foreground hover:bg-primary/90',
-                destructive:
-                    'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-                outline:
-                    'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-                secondary:
-                    'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                ghost: 'hover:bg-accent hover:text-accent-foreground',
-                link: 'text-primary underline-offset-4 hover:underline',
+            btnColor: {
+                orange: 'border-orange-600 hover:bg-orange-600/90',
+                red: 'border-red-500 hover:bg-red-600/90',
+                gray: 'border-gray-500 hover:bg-gray-600/90',
+            },
+            fill: {
+                fill: '',
+                outline: 'bg-transparent hover:text-foreground',
             },
             size: {
                 default: 'h-10 px-4 py-2',
@@ -28,9 +30,42 @@ const buttonVariants = cva(
             },
         },
         defaultVariants: {
-            variant: 'default',
+            btnColor: 'orange',
+            fill: 'fill',
             size: 'default',
         },
+        compoundVariants: [
+            {
+                fill: 'fill',
+                btnColor: 'orange',
+                className: 'bg-orange-600 ',
+            },
+            {
+                fill: 'outline',
+                btnColor: 'orange',
+                className: 'text-orange-600',
+            },
+            {
+                fill: 'fill',
+                btnColor: 'red',
+                className: 'bg-red-600',
+            },
+            {
+                fill: 'outline',
+                btnColor: 'red',
+                className: 'text-red-600',
+            },
+            {
+                fill: 'fill',
+                btnColor: 'gray',
+                className: 'bg-gray-600 ',
+            },
+            {
+                fill: 'outline',
+                btnColor: 'gray',
+                className: 'text-gray-600 ',
+            },
+        ],
     },
 )
 
@@ -41,11 +76,13 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false, ...props }, ref) => {
+    ({ className, btnColor, fill, size, asChild = false, ...props }, ref) => {
         const Comp = asChild ? Slot : 'button'
         return (
             <Comp
-                className={cn(buttonVariants({ variant, size, className }))}
+                className={cn(
+                    buttonVariants({ btnColor, fill, size, className }),
+                )}
                 ref={ref}
                 {...props}
             />

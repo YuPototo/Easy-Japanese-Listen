@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
-import clsx from 'clsx'
 import { Transcription } from '@/types/Transcription'
 import { Check, Pause, PlayCircle } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 type Props = {
     audioUrl: string
@@ -111,10 +111,10 @@ export default function AudioPlayer({ audioUrl, transcription }: Props) {
 
     if (!started) {
         return (
-            <div className="mt-32">
+            <div className="mt-32 text-center">
                 <Button size="lg" onClick={handleStartPlay}>
                     <div className="flex gap-2 items-center">
-                        <PlayCircle color="white" size={30} /> <div>Play</div>
+                        <PlayCircle color="white" size={30} /> <p>播放</p>
                     </div>
                 </Button>
             </div>
@@ -132,18 +132,25 @@ export default function AudioPlayer({ audioUrl, transcription }: Props) {
                 onEnded={handleAudioEnded}
             />
 
-            <div className="self-start">
+            <div className="self-start my-6">
                 句子：{contentIndex + 1}/{contentLength}
             </div>
 
-            <div className="flex justify-around">
-                <Button variant="outline" onClick={handleTogglePlay}>
+            <div className="flex justify-around my-6">
+                <Button
+                    fill="outline"
+                    btnColor={isPlaying ? 'gray' : 'orange'}
+                    size="icon"
+                    onClick={handleTogglePlay}
+                >
                     {isPlaying ? <Pause size={20} /> : <PlayCircle size={20} />}
                 </Button>
 
                 <Button
-                    variant="outline"
+                    fill="outline"
+                    btnColor="gray"
                     onClick={() => setSlowPlay(!slowPlay)}
+                    className="flex gap-2"
                 >
                     {slowPlay && <Check />}慢
                 </Button>
@@ -154,21 +161,14 @@ export default function AudioPlayer({ audioUrl, transcription }: Props) {
                     repeatCount={repeatTime}
                     text={transcriptionPart.content}
                     showSentence={showSentence}
-                    understood={understood}
+                    onClickBlocker={() => setShowSentence(true)}
                 />
             )}
 
-            <div className="my-5 mb-7 flex justify-center items-center gap-10">
+            <div className="my-5 mb-7 mx-auto">
                 <Button
-                    onClick={() => setShowSentence(true)}
-                    disabled={
-                        showSentence || transcriptionPart.type === 'filler'
-                    }
-                >
-                    没听懂
-                </Button>
-
-                <Button
+                    size="lg"
+                    fill="outline"
                     onClick={() => setUnderstood(true)}
                     disabled={understood || transcriptionPart.type === 'filler'}
                 >
@@ -183,22 +183,23 @@ function Sentence({
     repeatCount,
     text,
     showSentence,
-    understood,
+    onClickBlocker,
 }: {
     repeatCount: number
     text: string
     showSentence: boolean
-    understood: boolean
+    onClickBlocker: () => void
 }) {
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center my-10">
             {showSentence ? (
-                <div className={clsx({ 'text-green-700': understood })}>
-                    {text}
-                </div>
+                <div className={cn('text-xl')}>{text}</div>
             ) : (
-                <div>
-                    <div className="h-10 bg-gray-700 rounded"></div>
+                <div className="w-full  flex flex-col gap-4 items-center">
+                    <div
+                        onClick={onClickBlocker}
+                        className="w-10/12 h-10 bg-gray-700 rounded"
+                    ></div>
                     <div className="text-gray-500">重复次数: {repeatCount}</div>
                 </div>
             )}

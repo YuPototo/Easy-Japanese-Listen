@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import clsx from 'clsx'
+import { cn } from '@/lib/utils'
+import NavBar from '@/components/NavBar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,8 +17,19 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en">
-            <body className={clsx(inter.className, 'm-4')}>{children}</body>
+        <html
+            lang="en"
+            className={cn(
+                inter.className,
+                `bg-background text-foreground m-4 antialiased`,
+            )}
+        >
+            <body className="min-h-screen">
+                <NavBar />
+                <div className="container max-w-7xl mx-auto h-full mt-12">
+                    {children}
+                </div>
+            </body>
         </html>
     )
 }

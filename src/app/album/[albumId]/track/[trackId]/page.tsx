@@ -3,6 +3,7 @@ import { BUCKET_NAME } from '@/constants'
 import { Database } from '@/database/database.types'
 import { TranscriptionSchema } from '@/lib/validator'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 
 type PageParam = {
@@ -16,10 +17,10 @@ export default async function Page({ params }: PageParam) {
     const isTrack = 'id' in track
 
     return (
-        <main className="m-4 flex flex-col items-center">
-            <div className="self-start flex gap-2">
+        <main className="">
+            <div className="flex gap-2 items-center">
                 <Link href={`/album/${params.albumId}`}>{albumTitle}</Link>
-                &gt;
+                <ChevronRight size={16} />
                 <div>{isTrack && track.title}</div>
             </div>
 

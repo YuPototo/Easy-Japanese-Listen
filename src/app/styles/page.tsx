@@ -1,13 +1,10 @@
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default async function Page() {
     return (
         <main className="">
-            <h1>Use this page to play style</h1>
-
-            <Button variant="destructive">hello </Button>
-
-            <Button>hello </Button>
+            <Link href="/styles/button">Button</Link>
         </main>
     )
 }
