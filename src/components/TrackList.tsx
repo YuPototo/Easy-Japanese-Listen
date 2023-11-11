@@ -1,30 +1,39 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/database/database.types'
-import { cache } from 'react'
+'use client'
+
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import supabase from '@/database/supabaseClient'
+import { Track } from '@/database/dbTypeHelper'
 
-export const revalidate = 3600 // revalidate the data at most every hour
+type Props = {
+    id: string | number
+}
 
-const getTracks = cache(async (id: string | number) => {
-    const supabase = createClientComponentClient<Database>()
-    const { data } = await supabase
-        .from('track')
-        .select('*')
-        .eq('album_id', id)
-        .order('id', { ascending: true })
+export default function TrackList({ id }: Props) {
+    const [tracks, setTracks] = useState<Track[] | null>(null)
 
-    return data
-})
-
-export default async function TrackList({ id }: { id: string | number }) {
-    const sections = await getTracks(id)
+    useEffect(() => {
+        const fetchTracks = async () => {
+            const { data, error } = await supabase
+                .from('track')
+                .select('*')
+                .eq('album_id', id)
+                .order('id', { ascending: true })
+            if (error) console.log(error)
+            else setTracks(data)
+        }
+        fetchTracks()
+    }, [id])
 
     return (
         <div className="flex flex-col gap-4 text-lg items-center">
-            {sections?.map((el) => (
-                <div className="m-2" key={el.id}>
-                    <Link href={`/album/${id}/track/${el.id}`} className="p-2">
-                        {el.track_title}
+            {tracks?.map((track) => (
+                <div className="m-2" key={track.id}>
+                    <Link
+                        href={`/album/${id}/track/${track.id}`}
+                        className="p-2"
+                    >
+                        {track.track_title}
                     </Link>
                 </div>
             ))}

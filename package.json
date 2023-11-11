@@ -10,8 +10,8 @@
         "prettify": "npx prettier . --write"
     },
     "dependencies": {
-        "@radix-ui/react-slot": "^1.0.2",
         "@supabase/auth-helpers-nextjs": "^0.8.1",
+        "@supabase/supabase-js": "^2.38.4",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
         "lucide-react": "^0.288.0",

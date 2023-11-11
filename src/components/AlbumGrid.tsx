@@ -1,28 +1,30 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/database/database.types'
-import { cache } from 'react'
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import supabase from '@/database/supabaseClient'
+import { Album } from '@/database/dbTypeHelper'
 
-export const revalidate = 3600 // revalidate the data at most every hour
+export default function AlbumGrid() {
+    const [albums, setAlbums] = useState<Album[] | null>(null)
 
-const getAlbums = cache(async () => {
-    const supabase = createClientComponentClient<Database>()
-    const { data } = await supabase.from('album').select('*')
-    return data
-})
-
-export default async function AlbumGrid() {
-    const sections = await getAlbums()
-
+    useEffect(() => {
+        const fetchAlbums = async () => {
+            const { data, error } = await supabase.from('album').select('*')
+            if (error) console.log(error)
+            else setAlbums(data)
+        }
+        fetchAlbums()
+    }, [])
     return (
         <div className="flex flex-col gap-4 items-center">
-            {sections?.map((el) => (
+            {albums?.map((album) => (
                 <Link
-                    href={`/album/${el.id}`}
+                    href={`/album/${album.id}`}
                     className="m-2 text-xl"
-                    key={el.id}
+                    key={album.id}
                 >
-                    {el.album_title}
+                    {album.album_title}
                 </Link>
             ))}
         </div>
