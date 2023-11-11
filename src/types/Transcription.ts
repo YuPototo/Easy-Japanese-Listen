@@ -5,9 +5,8 @@ export type Filler = {
 
 export type Content = {
     type: 'content'
-    content: string
+    text: string
     endTime: number
-    autoSkip?: boolean // if true, player whould auto skip to next content
     speaker?: string
 }
 

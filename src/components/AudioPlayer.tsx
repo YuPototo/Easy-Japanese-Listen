@@ -51,15 +51,6 @@ export default function AudioPlayer({ audioUrl, transcription }: Props) {
             return
         }
 
-        if (
-            transcriptionPart.type === 'content' &&
-            transcriptionPart.autoSkip
-        ) {
-            console.log('auto skip')
-            setTranscriptionPart(transcriptionPartIndex + 1)
-            return
-        }
-
         if (understood) {
             setTranscriptionPart(transcriptionPartIndex + 1)
             setContentIndex(contentIndex + 1)
@@ -159,7 +150,7 @@ export default function AudioPlayer({ audioUrl, transcription }: Props) {
             {transcriptionPart.type === 'content' && (
                 <Sentence
                     repeatCount={repeatTime}
-                    text={transcriptionPart.content}
+                    text={transcriptionPart.text}
                     showSentence={showSentence}
                     onClickBlocker={() => setShowSentence(true)}
                 />

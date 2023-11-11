@@ -8,9 +8,8 @@ export const TranscriptionSchema = z.array(
         }),
         z.object({
             type: z.literal('content'),
-            content: z.string(),
+            text: z.string(),
             endTime: z.number(),
-            autoSkip: z.boolean().optional(),
             speaker: z.string().optional(),
         }),
     ]),
