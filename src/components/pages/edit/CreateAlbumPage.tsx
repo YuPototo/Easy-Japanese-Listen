@@ -12,9 +12,10 @@ export default function CreateAlbum() {
     const [albumTitle, setAlbumTitle] = useState('')
 
     const handleCreateAlbum = async () => {
-        const { error } = await supabase
+        const { data, error } = await supabase
             .from('album')
             .insert({ album_title: albumTitle })
+            .select()
 
         // todo: handle error
         if (error) {
@@ -22,10 +23,11 @@ export default function CreateAlbum() {
             return
         }
 
+        const albumId = data[0].id
+
         // when no error: go to album edit page
 
-        // todo: go to that album's edit page
-        router.push('/edit')
+        router.push(`/edit/album/${albumId}`)
     }
 
     return (
