@@ -5,7 +5,7 @@ import supabase from '@/database/supabaseClient'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import AudioPlayer from './AudioPlayer'
+import AudioPlayer from '../AudioPlayer'
 import { TranscriptionSchema } from '@/lib/validator'
 import { BUCKET_NAME } from '@/constants'
 

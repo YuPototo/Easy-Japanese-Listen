@@ -1,5 +1,4 @@
-import AlbumInfo from '@/components/AlbumInfo'
-import TrackList from '@/components/TrackList'
+import AlbumPage from '@/components/pages/AlbumPage'
 
 type PageParam = {
     params: { albumId: string }
@@ -8,10 +7,7 @@ type PageParam = {
 export default function Page({ params }: PageParam) {
     return (
         <main>
-            <AlbumInfo id={params.albumId} />
-            <div className="mt-12">
-                <TrackList id={params.albumId} />
-            </div>
+            <AlbumPage albumId={params.albumId} />
         </main>
     )
 }

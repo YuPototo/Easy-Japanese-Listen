@@ -1,4 +1,4 @@
-import TrackPage from '@/components/TrackPage'
+import TrackPage from '@/components/pages/TrackPage'
 
 type PageParam = {
     params: { albumId: string; trackId: string }
@@ -6,7 +6,7 @@ type PageParam = {
 
 export default function Page({ params }: PageParam) {
     return (
-        <main className="">
+        <main>
             <TrackPage albumId={params.albumId} trackId={params.trackId} />
         </main>
     )
