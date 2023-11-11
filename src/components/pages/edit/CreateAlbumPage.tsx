@@ -2,15 +2,10 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import supabase from '@/database/supabaseClient'
 
-import { createClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-
-const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '',
-)
 
 export default function CreateAlbum() {
     const router = useRouter()
@@ -30,7 +25,7 @@ export default function CreateAlbum() {
         // when no error: go to album edit page
 
         // todo: go to that album's edit page
-        router.push('/album/edit')
+        router.push('/edit')
     }
 
     return (
