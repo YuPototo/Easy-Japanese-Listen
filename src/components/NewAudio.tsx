@@ -32,7 +32,6 @@ export default function NewAudio({ albumId, onAdded }: Props) {
         if (!audio) return
 
         const handleTimeUpdate = () => {
-            console.log('time update', audio.currentTime)
             setCurrentTime(audio.currentTime)
         }
 
@@ -94,7 +93,7 @@ export default function NewAudio({ albumId, onAdded }: Props) {
         <div className="m-4 ">
             <h2>Step: {step}</h2>
 
-            <div>test file name: 2020_12_n3_1_1.mp3</div>
+            <div>tmp test file name: 2020_12_n3_1_1.mp3</div>
 
             {message && (
                 <div className=" bg-gray-100 p-2 rounded flex gap-4 items-center">

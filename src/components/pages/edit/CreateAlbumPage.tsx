@@ -25,8 +25,6 @@ export default function CreateAlbum() {
 
         const albumId = data[0].id
 
-        // when no error: go to album edit page
-
         router.push(`/edit/album/${albumId}`)
     }
 
