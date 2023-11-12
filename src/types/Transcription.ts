@@ -10,4 +10,6 @@ export type Content = {
     speaker?: string
 }
 
-export type Transcription = (Filler | Content)[]
+export type TranscriptionPart = Filler | Content
+
+export type Transcription = TranscriptionPart[]

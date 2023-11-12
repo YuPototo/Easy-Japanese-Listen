@@ -1,5 +1,6 @@
 'use client'
 
+import NewAudio from '@/components/NewAudio'
 import { Button } from '@/components/ui/button'
 import { useAlbumInfo, useTrackList } from '@/fetchData'
 import { cn } from '@/lib/utils'
@@ -10,7 +11,7 @@ type Props = {
 }
 
 export default function EditAlbumPage({ albumId }: Props) {
-    const [updateType, setUpdateType] = useState<'add' | 'update'>('add')
+    const [updateType, setUpdateType] = useState<'add' | 'update' | null>(null)
 
     const [selectedTrack, setSelectedTrack] = useState<number | null>(null)
 
@@ -20,6 +21,16 @@ export default function EditAlbumPage({ albumId }: Props) {
     const handleClickTrack = (id: number) => {
         setUpdateType('update')
         setSelectedTrack(id)
+    }
+
+    const handleAddTrack = () => {
+        setUpdateType('add')
+        setSelectedTrack(null)
+    }
+
+    const handleAdded = () => {
+        setUpdateType(null)
+        setSelectedTrack(null)
     }
 
     return (
@@ -42,30 +53,27 @@ export default function EditAlbumPage({ albumId }: Props) {
                     ))}
 
                     <div>
-                        <Button onClick={() => setUpdateType('add')}>
-                            Add Track
-                        </Button>
+                        <Button onClick={handleAddTrack}>Add Track</Button>
                     </div>
                 </div>
             </div>
+
             <div className="flex-grow">
-                {updateType === 'add' ? (
+                {updateType === 'add' && (
                     <div>
                         <h2>Add Track</h2>
-                        <div>添加音频至少有几个步骤</div>
-                        <div>1. 输入音频 title 和 filename</div>
-                        <div>2. 输入 transcription</div>
-                        <div>3. 预览</div>
-                        <div>4. 保存</div>
-
-                        <div>
-                            我需要另一个 component，专门处理上面的几个状态
-                        </div>
+                        <NewAudio albumId={albumId} onAdded={handleAdded} />
                     </div>
-                ) : (
+                )}
+
+                {updateType === 'update' && (
                     <div>
                         <h2>Update Track {selectedTrack}</h2>
                     </div>
+                )}
+
+                {!updateType && (
+                    <div>新增 track 后，需要手动刷新页面看到更新</div>
                 )}
             </div>
         </div>
