@@ -9,7 +9,6 @@ import supabase from '@/database/supabaseClient'
 
 type Props = {
     trackId: string | number
-
     onUpdated: () => void
 }
 

@@ -6,92 +6,98 @@ import RadioGroup from './ui/radioGroup'
 import { Button } from './ui/button'
 import { TranscriptionPart } from '@/types/Transcription'
 
-type OnSaveSentence = (transcriptionPart: TranscriptionPart) => void
-
 type Props = {
-    initialTranscriptionPart?: TranscriptionPart
+    isNew: boolean
+    transcriptionPart?: TranscriptionPart
     currentTime: number
-    saveSentence: OnSaveSentence
+    onClose: () => void
+    onSave: (transcriptionPart: TranscriptionPart) => void
+    onDelete?: () => void
+}
+
+const initialDraft = {
+    type: 'content',
 }
 
 export default function SentenceEditor({
-    initialTranscriptionPart,
+    isNew,
+    transcriptionPart,
     currentTime,
-    saveSentence,
+    onSave,
+    onClose,
+    onDelete,
 }: Props) {
-    const [sentenceType, setSentenceType] = useState<'content' | 'filler'>(
-        initialTranscriptionPart?.type ?? 'content',
-    )
-
-    const initialText =
-        (initialTranscriptionPart !== undefined &&
-            initialTranscriptionPart.type === 'content' &&
-            initialTranscriptionPart.text) ??
-        ''
-
-    const [text, setText] = useState(initialText || null)
-    const [endTime, setEndTime] = useState<number | null>(
-        initialTranscriptionPart?.endTime ?? null,
-    )
-
-    const initialSpeaker =
-        initialTranscriptionPart !== undefined &&
-        initialTranscriptionPart.type === 'content' &&
-        initialTranscriptionPart.speaker
-
-    const [speaker, setSpeaker] = useState<string | null>(
-        initialSpeaker || null,
-    )
-
+    const [transcriptionPartDraft, setTranscriptionDraft] =
+        //@ts-ignore
+        useState<TranscriptionPart>(transcriptionPart ?? initialDraft)
     const [message, setMessage] = useState('')
 
-    const handleUseNow = () => {
-        setEndTime(currentTime)
+    const handleSetType = (t: string) => {
+        //@ts-ignore
+        setTranscriptionDraft((prev) => ({ ...prev, type: t }))
     }
 
+    // todo: add more validation
     const handleSave = () => {
+        const { type: sentenceType, endTime } = transcriptionPartDraft
+
         if (!endTime) {
             setMessage('end time is required')
             return
         }
-        if (sentenceType === 'content' && !text) {
-            setMessage('text is required')
-            return
-        }
 
-        if (sentenceType === 'filler') {
-            saveSentence({
+        if (sentenceType === 'content') {
+            const { text, speaker } = transcriptionPartDraft
+
+            if (!text) {
+                setMessage('text is required for `content` type')
+                return
+            }
+
+            const payload = speaker ? { speaker, text } : { text }
+
+            onSave({
+                type: sentenceType,
+                endTime,
+                ...payload,
+            })
+        } else {
+            onSave({
                 type: sentenceType,
                 endTime,
             })
-            setEndTime(null)
-            setSentenceType('content')
-            return
-        } else {
-            if (!speaker) {
-                saveSentence({
-                    type: sentenceType,
-                    endTime,
-                    //@ts-ignore
-                    text,
-                })
-            } else {
-                saveSentence({
-                    speaker: speaker,
-                    type: sentenceType,
-                    endTime,
-                    //@ts-ignore
-                    text,
-                })
-            }
-
-            setText('')
-            setEndTime(null)
-            setSentenceType('content')
-            setSpeaker(null)
-            return
         }
+
+        onClose()
     }
+
+    const handleSpeakerChange = (value: string) => {
+        //@ts-ignore
+        setTranscriptionDraft((prev) => ({ ...prev, speaker: value }))
+    }
+
+    const handleTextChange = (value: string) => {
+        //@ts-ignore
+        setTranscriptionDraft((prev) => ({ ...prev, text: value }))
+    }
+
+    const handleEndTimeChange = (value: number) => {
+        //@ts-ignore
+        setTranscriptionDraft((prev) => ({ ...prev, endTime: value }))
+    }
+
+    const handleUseNow = () => {
+        //@ts-ignore
+        setTranscriptionDraft((prev) => ({ ...prev, endTime: currentTime }))
+    }
+
+    const sentenceType = transcriptionPartDraft.type
+    // @ts-ignore
+    const speaker = transcriptionPartDraft.speaker
+    // @ts-ignore
+    const text = transcriptionPartDraft.text
+    // @ts-ignore
+    const endTime = transcriptionPartDraft.endTime
 
     return (
         <div className="bg-gray-900 p-8 rounded">
@@ -102,6 +108,7 @@ export default function SentenceEditor({
                     </div>
                 )}
             </div>
+
             <div className="mb-10 flex gap-8 items-center">
                 <div className="w-[80px]">type</div>
                 <RadioGroup
@@ -109,8 +116,8 @@ export default function SentenceEditor({
                         { label: 'content', value: 'content' },
                         { label: 'filler', value: 'filler' },
                     ]}
-                    selected={sentenceType}
-                    onChange={(value) => setSentenceType(value as any)}
+                    selected={transcriptionPartDraft.type}
+                    onChange={(value) => handleSetType(value as any)}
                 />
             </div>
 
@@ -120,7 +127,7 @@ export default function SentenceEditor({
                     <Input
                         className="w-[120px]"
                         value={speaker || ''}
-                        onChange={(e) => setSpeaker(e.target.value)}
+                        onChange={(e) => handleSpeakerChange(e.target.value)}
                     />
                 </div>
             )}
@@ -129,9 +136,8 @@ export default function SentenceEditor({
                 <div className="mb-10 flex gap-8 items-center">
                     <div className="w-[80px]">text</div>
                     <Input
-                        //@ts-ignore
                         value={text}
-                        onChange={(e) => setText(e.target.value)}
+                        onChange={(e) => handleTextChange(e.target.value)}
                     />
                 </div>
             )}
@@ -142,15 +148,32 @@ export default function SentenceEditor({
                     value={endTime || ''}
                     className="w-[120px]"
                     type="number"
-                    onChange={(e) => setEndTime(parseFloat(e.target.value))}
+                    onChange={(e) =>
+                        handleEndTimeChange(parseFloat(e.target.value))
+                    }
                 />
                 <Button fill="outline" onClick={handleUseNow}>
                     Use Now
                 </Button>
             </div>
 
-            <div>
-                <Button onClick={handleSave}>Save</Button>
+            <div className="flex gap-4">
+                <Button fill="outline" onClick={handleSave}>
+                    Confirm
+                </Button>
+                <Button fill="outline" onClick={onClose}>
+                    Close
+                </Button>
+
+                {isNew || (
+                    <Button
+                        className="ml-auto"
+                        btnColor="red"
+                        onClick={onDelete}
+                    >
+                        Delete
+                    </Button>
+                )}
             </div>
         </div>
     )

@@ -3,7 +3,7 @@
 import { TranscriptionPart } from '@/types/Transcription'
 import { useEffect, useRef, useState } from 'react'
 import Sentence from './Sentence'
-import SentenceEditor from './SentenceEditorNew'
+import SentenceEditor from './SentenceEditor'
 import { Button } from './ui/button'
 
 type Props = {

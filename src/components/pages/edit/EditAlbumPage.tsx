@@ -1,6 +1,7 @@
 'use client'
 
-import NewAudio from '@/components/NewAudio'
+import AddTrack from '@/components/AddTrack'
+import UpdateTrack from '@/components/UpdateTrack'
 import { Button } from '@/components/ui/button'
 import { useAlbumInfo, useTrackList } from '@/fetchData'
 import { cn } from '@/lib/utils'
@@ -11,30 +12,30 @@ type Props = {
 }
 
 export default function EditAlbumPage({ albumId }: Props) {
-    const [updateType, setUpdateType] = useState<'add' | 'update' | null>(null)
-
+    const [pageState, setPageState] = useState<'add' | 'update' | 'initial'>(
+        'initial',
+    )
     const [selectedTrack, setSelectedTrack] = useState<number | null>(null)
 
     const album = useAlbumInfo(albumId)
     const tracks = useTrackList(albumId)
 
     const handleClickTrack = (id: number) => {
-        setUpdateType('update')
+        setPageState('update')
         setSelectedTrack(id)
     }
 
     const handleAddTrack = () => {
-        setUpdateType('add')
+        setPageState('add')
         setSelectedTrack(null)
     }
 
-    const handleAdded = () => {
-        setUpdateType(null)
-        setSelectedTrack(null)
+    const handleSubmit = () => {
+        setPageState('initial')
     }
 
     return (
-        <div className="h-full flex gap-2">
+        <div className="h-full flex gap-6">
             <div className="w-[200px] bg-gray-800 h-full p-2">
                 <div className="text-lg mb-10">{album?.album_title}</div>
 
@@ -59,23 +60,27 @@ export default function EditAlbumPage({ albumId }: Props) {
             </div>
 
             <div className="flex-grow">
-                {updateType === 'add' && (
-                    <div>
-                        <h2>Add Track</h2>
-                        <NewAudio albumId={albumId} onAdded={handleAdded} />
-                    </div>
+                {pageState === 'initial' && <InitialInfo />}
+
+                {pageState === 'add' && (
+                    <AddTrack albumId={albumId} onAdded={handleSubmit} />
                 )}
 
-                {updateType === 'update' && (
-                    <div>
-                        <h2>Update Track {selectedTrack}</h2>
-                    </div>
-                )}
-
-                {!updateType && (
-                    <div>新增 track 后，需要手动刷新页面看到更新</div>
+                {pageState === 'update' && selectedTrack != null && (
+                    <UpdateTrack
+                        trackId={selectedTrack}
+                        onUpdated={() => setPageState('initial')}
+                    />
                 )}
             </div>
+        </div>
+    )
+}
+
+function InitialInfo() {
+    return (
+        <div>
+            <h2>完成一个 track 的新增或更新后，需要刷新才会更新 content</h2>
         </div>
     )
 }

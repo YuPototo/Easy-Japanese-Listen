@@ -1,4 +1,4 @@
-import EditAlbumPage from '@/components/pages/edit/EditAlbumPage2'
+import EditAlbumPage from '@/components/pages/edit/EditAlbumPage'
 
 type PageParam = {
     params: { albumId: string }
