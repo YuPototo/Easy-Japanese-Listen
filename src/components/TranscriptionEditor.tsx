@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react'
 import Sentence from './Sentence'
 import SentenceEditor from './SentenceEditor'
 import { Button } from './ui/button'
+import { cn } from '@/lib/utils'
+import SmartAudio from '@/components/MyAudio'
 
 type Props = {
     fileName: string
@@ -29,23 +31,6 @@ export default function TranscriptionEditor({
         number | null
     >(null)
     const [newSentence, setNewSentence] = useState(startWithNewSentence)
-
-    const audioRef = useRef<HTMLAudioElement>(null)
-
-    useEffect(() => {
-        const audio = audioRef.current
-        if (!audio) return
-
-        const handleTimeUpdate = () => {
-            setCurrentTime(audio.currentTime)
-        }
-
-        audio.addEventListener('timeupdate', handleTimeUpdate)
-
-        return () => {
-            audio.removeEventListener('timeupdate', handleTimeUpdate)
-        }
-    }, [])
 
     const handleUpdateSentence = (
         transcriptionPart: TranscriptionPart,
@@ -79,16 +64,20 @@ export default function TranscriptionEditor({
                 <div>file name: {fileName}</div>
             </div>
 
-            <div className="my-6">
-                <audio
-                    ref={audioRef}
-                    controls
+            <div className="my-2">
+                <SmartAudio
                     src={`${process.env.NEXT_PUBLIC_AUDIO_BASE_URL}/${fileName}`}
-                    onError={() => onError('Audio Error, maybe not found')}
+                    onError={onError}
+                    onTimeUpdate={(time) => setCurrentTime(time)}
                 />
             </div>
 
-            <div>
+            <div
+                className={cn(
+                    newSentence ? 'h-[5px]' : 'h-[600px]',
+                    ' bg-green-900 py-5 px-5 overflow-auto rounded',
+                )}
+            >
                 {transcriptionDraft.map((sentence, index) => (
                     <div className="my-4" key={index}>
                         {updateSentenceIndex === index ? (
@@ -116,7 +105,7 @@ export default function TranscriptionEditor({
             </div>
 
             {newSentence ? (
-                <div>
+                <div className="my-5">
                     <SentenceEditor
                         isNew={true}
                         currentTime={currentTime}
@@ -125,7 +114,7 @@ export default function TranscriptionEditor({
                     />
                 </div>
             ) : (
-                <div>
+                <div className="my-5">
                     <Button fill="outline" onClick={() => setNewSentence(true)}>
                         Add New Sentence
                     </Button>
