@@ -9,11 +9,16 @@ import { cn } from '@/lib/utils'
 type Props = {
     audioUrl: string
     transcription: Transcription
+    onFinish: () => void
 }
 
 // todo: handle audio not found problem
 
-export default function AudioPlayer({ audioUrl, transcription }: Props) {
+export default function AudioPlayer({
+    audioUrl,
+    transcription,
+    onFinish,
+}: Props) {
     const [started, setStarted] = useState(false)
     const [audio, setAudio] = useState<HTMLAudioElement | null>(null)
     const [transcriptionPartIndex, setTranscriptionPart] = useState(0)
@@ -68,6 +73,8 @@ export default function AudioPlayer({ audioUrl, transcription }: Props) {
             const lastBreakpoint = breakpoints[transcriptionPartIndex - 1] ?? 0
             audio!.currentTime = lastBreakpoint
             audio?.play()
+        } else {
+            onFinish()
         }
     }
 

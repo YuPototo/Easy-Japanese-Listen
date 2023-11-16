@@ -5,6 +5,7 @@ import Link from 'next/link'
 import AudioPlayer from '../AudioPlayer'
 import { TranscriptionSchema } from '@/lib/validator'
 import { useAlbumInfo, useTrack } from '@/fetchData'
+import { useState } from 'react'
 
 type Props = {
     albumId: string | number
@@ -14,6 +15,9 @@ type Props = {
 export default function TrackPage({ albumId, trackId }: Props) {
     const album = useAlbumInfo(albumId)
     const [track, audioUrl] = useTrack(trackId)
+    const [hasFinished, setHasFinished] = useState(false)
+
+    const showAudio = track !== null && audioUrl !== null && !hasFinished
 
     return (
         <div>
@@ -23,12 +27,19 @@ export default function TrackPage({ albumId, trackId }: Props) {
                 <div>{track?.track_title}</div>
             </div>
 
-            {track !== null && audioUrl !== null && (
+            {showAudio && (
                 <div className="mt-6 w-full">
                     <AudioPlayerWrapper
                         audioUrl={audioUrl}
                         transcription={track.transcription}
+                        onFinish={() => setHasFinished(true)}
                     />
+                </div>
+            )}
+
+            {hasFinished && (
+                <div>
+                    <div>todo: 完成听力后的操作区域</div>
                 </div>
             )}
         </div>
@@ -38,9 +49,11 @@ export default function TrackPage({ albumId, trackId }: Props) {
 function AudioPlayerWrapper({
     audioUrl,
     transcription,
+    onFinish,
 }: {
     audioUrl: string
     transcription: unknown
+    onFinish: () => void
 }) {
     // Should I useMemo here?
     const parseTranscription = TranscriptionSchema.safeParse(transcription)
@@ -55,6 +68,7 @@ function AudioPlayerWrapper({
         <AudioPlayer
             audioUrl={audioUrl}
             transcription={parseTranscription.data}
+            onFinish={onFinish}
         />
     )
 }
