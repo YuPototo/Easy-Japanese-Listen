@@ -2,8 +2,9 @@
 insert into
     public .album (album_title)
 values
-    ('Album 1'),
-    ('Album 2');
+    ('Test Album'),
+    ('大家的日本语-听力1'),
+    ('N5听力');
 
 -- Insert track
 insert into
@@ -24,12 +25,25 @@ values
             from
                 public .album
             where
-                album_title = 'Album 1'
+                album_title = 'Test Album'
+        )
+    ),
+    (
+        'Track 1',
+        '[{"type":"content","text":"这是第一句话","endTime":9999}]',
+        'track_1.mp3',
+        (
+            select
+                id
+            from
+                public .album
+            where
+                album_title = 'Test Album'
         )
     ),
     (
         'Track 2',
-        '[{"type":"filler","endTime":2},{"type":"content","text":"这是第1句话","endTime":4},{"type":"content","text":"这是第2句话","endTime":6},{"type":"content","text":"这是第3句话","endTime":8},{"type":"content","text":"这是第4句话","endTime":9999}]',
+        '[{"type":"content","text":"这是第一句话","endTime":9999}]',
         'track_2.mp3',
         (
             select
@@ -37,58 +51,6 @@ values
             from
                 public .album
             where
-                album_title = 'Album 1'
-        )
-    ),
-    (
-        'Track 3',
-        '[{"type":"filler","endTime":2},{"type":"content","text":"这是第1句话","endTime":4},{"type":"content","text":"这是第2句话","endTime":6},{"type":"content","text":"这是第3句话","endTime":8},{"type":"content","text":"这是第4句话","endTime":9999}]',
-        'track_3.mp3',
-        (
-            select
-                id
-            from
-                public .album
-            where
-                album_title = 'Album 1'
-        )
-    ),
-    (
-        'Track 4',
-        '[{"type":"filler","endTime":2},{"type":"content","text":"这是第1句话","endTime":4},{"type":"content","text":"这是第2句话","endTime":6},{"type":"content","text":"这是第3句话","endTime":8},{"type":"content","text":"这是第4句话","endTime":9999}]',
-        'track_4.mp3',
-        (
-            select
-                id
-            from
-                public .album
-            where
-                album_title = 'Album 2'
-        )
-    ),
-    (
-        'Track 5',
-        '[{"type":"filler","endTime":2},{"type":"content","text":"这是第1句话","endTime":4},{"type":"content","text":"这是第2句话","endTime":6},{"type":"content","text":"这是第3句话","endTime":8},{"type":"content","text":"这是第4句话","endTime":9999}]',
-        'track_5.mp3',
-        (
-            select
-                id
-            from
-                public .album
-            where
-                album_title = 'Album 2'
-        )
-    ),
-    (
-        'Track 6',
-        '[{"type":"filler","endTime":2},{"type":"content","text":"这是第1句话","endTime":4},{"type":"content","text":"这是第2句话","endTime":6},{"type":"content","text":"这是第3句话","endTime":8},{"type":"content","text":"这是第4句话","endTime":9999}]',
-        'track_6.mp3',
-        (
-            select
-                id
-            from
-                public .album
-            where
-                album_title = 'Album 2'
+                album_title = 'Test Album'
         )
     );

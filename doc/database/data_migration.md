@@ -16,6 +16,14 @@ Step 3: Reset database to the current migration.
 supabase db reset
 ```
 
+### 内容
+
+这个阶段，所有内容都在本地添加。
+
+每次 reset 前，都应该先导出 track 数据。
+
+reset 之后，再导入
+
 ## Deploy to Supabase
 
 ```bash
