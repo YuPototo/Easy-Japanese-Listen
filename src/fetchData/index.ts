@@ -40,8 +40,9 @@ export function useTrackList(albumId: string | number) {
     return tracks
 }
 
-// todo: add signature
-export function useTrack(trackId: string | number) {
+export function useTrack(
+    trackId: string | number,
+): [Track | null, string | null] {
     const [track, setTrack] = useState<Track | null>(null)
     const [audioUrl, setAudioUrl] = useState<string | null>(null)
 
@@ -54,10 +55,14 @@ export function useTrack(trackId: string | number) {
             if (error) console.log(error)
             else {
                 setTrack(data[0])
+                const { data: audioData } = supabase.storage
+                    .from(BUCKET_NAME)
+                    .getPublicUrl(data[0].storage_path)
+                setAudioUrl(audioData.publicUrl)
             }
         }
         fetchTracks()
     }, [trackId])
 
-    return track
+    return [track, audioUrl]
 }

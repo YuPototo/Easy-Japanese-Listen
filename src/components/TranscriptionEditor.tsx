@@ -1,7 +1,7 @@
 'use client'
 
 import { TranscriptionPart } from '@/types/Transcription'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import Sentence from './Sentence'
 import SentenceEditor from './SentenceEditor'
 import { Button } from './ui/button'
@@ -10,6 +10,7 @@ import SmartAudio from '@/components/MyAudio'
 
 type Props = {
     fileName: string
+    audioUrl?: string | null
     audioTitle: string
     initialTranscription: TranscriptionPart[]
     startWithNewSentence?: boolean
@@ -18,6 +19,7 @@ type Props = {
 }
 export default function TranscriptionEditor({
     fileName,
+    audioUrl,
     audioTitle,
     initialTranscription,
     startWithNewSentence = false,
@@ -57,6 +59,10 @@ export default function TranscriptionEditor({
         setUpateSentenceIndex(null)
     }
 
+    // todo: refactor this logic
+    const audioSrc =
+        audioUrl ?? `${process.env.NEXT_PUBLIC_AUDIO_BASE_URL}/${fileName}`
+
     return (
         <div>
             <div className="my-6">
@@ -66,7 +72,7 @@ export default function TranscriptionEditor({
 
             <div className="my-2">
                 <SmartAudio
-                    src={`${process.env.NEXT_PUBLIC_AUDIO_BASE_URL}/${fileName}`}
+                    src={audioSrc}
                     onError={onError}
                     onTimeUpdate={(time) => setCurrentTime(time)}
                 />

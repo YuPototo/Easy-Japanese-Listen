@@ -13,7 +13,7 @@ type Props = {
 }
 
 export default function UpdateTrack({ trackId, onUpdated }: Props) {
-    const track = useTrack(trackId)
+    const [track, audioUrl] = useTrack(trackId)
     const [message, setMessage] = useState('')
 
     const handleUpdateTranscription = async (
@@ -54,6 +54,7 @@ export default function UpdateTrack({ trackId, onUpdated }: Props) {
                 <TranscriptionEditor
                     // use key to force re-render
                     key={track.id}
+                    audioUrl={audioUrl}
                     audioTitle={track.track_title}
                     fileName={track.storage_path}
                     initialTranscription={

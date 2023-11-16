@@ -1,13 +1,10 @@
 'use client'
 
-import { Album, Track } from '@/database/dbTypeHelper'
-import supabase from '@/database/supabaseClient'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import AudioPlayer from '../AudioPlayer'
 import { TranscriptionSchema } from '@/lib/validator'
-import { BUCKET_NAME } from '@/constants'
+import { useAlbumInfo, useTrack } from '@/fetchData'
 
 type Props = {
     albumId: string | number
@@ -15,39 +12,8 @@ type Props = {
 }
 
 export default function TrackPage({ albumId, trackId }: Props) {
-    const [album, setAlbum] = useState<Album | null>(null)
-    const [track, setTrack] = useState<Track | null>(null)
-    const [audioUrl, setAudioUrl] = useState<string | null>(null)
-
-    useEffect(() => {
-        const fetchAlbum = async () => {
-            const { data, error } = await supabase
-                .from('album')
-                .select('*')
-                .eq('id', albumId)
-            if (error) console.log(error)
-            else setAlbum(data[0])
-        }
-        fetchAlbum()
-    }, [albumId])
-
-    useEffect(() => {
-        const fetchTrack = async () => {
-            const { data, error } = await supabase
-                .from('track')
-                .select('*')
-                .eq('id', trackId)
-            if (error) console.log(error)
-            else {
-                setTrack(data[0])
-                const { data: audioData } = supabase.storage
-                    .from(BUCKET_NAME)
-                    .getPublicUrl(data[0].storage_path)
-                setAudioUrl(audioData.publicUrl)
-            }
-        }
-        fetchTrack()
-    }, [trackId])
+    const album = useAlbumInfo(albumId)
+    const [track, audioUrl] = useTrack(trackId)
 
     return (
         <div>
@@ -60,7 +26,6 @@ export default function TrackPage({ albumId, trackId }: Props) {
             {track !== null && audioUrl !== null && (
                 <div className="mt-6 w-full">
                     <AudioPlayerWrapper
-                        title={track.track_title}
                         audioUrl={audioUrl}
                         transcription={track.transcription}
                     />
@@ -73,9 +38,7 @@ export default function TrackPage({ albumId, trackId }: Props) {
 function AudioPlayerWrapper({
     audioUrl,
     transcription,
-    title,
 }: {
-    title: string
     audioUrl: string
     transcription: unknown
 }) {
