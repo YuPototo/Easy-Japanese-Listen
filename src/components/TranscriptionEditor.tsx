@@ -1,7 +1,7 @@
 'use client'
 
 import { TranscriptionPart } from '@/types/Transcription'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Sentence from './Sentence'
 import SentenceEditor from './SentenceEditor'
 import { Button } from './ui/button'
@@ -34,6 +34,15 @@ export default function TranscriptionEditor({
     >(null)
     const [newSentence, setNewSentence] = useState(startWithNewSentence)
 
+    // use this to scroll to the end of the list
+    const endOfList = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        if (newSentence && endOfList.current) {
+            endOfList.current.scrollIntoView({ behavior: 'smooth' })
+        }
+    }, [newSentence])
+
     const handleUpdateSentence = (
         transcriptionPart: TranscriptionPart,
         index: number,
@@ -48,6 +57,12 @@ export default function TranscriptionEditor({
 
     const handleAddSentence = (transcriptionPart: TranscriptionPart) => {
         setTranscriptionDraft((prev) => [...prev, transcriptionPart])
+
+        // use a timeout because the new sentence editor will be unmounted first
+        // and then mounted again
+        setTimeout(() => {
+            setNewSentence(true)
+        }, 500)
     }
 
     const handleDeleteSentence = (index: number) => {
@@ -80,8 +95,8 @@ export default function TranscriptionEditor({
 
             <div
                 className={cn(
-                    newSentence ? 'h-[5px]' : 'h-[600px]',
-                    ' bg-green-900 py-5 px-5 overflow-auto rounded',
+                    newSentence ? 'h-[100px]' : 'max-h-[600px]',
+                    'sentence-list bg-green-900 py-5 px-5 rounded overflow-y-scroll',
                 )}
             >
                 {transcriptionDraft.map((sentence, index) => (
@@ -108,6 +123,7 @@ export default function TranscriptionEditor({
                         )}
                     </div>
                 ))}
+                <div ref={endOfList}></div>
             </div>
 
             {newSentence ? (

@@ -144,14 +144,15 @@ const SmartAudio: FC<indexProps> = ({ src, onError, onTimeUpdate }) => {
     // right arrow to move forward
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.code === 'Space') {
+            // alt is option on mac
+            if (event.altKey && event.code === 'Space') {
                 event.preventDefault() // Prevent scrolling on some browsers
                 togglePlay()
-            } else if (event.code === 'ArrowLeft') {
-                moveBy(-5)
-            } else if (event.code === 'ArrowRight') {
-                moveBy(5)
-            } else if (event.shiftKey && event.key === 'A') {
+            } else if (event.altKey && event.code === 'ArrowLeft') {
+                moveBy(-2)
+            } else if (event.altKey && event.code === 'ArrowRight') {
+                moveBy(2)
+            } else if (event.altKey && event.code === 'ArrowUp') {
                 event.preventDefault() // Prevent default actions
                 handleABSetter()
             }
@@ -173,6 +174,7 @@ const SmartAudio: FC<indexProps> = ({ src, onError, onTimeUpdate }) => {
 
     return (
         <div>
+            <Hotkey />
             <div className=" flex items-center gap-4">
                 <div> playback</div>
                 {playBackOptions.map((speed) => (
@@ -217,3 +219,41 @@ const SmartAudio: FC<indexProps> = ({ src, onError, onTimeUpdate }) => {
 }
 
 export default SmartAudio
+
+function Hotkey() {
+    const [show, setShow] = useState(false)
+    return (
+        <div className="my-4 flex flex-col gap-2">
+            <div className="flex gap-4 items-center">
+                <h3>Hotkey</h3>
+                <Button
+                    onClick={() => setShow((prev) => !prev)}
+                    size="sm"
+                    fill="outline"
+                >
+                    {show ? 'hide' : 'show'}
+                </Button>
+            </div>
+            {show && (
+                <>
+                    <div className="flex gap-8">
+                        <code className="bg-gray-700 px-2">alt + space</code>{' '}
+                        <div> play/pause</div>
+                    </div>
+                    <div className="flex gap-8">
+                        <code className="bg-gray-700 px-2">alt + left</code>{' '}
+                        <div>move back 2 seconds</div>
+                    </div>
+                    <div className="flex gap-8">
+                        <code className="bg-gray-700 px-2">alt + right</code>{' '}
+                        <div>move forward 2 seconds</div>
+                    </div>
+                    <div className="flex gap-8">
+                        <code className="bg-gray-700 px-2">alt + up</code>{' '}
+                        <div>set A/B point</div>
+                    </div>
+                </>
+            )}
+        </div>
+    )
+}
