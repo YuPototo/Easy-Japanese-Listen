@@ -93,6 +93,11 @@ export default function SentenceEditor({
         setTranscriptionDraft((prev) => ({ ...prev, endTime: currentTime }))
     }
 
+    const handleUse9999 = () => {
+        //@ts-ignore
+        setTranscriptionDraft((prev) => ({ ...prev, endTime: 9999 }))
+    }
+
     const sentenceType = transcriptionPartDraft.type
     // @ts-ignore
     const speaker = transcriptionPartDraft.speaker
@@ -166,6 +171,10 @@ export default function SentenceEditor({
                 />
                 <Button fill="outline" onClick={handleUseNow}>
                     Use Now
+                </Button>
+
+                <Button fill="outline" onClick={handleUse9999}>
+                    Use 9999
                 </Button>
             </div>
 
