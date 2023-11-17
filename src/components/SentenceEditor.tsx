@@ -10,6 +10,7 @@ type Props = {
     isNew: boolean
     transcriptionPart?: TranscriptionPart
     currentTime: number
+    speakerList: string[]
     onClose: () => void
     onSave: (transcriptionPart: TranscriptionPart) => void
     onDelete?: () => void
@@ -23,6 +24,7 @@ export default function SentenceEditor({
     isNew,
     transcriptionPart,
     currentTime,
+    speakerList,
     onSave,
     onClose,
     onDelete,
@@ -128,6 +130,16 @@ export default function SentenceEditor({
                         className="w-[120px]"
                         value={speaker || ''}
                         onChange={(e) => handleSpeakerChange(e.target.value)}
+                    />
+                    <RadioGroup
+                        items={speakerList.map((s) => ({
+                            label: s,
+                            value: s,
+                        }))}
+                        selected={
+                            speakerList.includes(speaker) ? speaker : null
+                        }
+                        onChange={(value) => handleSpeakerChange(value)}
                     />
                 </div>
             )}
