@@ -4,6 +4,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import Slider from './Slider'
 import { AbLooper } from './AbLooper'
 import { Button } from '../ui/button'
+import WaveSurfer from 'wavesurfer.js'
 
 interface indexProps {
     src: string
@@ -11,8 +12,8 @@ interface indexProps {
     onTimeUpdate: (currentTime: number) => void
 }
 
-const jumpSeconds = [-10, -5, -2, 2, 5, 10]
-const playBackOptions = [0.8, 0.9, 1, 1.1, 1.2]
+const JUMP_SECONDS = [-10, -5, -2, 2, 5, 10]
+const PLAY_BACK_OPTIONS = [0.8, 0.9, 1, 1.1, 1.2]
 
 const SmartAudio: FC<indexProps> = ({ src, onError, onTimeUpdate }) => {
     const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -23,6 +24,8 @@ const SmartAudio: FC<indexProps> = ({ src, onError, onTimeUpdate }) => {
     const [aPoint, setAPoint] = useState<number | null>(null)
     const [bPoint, setBPoint] = useState<number | null>(null)
     const [playbackRate, setPlaybackRate] = useState<number>(1)
+
+    const waveSurferRef = useRef<HTMLDivElement | null>(null)
 
     // Initialize the audio element
     useEffect(() => {
@@ -38,6 +41,23 @@ const SmartAudio: FC<indexProps> = ({ src, onError, onTimeUpdate }) => {
         }
     }, [src])
 
+    // wave surfer
+    useEffect(() => {
+        if (!waveSurferRef.current) return
+        if (!audioRef.current) return
+
+        const waveSurfer = WaveSurfer.create({
+            container: waveSurferRef.current,
+            url: src,
+            media: audioRef.current,
+            minPxPerSec: 50,
+        })
+
+        return () => {
+            waveSurfer.destroy()
+        }
+    }, [src])
+
     // auto play
     useEffect(() => {
         audio?.play().then(() => setPlaying(true))
@@ -49,8 +69,6 @@ const SmartAudio: FC<indexProps> = ({ src, onError, onTimeUpdate }) => {
             setAudioDuration(Math.floor(audio.duration))
         })
     }, [audio])
-
-    //
 
     // play event listener
     useEffect(() => {
@@ -173,21 +191,15 @@ const SmartAudio: FC<indexProps> = ({ src, onError, onTimeUpdate }) => {
     }
 
     return (
-        <div>
-            <Hotkey />
-            <div className=" flex items-center gap-4">
-                <div> playback</div>
-                {playBackOptions.map((speed) => (
-                    <Button
-                        size="sm"
-                        fill={playbackRate === speed ? 'fill' : 'outline'}
-                        key={speed}
-                        onClick={() => setPlaybackRate(speed)}
-                    >
-                        {speed}
-                    </Button>
-                ))}
-            </div>
+        <div className="">
+            <HotkeyExplain />
+            <PlayBackKey
+                playbackRate={playbackRate}
+                setPlaybackRate={setPlaybackRate}
+            />
+
+            {/* todo: 不使用绝对值 */}
+            <div className="w-[1000px]" ref={waveSurferRef} />
 
             <Slider
                 playing={playing}
@@ -196,18 +208,7 @@ const SmartAudio: FC<indexProps> = ({ src, onError, onTimeUpdate }) => {
                 audioDuraton={audioDuraton}
                 handleSeek={handleSeek}
             />
-            <div className="flex gap-4">
-                {jumpSeconds.map((second) => (
-                    <Button
-                        size="sm"
-                        fill="outline"
-                        key={second}
-                        onClick={() => moveBy(second)}
-                    >
-                        {second < 0 ? '-' : '+'} {Math.abs(second)} s
-                    </Button>
-                ))}
-            </div>
+            <SetJumpSeconds moveBy={moveBy} />
 
             <AbLooper
                 aPoint={aPoint}
@@ -220,7 +221,7 @@ const SmartAudio: FC<indexProps> = ({ src, onError, onTimeUpdate }) => {
 
 export default SmartAudio
 
-function Hotkey() {
+function HotkeyExplain() {
     const [show, setShow] = useState(false)
     return (
         <div className="my-4 flex flex-col gap-2">
@@ -254,6 +255,47 @@ function Hotkey() {
                     </div>
                 </>
             )}
+        </div>
+    )
+}
+
+function PlayBackKey({
+    playbackRate,
+    setPlaybackRate,
+}: {
+    playbackRate: number
+    setPlaybackRate: (speed: number) => void
+}) {
+    return (
+        <div className=" flex items-center gap-4">
+            <div> playback</div>
+            {PLAY_BACK_OPTIONS.map((speed) => (
+                <Button
+                    size="sm"
+                    fill={playbackRate === speed ? 'fill' : 'outline'}
+                    key={speed}
+                    onClick={() => setPlaybackRate(speed)}
+                >
+                    {speed}
+                </Button>
+            ))}
+        </div>
+    )
+}
+
+function SetJumpSeconds({ moveBy }: { moveBy: (seconds: number) => void }) {
+    return (
+        <div className="flex gap-4">
+            {JUMP_SECONDS.map((second) => (
+                <Button
+                    size="sm"
+                    fill="outline"
+                    key={second}
+                    onClick={() => moveBy(second)}
+                >
+                    {second < 0 ? '-' : '+'} {Math.abs(second)} s
+                </Button>
+            ))}
         </div>
     )
 }
