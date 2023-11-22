@@ -128,6 +128,25 @@ export default function SentenceEditor({
                 />
             </div>
 
+            <div className="mb-10 flex gap-8 items-center">
+                <div className="w-[80px]">end time</div>
+                <Input
+                    value={endTime || ''}
+                    className="w-[120px]"
+                    type="number"
+                    onChange={(e) =>
+                        handleEndTimeChange(parseFloat(e.target.value))
+                    }
+                />
+                <Button fill="outline" onClick={handleUseNow}>
+                    Use Now
+                </Button>
+
+                <Button fill="outline" onClick={handleUse9999}>
+                    Use 9999
+                </Button>
+            </div>
+
             {sentenceType === 'content' && (
                 <div className="mb-10 flex gap-8 items-center">
                     <div className="w-[80px]">speaker</div>
@@ -158,25 +177,6 @@ export default function SentenceEditor({
                     />
                 </div>
             )}
-
-            <div className="mb-10 flex gap-8 items-center">
-                <div className="w-[80px]">end time</div>
-                <Input
-                    value={endTime || ''}
-                    className="w-[120px]"
-                    type="number"
-                    onChange={(e) =>
-                        handleEndTimeChange(parseFloat(e.target.value))
-                    }
-                />
-                <Button fill="outline" onClick={handleUseNow}>
-                    Use Now
-                </Button>
-
-                <Button fill="outline" onClick={handleUse9999}>
-                    Use 9999
-                </Button>
-            </div>
 
             <div className="flex gap-4">
                 <Button fill="outline" onClick={handleSave}>
