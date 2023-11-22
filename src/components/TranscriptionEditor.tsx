@@ -6,7 +6,7 @@ import Sentence from './Sentence'
 import SentenceEditor from './SentenceEditor'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
-import SmartAudio from '@/components/MyAudio'
+import AudioForEdit from './WaveAudio'
 
 type Props = {
     fileName: string
@@ -86,11 +86,7 @@ export default function TranscriptionEditor({
             </div>
 
             <div className="my-2">
-                <SmartAudio
-                    src={audioSrc}
-                    onError={onError}
-                    onTimeUpdate={(time) => setCurrentTime(time)}
-                />
+                <AudioForEdit src={audioSrc} onTimeUpdate={setCurrentTime} />
             </div>
 
             <div

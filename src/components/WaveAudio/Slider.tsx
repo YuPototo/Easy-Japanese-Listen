@@ -2,10 +2,8 @@
 
 import formatTime from '@/lib/formatTime'
 import React from 'react'
-// A bug related to latest nextjs version: https://github.com/vercel/next.js/issues/53605
-// I can't do:
-// import { Play,Pause } from 'lucide-react'
-import { Play, Pause } from '../../../node_modules/lucide-react'
+import { Play, Pause } from 'lucide-react'
+// import { Play, Pause } from '../../../node_modules/lucide-react'
 
 type Props = {
     playing: boolean
