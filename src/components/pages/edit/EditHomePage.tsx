@@ -1,10 +1,8 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Album } from '@/database/dbTypeHelper'
-import supabase from '@/database/supabaseClient'
+import { useAlbumList } from '@/fetchData'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 export function EditHomePage() {
     return (
@@ -20,16 +18,7 @@ export function EditHomePage() {
 }
 
 export default function AlbumGrid() {
-    const [albums, setAlbums] = useState<Album[] | null>(null)
-
-    useEffect(() => {
-        const fetchAlbums = async () => {
-            const { data, error } = await supabase.from('album').select('*')
-            if (error) console.log(error)
-            else setAlbums(data)
-        }
-        fetchAlbums()
-    }, [])
+    const { albums, isLoading, error } = useAlbumList()
 
     return (
         <div className="flex  gap-4 items-center">
@@ -42,6 +31,14 @@ export default function AlbumGrid() {
                     {album.album_title}
                 </Link>
             ))}
+
+            {isLoading && <div>Loading...</div>}
+
+            {error && (
+                <div className="text-red-500 bg-red-100 p-2 rounded-md">
+                    {error}
+                </div>
+            )}
         </div>
     )
 }

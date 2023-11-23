@@ -2,6 +2,7 @@ import { BUCKET_NAME } from '@/constants'
 import { Album, Track } from '@/database/dbTypeHelper'
 import supabase from '@/database/supabaseClient'
 import { useEffect, useState } from 'react'
+import { set } from 'zod'
 
 /**
  * Fetch an album's info
@@ -32,6 +33,27 @@ export function useAlbumInfo(albumId: string | number) {
     }, [albumId])
 
     return { album, isLoading, error }
+}
+
+export function useAlbumList() {
+    const [albums, setAlbums] = useState<Album[] | null>(null)
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        const fetchAlbums = async () => {
+            setIsLoading(true)
+
+            const { data, error } = await supabase.from('album').select('*')
+            if (error) console.log(error)
+            else setAlbums(data)
+
+            setIsLoading(false)
+        }
+        fetchAlbums()
+    }, [])
+
+    return { albums, isLoading, error }
 }
 
 // todo: add loading and error
