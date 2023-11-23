@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from './ui/button'
-import { Input } from './ui/input'
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
 import TranscriptionEditor from './TranscriptionEditor'
 import supabase from '@/database/supabaseClient'
 import { Transcription } from '@/types/Transcription'

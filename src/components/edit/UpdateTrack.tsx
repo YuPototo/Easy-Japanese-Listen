@@ -3,7 +3,7 @@
 import { useTrack } from '@/fetchData'
 import TranscriptionEditor from './TranscriptionEditor'
 import { TranscriptionPart } from '@/types/Transcription'
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import { useState } from 'react'
 import supabase from '@/database/supabaseClient'
 

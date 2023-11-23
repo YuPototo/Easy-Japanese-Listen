@@ -1,6 +1,6 @@
 'use client'
 
-import AddTrack from '@/components/AddTrack'
+import AddTrack from '@/components/edit/AddTrack'
 import { useRouter } from 'next/navigation'
 
 type Props = {

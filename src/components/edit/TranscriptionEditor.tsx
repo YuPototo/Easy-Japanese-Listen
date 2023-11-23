@@ -2,11 +2,11 @@
 
 import { TranscriptionPart } from '@/types/Transcription'
 import { useEffect, useRef, useState } from 'react'
-import Sentence from './Sentence'
+import Sentence from '../Sentence'
 import SentenceEditor from './SentenceEditor'
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
-import AudioForEdit from './WaveAudio'
+import AudioForEdit from '../WaveAudio'
 
 type Props = {
     fileName: string
