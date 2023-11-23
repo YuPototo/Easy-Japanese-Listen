@@ -1,85 +1,39 @@
 'use client'
 
-import AddTrack from '@/components/AddTrack'
-import UpdateTrack from '@/components/UpdateTrack'
 import { Button } from '@/components/ui/button'
 import { useAlbumInfo, useTrackList } from '@/fetchData'
-import { cn } from '@/lib/utils'
-import { useState } from 'react'
+import Link from 'next/link'
 
 type Props = {
     albumId: string | number
 }
 
 export default function EditAlbumPage({ albumId }: Props) {
-    const [pageState, setPageState] = useState<'add' | 'update' | 'initial'>(
-        'initial',
-    )
-    const [selectedTrack, setSelectedTrack] = useState<number | null>(null)
-
     const { album, isLoading } = useAlbumInfo(albumId)
     const tracks = useTrackList(albumId)
 
-    const handleClickTrack = (id: number) => {
-        setPageState('update')
-        setSelectedTrack(id)
-    }
-
-    const handleAddTrack = () => {
-        setPageState('add')
-        setSelectedTrack(null)
-    }
-
-    const handleSubmit = () => {
-        setPageState('initial')
-    }
-
     return (
-        <div className="h-full flex gap-6">
-            <div className="w-[200px] bg-gray-800 h-full p-2">
+        <div className="h-full">
+            <div className=" bg-gray-800 h-full">
                 <AlbumTitle title={album?.album_title} isLoading={isLoading} />
-                <div>
+                <div className="p-2 flex flex-col gap-2">
                     {tracks?.map((track) => (
-                        <div
-                            className={cn(
-                                'my-2 p-2 rounded hover:bg-green-800 hover:cursor-pointer',
-                                selectedTrack === track.id && 'bg-green-800 ',
-                            )}
+                        <Link
+                            className="p-2 rounded hover:bg-green-800 hover:cursor-pointer"
                             key={track.id}
-                            onClick={() => handleClickTrack(track.id)}
+                            href={`./${albumId}/track/${track.id}`}
                         >
                             {track.track_title}
-                        </div>
+                        </Link>
                     ))}
 
                     <div>
-                        <Button onClick={handleAddTrack}>Add Track</Button>
+                        <Link href={`./${albumId}/new`}>
+                            <Button>Add Track</Button>
+                        </Link>
                     </div>
                 </div>
             </div>
-
-            <div className="flex-grow">
-                {pageState === 'initial' && <InitialInfo />}
-
-                {pageState === 'add' && (
-                    <AddTrack albumId={albumId} onAdded={handleSubmit} />
-                )}
-
-                {pageState === 'update' && selectedTrack != null && (
-                    <UpdateTrack
-                        trackId={selectedTrack}
-                        onUpdated={() => setPageState('initial')}
-                    />
-                )}
-            </div>
-        </div>
-    )
-}
-
-function InitialInfo() {
-    return (
-        <div>
-            <h2>完成一个 track 的新增或更新后，需要刷新才会更新 content</h2>
         </div>
     )
 }

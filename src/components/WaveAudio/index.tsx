@@ -213,7 +213,7 @@ export default function WaveAudio({
             <HotkeyExplain />
 
             {/* todo: 不使用绝对值 */}
-            <div className="w-[1000px]" ref={waveSurferRef} />
+            <div className="w-[1200px]" ref={waveSurferRef} />
 
             {audioDuraton && (
                 <Slider
