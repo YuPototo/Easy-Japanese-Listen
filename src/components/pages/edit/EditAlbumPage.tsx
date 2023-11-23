@@ -17,7 +17,7 @@ export default function EditAlbumPage({ albumId }: Props) {
     )
     const [selectedTrack, setSelectedTrack] = useState<number | null>(null)
 
-    const album = useAlbumInfo(albumId)
+    const { album, isLoading } = useAlbumInfo(albumId)
     const tracks = useTrackList(albumId)
 
     const handleClickTrack = (id: number) => {
@@ -37,8 +37,7 @@ export default function EditAlbumPage({ albumId }: Props) {
     return (
         <div className="h-full flex gap-6">
             <div className="w-[200px] bg-gray-800 h-full p-2">
-                <div className="text-lg mb-10">{album?.album_title}</div>
-
+                <AlbumTitle title={album?.album_title} isLoading={isLoading} />
                 <div>
                     {tracks?.map((track) => (
                         <div
@@ -83,4 +82,17 @@ function InitialInfo() {
             <h2>完成一个 track 的新增或更新后，需要刷新才会更新 content</h2>
         </div>
     )
+}
+
+function AlbumTitle({
+    title,
+    isLoading,
+}: {
+    title?: string
+    isLoading: boolean
+}) {
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
+    return <div className="text-lg mb-10">{title}</div>
 }

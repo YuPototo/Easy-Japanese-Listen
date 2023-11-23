@@ -13,7 +13,7 @@ type Props = {
 }
 
 export default function TrackPage({ albumId, trackId }: Props) {
-    const album = useAlbumInfo(albumId)
+    const { album, isLoading } = useAlbumInfo(albumId)
     const [track, audioUrl] = useTrack(trackId)
     const [hasFinished, setHasFinished] = useState(false)
 
@@ -22,7 +22,11 @@ export default function TrackPage({ albumId, trackId }: Props) {
     return (
         <div>
             <div className="flex gap-2 items-center">
-                <Link href={`/album/${albumId}`}>{album?.album_title}</Link>
+                <AlbumTitleLink
+                    albumId={albumId}
+                    isLoading={isLoading}
+                    title={album?.album_title}
+                />
                 <ChevronRight size={16} />
                 <div>{track?.track_title}</div>
             </div>
@@ -44,6 +48,22 @@ export default function TrackPage({ albumId, trackId }: Props) {
             )}
         </div>
     )
+}
+
+function AlbumTitleLink({
+    albumId,
+    title,
+    isLoading,
+}: {
+    albumId: string | number
+    isLoading: boolean
+    title?: string
+}) {
+    if (isLoading) {
+        // todo: use a skeleton
+        return <div>Loading...</div>
+    }
+    return <Link href={`/album/${albumId}`}>{title}</Link>
 }
 
 function AudioPlayerWrapper({
