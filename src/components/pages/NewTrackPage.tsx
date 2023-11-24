@@ -48,6 +48,8 @@ export default function TrackPage({ albumId, trackId }: Props) {
                 {pageState === 'loaded' && (
                     <AudioListener
                         audioUrl={audioUrl!}
+                        //@ts-expect-error
+                        transcription={track!.transcription}
                         onFinish={() => setPageState('finished')}
                     />
                 )}
