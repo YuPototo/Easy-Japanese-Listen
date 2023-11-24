@@ -14,7 +14,7 @@ type Props = {
 
 export default function TrackPage({ albumId, trackId }: Props) {
     const { album, isLoading } = useAlbumInfo(albumId)
-    const [track, audioUrl] = useTrack(trackId)
+    const { track, audioUrl } = useTrack(trackId)
     const [hasFinished, setHasFinished] = useState(false)
 
     const showAudio = track !== null && audioUrl !== null && !hasFinished

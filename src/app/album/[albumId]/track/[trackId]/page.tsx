@@ -1,4 +1,4 @@
-import TrackPage from '@/components/pages/TrackPage'
+import TrackPage from '@/components/pages/NewTrackPage'
 
 type PageParam = {
     params: { albumId: string; trackId: string }

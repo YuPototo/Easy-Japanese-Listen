@@ -42,8 +42,8 @@ values
         )
     ),
     (
-        'Track 2',
-        '[{"type":"content","text":"这是第一句话","endTime":9999}]',
+        'Track 2: bad transcription',
+        '[{"type999":"content","text":"这是第一句话","endTime":9999}]',
         'track_2.mp3',
         (
             select

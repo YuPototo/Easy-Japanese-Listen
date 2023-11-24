@@ -1,6 +1,7 @@
 import { BUCKET_NAME } from '@/constants'
 import { Album, Track } from '@/database/dbTypeHelper'
 import supabase from '@/database/supabaseClient'
+import { TranscriptionSchema } from '@/lib/validator'
 import { useEffect, useState } from 'react'
 import { set } from 'zod'
 
@@ -76,30 +77,50 @@ export function useTrackList(albumId: string | number) {
     return tracks
 }
 
-// todo: add loading and error
-export function useTrack(
-    trackId: string | number,
-): [Track | null, string | null] {
+export function useTrack(trackId: string | number) {
     const [track, setTrack] = useState<Track | null>(null)
     const [audioUrl, setAudioUrl] = useState<string | null>(null)
+    const [isLoading, setIsLoading] = useState(true)
+    const [loadingSuccess, setLoadingSuccess] = useState(false)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchTracks = async () => {
+            setIsLoading(true)
+
             const { data, error } = await supabase
                 .from('track')
                 .select('*')
                 .eq('id', trackId)
-            if (error) console.log(error)
-            else {
+            if (error) {
+                console.error(error)
+                setError(error.message)
+                setLoadingSuccess(false)
+            } else {
                 setTrack(data[0])
+
+                const transcription = data[0].transcription
+
+                try {
+                    TranscriptionSchema.parse(transcription)
+                } catch (e) {
+                    console.error(e)
+                    setError('Invalid transcription schema')
+                    setLoadingSuccess(false)
+                }
+
                 const { data: audioData } = supabase.storage
                     .from(BUCKET_NAME)
                     .getPublicUrl(data[0].storage_path)
+
                 setAudioUrl(audioData.publicUrl)
             }
+
+            setIsLoading(false)
+            setLoadingSuccess(true)
         }
         fetchTracks()
     }, [trackId])
 
-    return [track, audioUrl]
+    return { track, audioUrl, isLoading, loadingSuccess, error }
 }
