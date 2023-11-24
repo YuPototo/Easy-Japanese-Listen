@@ -102,7 +102,7 @@ export default function TranscriptionEditor({
                                 isNew={false}
                                 currentTime={currentTime}
                                 transcriptionPart={sentence}
-                                speakerList={['男', '女']}
+                                speakerList={['男', '女', 'A', 'B']}
                                 onClose={() => setUpateSentenceIndex(null)}
                                 onSave={(transcriptionPart) =>
                                     handleUpdateSentence(
@@ -128,7 +128,7 @@ export default function TranscriptionEditor({
                     <SentenceEditor
                         isNew={true}
                         currentTime={currentTime}
-                        speakerList={['男', '女']}
+                        speakerList={['男', '女', 'A', 'B']}
                         onClose={() => setNewSentence(false)}
                         onSave={handleAddSentence}
                     />

@@ -16,7 +16,7 @@ export default function EditAlbumPage({ albumId }: Props) {
         <div className="">
             <div className=" bg-gray-800 h-full items-center flex flex-col">
                 <AlbumTitle title={album?.album_title} isLoading={isLoading} />
-                <div className="p-2">
+                <div className="p-2 flex flex-col gap-2">
                     {tracks?.map((track) => (
                         <Link
                             className="p-2 rounded hover:bg-green-800 hover:cursor-pointer"
