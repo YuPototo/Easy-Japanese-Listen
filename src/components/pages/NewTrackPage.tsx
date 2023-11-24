@@ -11,12 +11,6 @@ type Props = {
     trackId: string | number
 }
 
-type PageStatus =
-    | 'loading' // album and track are loading
-    | 'loaded' // album and track are loaded, transcription is parsed
-    | 'finished' // audio listener is finished
-    | 'error'
-
 export default function TrackPage({ albumId, trackId }: Props) {
     const { album, isLoading: isLoadingAlbum } = useAlbumInfo(albumId)
     const {
@@ -27,21 +21,12 @@ export default function TrackPage({ albumId, trackId }: Props) {
         loadingSuccess: trackLoadingSuccess,
     } = useTrack(trackId)
 
-    const [pageStatus, setPageStatus] = useState<PageStatus>('loading')
-
     const isLoading = isLoadingAlbum || isLoadingTrack
 
-    useEffect(() => {
-        if (trackLoadingSuccess) {
-            setPageStatus('loaded')
-        }
-    }, [trackLoadingSuccess])
-
-    useEffect(() => {
-        if (trackError) {
-            setPageStatus('error')
-        }
-    }, [trackError])
+    const [pageState, setPageState] = usePageState({
+        trackLoadingSuccess,
+        trackError,
+    })
 
     return (
         <div>
@@ -54,17 +39,20 @@ export default function TrackPage({ albumId, trackId }: Props) {
 
             <div className="my-4">
                 {/* todo：use skeleton */}
-                {pageStatus === 'loading' && <div>Loading...</div>}
+                {pageState === 'loading' && <div>Loading...</div>}
 
-                {pageStatus === 'error' && (
+                {pageState === 'error' && (
                     <div className="text-red-800">Error: {trackError}</div>
                 )}
 
-                {pageStatus === 'loaded' && (
-                    <AudioListener audioUrl={audioUrl!} />
+                {pageState === 'loaded' && (
+                    <AudioListener
+                        audioUrl={audioUrl!}
+                        onFinish={() => setPageState('finished')}
+                    />
                 )}
 
-                {pageStatus === 'finished' && (
+                {pageState === 'finished' && (
                     <div>todo: 完成听力后的操作区域</div>
                 )}
             </div>
@@ -99,4 +87,34 @@ function BreadcrumbNav({
             <div>{trackTitle}</div>
         </div>
     )
+}
+
+type PageState =
+    | 'loading' // album and track are loading
+    | 'loaded' // album and track are loaded, transcription is parsed
+    | 'finished' // audio listener is finished
+    | 'error'
+
+function usePageState({
+    trackLoadingSuccess,
+    trackError,
+}: {
+    trackLoadingSuccess: boolean
+    trackError: string | null
+}) {
+    const [pageState, setPageState] = useState<PageState>('loading')
+
+    useEffect(() => {
+        if (trackLoadingSuccess) {
+            setPageState('loaded')
+        }
+    }, [trackLoadingSuccess])
+
+    useEffect(() => {
+        if (trackError) {
+            setPageState('error')
+        }
+    }, [trackError])
+
+    return [pageState, setPageState] as const
 }

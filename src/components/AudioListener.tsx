@@ -4,9 +4,10 @@ import { PlayCircle } from 'lucide-react'
 
 type Props = {
     audioUrl: string
+    onFinish: () => void
 }
 
-export default function AudioListener({ audioUrl }: Props) {
+export default function AudioListener({ audioUrl, onFinish }: Props) {
     const [listenerState, setListenerState] = useState<
         'loading' | 'loaded' | 'playing'
     >('loading')
