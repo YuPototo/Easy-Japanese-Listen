@@ -10,7 +10,7 @@ import PlayBackSelector from './playBackSelector'
 import JumpSelector from './JumpSelector'
 import formatTime from '@/lib/formatTime'
 
-const PLAY_BACK_OPTIONS = [0.8, 0.9, 1, 1.1, 1.2]
+const PLAY_BACK_OPTIONS = [0.5, 0.8, 1, 1.2, 1.5]
 const JUMP_SECONDS = [-5, -2, 2, 5]
 
 type Props = {
@@ -121,8 +121,8 @@ export default function WaveAudio({
             container: waveSurferRef.current,
             url: src,
             media: audioRef.current,
-            // 这个参数可以调整波形图的密度
-            minPxPerSec: 25,
+            // 这个参数可以调整波形图的密度，数字越小越密集
+            minPxPerSec: 35,
         })
 
         return () => {

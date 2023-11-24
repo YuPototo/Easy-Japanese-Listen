@@ -13,7 +13,7 @@ type Props = {
 }
 
 export default function UpdateTrack({ trackId, onUpdated }: Props) {
-    const [track, audioUrl] = useTrack(trackId)
+    const { track, audioUrl } = useTrack(trackId)
     const [message, setMessage] = useState('')
 
     const handleUpdateTranscription = async (
