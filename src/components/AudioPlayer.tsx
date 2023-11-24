@@ -120,7 +120,7 @@ export default function AudioPlayer({
     }
 
     return (
-        <div className="flex flex-col rounded">
+        <div className="flex flex-col rounded items-center">
             <audio
                 className="my-4"
                 autoPlay
@@ -130,11 +130,33 @@ export default function AudioPlayer({
                 onEnded={handleAudioEnded}
             />
 
-            <div className="self-start my-6">
+            <div className="my-6">
                 句子：{contentIndex + 1}/{contentLength}
             </div>
 
-            <div className="flex justify-around my-6">
+            <div className="w-full">
+                {transcriptionPart.type === 'content' && (
+                    <Sentence
+                        repeatCount={repeatTime}
+                        text={transcriptionPart.text}
+                        showSentence={showSentence}
+                        onClickBlocker={() => setShowSentence(true)}
+                    />
+                )}
+            </div>
+
+            <div className="my-5 mb-7 mx-auto">
+                <Button
+                    size="lg"
+                    fill="outline"
+                    onClick={() => setUnderstood(true)}
+                    disabled={understood || transcriptionPart.type === 'filler'}
+                >
+                    听懂了
+                </Button>
+            </div>
+
+            <div className="flex justify-around my-6 w-full">
                 <Button
                     fill="outline"
                     btnColor={isPlaying ? 'gray' : 'orange'}
@@ -151,26 +173,6 @@ export default function AudioPlayer({
                     className="flex gap-2"
                 >
                     {slowPlay && <Check />}慢
-                </Button>
-            </div>
-
-            {transcriptionPart.type === 'content' && (
-                <Sentence
-                    repeatCount={repeatTime}
-                    text={transcriptionPart.text}
-                    showSentence={showSentence}
-                    onClickBlocker={() => setShowSentence(true)}
-                />
-            )}
-
-            <div className="my-5 mb-7 mx-auto">
-                <Button
-                    size="lg"
-                    fill="outline"
-                    onClick={() => setUnderstood(true)}
-                    disabled={understood || transcriptionPart.type === 'filler'}
-                >
-                    听懂了
                 </Button>
             </div>
         </div>
