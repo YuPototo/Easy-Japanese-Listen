@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
-import { Button } from './ui/button'
-import { Check, Pause, PlayCircle } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Button } from '../ui/button'
+import { PlayCircle } from 'lucide-react'
 import { Transcription } from '@/types/Transcription'
-import Sentence from './Sentence'
+import AudioOperator from './AudioOperator'
+import ContentSentence from './ContentSentence'
+import BySentenceMainArea from './BySentenceMainArea'
 
 type Props = {
     audioUrl: string
@@ -18,6 +20,9 @@ export default function AudioListener({
     const [playMode, setPlayMode] = useState<'bySentence' | 'all'>('bySentence')
     const [isPlaying, setIsPlaying] = useState(false)
     const [slowPlay, setSlowPlay] = useState(false)
+    const [repeatTime, setRepeatTime] = useState(0)
+    const [transcriptionPartIndex, setTranscriptionPart] = useState(0)
+    const [understood, setUnderstood] = useState(false)
 
     // 这里只考虑 type = 'content' 的句子
     const [contentIndex, setContentIndex] = useState(0)
@@ -35,7 +40,10 @@ export default function AudioListener({
         }
 
         const onCanPlay = () => {
-            setListenerState('loaded')
+            // I have to add this check because onCanPlay will be called many times
+            if (listenerState === 'loading') {
+                setListenerState('loaded')
+            }
         }
 
         audio.addEventListener('canplay', onCanPlay)
@@ -43,7 +51,7 @@ export default function AudioListener({
         return () => {
             audio.removeEventListener('canplay', onCanPlay)
         }
-    }, [audioRef])
+    }, [listenerState])
 
     useEffect(() => {
         const audio = audioRef.current
@@ -56,6 +64,43 @@ export default function AudioListener({
         }
     }, [slowPlay])
 
+    const breakpoints = useMemo(
+        () => transcription.map((el) => el.endTime),
+        [transcription],
+    )
+
+    const handleAudioTimeUpdate = () => {
+        const audio = audioRef.current
+        if (audio === null) {
+            console.error('audioRef.current is null')
+            return
+        }
+
+        const currentTime = audio.currentTime
+
+        const currentBreakpoint =
+            breakpoints[transcriptionPartIndex] ?? Infinity
+
+        const lastBreakpoint = breakpoints[transcriptionPartIndex - 1] ?? 0
+
+        if (currentTime < currentBreakpoint) return
+
+        if (transcriptionPart.type === 'filler') {
+            setTranscriptionPart(transcriptionPartIndex + 1)
+            return
+        }
+
+        if (understood) {
+            setTranscriptionPart(transcriptionPartIndex + 1)
+            setContentIndex(contentIndex + 1)
+            setUnderstood(false)
+            setRepeatTime(0)
+        } else {
+            audio.currentTime = lastBreakpoint
+            setRepeatTime(repeatTime + 1)
+        }
+    }
+
     const handleStartPlay = () => {
         if (audioRef.current === null) {
             console.error('audioRef.current is null')
@@ -64,6 +109,7 @@ export default function AudioListener({
 
         setListenerState('playing')
         audioRef.current.play()
+        setIsPlaying(true)
     }
 
     const handleTogglePlay = () => {
@@ -81,9 +127,27 @@ export default function AudioListener({
         }
     }
 
+    const handleAudioEnded = () => {
+        const audio = audioRef.current
+        if (audio === null) {
+            console.error('audioRef.current is null')
+            return
+        }
+
+        if (!understood) {
+            const lastBreakpoint = breakpoints[transcriptionPartIndex - 1] ?? 0
+            audio.currentTime = lastBreakpoint
+            audio.play()
+        } else {
+            onFinish()
+        }
+    }
+
     const contentLength = transcription.filter(
         (el) => el.type === 'content',
     ).length
+
+    const transcriptionPart = transcription[transcriptionPartIndex]
 
     return (
         <div className="flex flex-col rounded items-center">
@@ -91,8 +155,8 @@ export default function AudioListener({
                 className="my-4"
                 ref={audioRef}
                 src={audioUrl}
-                // onTimeUpdate={handleAudioTimeUpdate}
-                // onEnded={handleAudioEnded}
+                onTimeUpdate={handleAudioTimeUpdate}
+                onEnded={handleAudioEnded}
             />
 
             {listenerState === 'loading' && <div>Loading...</div>}
@@ -110,12 +174,14 @@ export default function AudioListener({
             {listenerState === 'playing' && (
                 <div>
                     {playMode === 'bySentence' ? (
-                        <div>
-                            分句模式
-                            <div className="my-6">
-                                句子：{contentIndex + 1}/{contentLength}
-                            </div>
-                        </div>
+                        <BySentenceMainArea
+                            understood={understood}
+                            transcriptionPart={transcriptionPart}
+                            repeatTime={repeatTime}
+                            contentIndex={contentIndex}
+                            contentLength={contentLength}
+                            onUnderstood={() => setUnderstood(true)}
+                        />
                     ) : (
                         <div>全文模式: todo</div>
                     )}
@@ -135,52 +201,6 @@ export default function AudioListener({
                     />
                 </div>
             )}
-        </div>
-    )
-}
-
-function AudioOperator({
-    playMode,
-    isPlaying,
-    slowPlay,
-    handleTogglePlay,
-    handleTogglePlayBackRate,
-    handleChangePlayMode,
-}: {
-    playMode: 'bySentence' | 'all'
-    isPlaying: boolean
-    slowPlay: boolean
-    handleTogglePlay: () => void
-    handleTogglePlayBackRate: () => void
-    handleChangePlayMode: () => void
-}) {
-    return (
-        <div className="flex justify-around my-6 w-full">
-            <Button
-                fill="outline"
-                btnColor="gray"
-                onClick={handleChangePlayMode}
-            >
-                {playMode == 'bySentence' ? '全文' : '分句'}
-            </Button>
-
-            <Button
-                fill="outline"
-                btnColor={isPlaying ? 'gray' : 'orange'}
-                size="icon"
-                onClick={handleTogglePlay}
-            >
-                {isPlaying ? <Pause size={20} /> : <PlayCircle size={20} />}
-            </Button>
-
-            <Button
-                fill="outline"
-                btnColor="gray"
-                onClick={handleTogglePlayBackRate}
-                className="flex gap-2"
-            >
-                {slowPlay && <Check />}慢
-            </Button>
         </div>
     )
 }
