@@ -1,11 +1,14 @@
-import { useEffect, useMemo, useRef } from 'react'
 import { Button } from '../ui/button'
 import { PlayCircle } from 'lucide-react'
 import { Transcription } from '@/types/Transcription'
 import AudioOperator from './AudioOperator'
 import MainAreaBySentence from './MainAreaBySentence'
 import MainAreaAll from './MainAreaAll'
-import { useAudioListenerDispatch, useAudioListenerState } from './Provider'
+import {
+    useAudioListenerState,
+    useAudioListenerDispatch,
+} from './StateProvider'
+import HiddenAudio from './HiddenAudio'
 
 type Props = {
     audioUrl: string
@@ -14,174 +17,27 @@ type Props = {
 }
 
 export default function Listener({ audioUrl, transcription, onFinish }: Props) {
-    const {
-        audio,
-        listenerState,
-        transcriptionPartIndex,
-        currentSentence: sentenceContent,
-    } = useAudioListenerState()
-
+    const { audio: audioSlice, listenerState } = useAudioListenerState()
+    const { playMode } = audioSlice
     const dispatch = useAudioListenerDispatch()
-
-    const { isPlaying, playMode } = audio
-    const { understood } = sentenceContent
-
-    const audioRef = useRef<HTMLAudioElement | null>(null)
-
-    useEffect(() => {
-        const audio = audioRef.current
-        if (audio === null) {
-            return
-        }
-
-        const onCanPlay = () => {
-            // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'dataLoaded' })
-        }
-
-        audio.addEventListener('canplay', onCanPlay)
-
-        return () => {
-            audio.removeEventListener('canplay', onCanPlay)
-        }
-    }, [listenerState, dispatch])
-
-    const breakpoints = useMemo(
-        () => transcription.map((el) => el.endTime),
-        [transcription],
-    )
-
-    const handleAudioTimeUpdate = () => {
-        const audio = audioRef.current
-        if (audio === null) {
-            console.error('audioRef.current is null')
-            return
-        }
-
-        const currentTime = audio.currentTime
-
-        // @ts-expect-error dispatch could be null?
-        dispatch({ type: 'audioTimeUpdate', payload: { currentTime } })
-
-        const currentBreakpoint =
-            breakpoints[transcriptionPartIndex] ?? Infinity
-
-        const lastBreakpoint = breakpoints[transcriptionPartIndex - 1] ?? 0
-
-        if (currentTime < currentBreakpoint) return
-
-        const transcriptionPart = transcription[transcriptionPartIndex]
-
-        if (transcriptionPart.type === 'filler') {
-            // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'finishFiller' })
-            return
-        }
-
-        if (understood || playMode === 'onePass') {
-            // all these actions can be done in one dispatch: toNextSentence
-
-            // @ts-expect-error dispatch could be null
-            dispatch({ type: 'toNextContentSentence' })
-        } else {
-            audio.currentTime = lastBreakpoint
-
-            // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'repeatSentence' })
-        }
-    }
-
-    const handleStartPlay = () => {
-        if (audioRef.current === null) {
-            console.error('audioRef.current is null')
-            return
-        }
-
-        // @ts-expect-error dispatch could be null?
-        dispatch({ type: 'enterPlay' })
-
-        audioRef.current.play()
-        // @ts-expect-error dispatch could be null?
-        dispatch({ type: 'startPlay' })
-    }
-
-    const handleTogglePlay = () => {
-        const audio = audioRef.current
-        if (audio === null) {
-            console.error('audioRef is null')
-            return
-        }
-
-        if (isPlaying) {
-            audio.pause()
-            // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'pausePlay' })
-        } else {
-            audio.play()
-            // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'startPlay' })
-        }
-    }
-
-    const handleAudioEnded = () => {
-        const audio = audioRef.current
-        if (audio === null) {
-            console.error('audioRef.current is null')
-            return
-        }
-        if (playMode === 'onePass') {
-            onFinish()
-            return
-        }
-
-        if (!understood) {
-            const lastBreakpoint = breakpoints[transcriptionPartIndex - 1] ?? 0
-            audio.currentTime = lastBreakpoint
-            audio.play()
-        } else {
-            onFinish()
-        }
-    }
-
-    const handleLoadedMetadata = () => {
-        const audio = audioRef.current
-        if (audio === null) {
-            console.error('audioRef.current is null')
-            return
-        }
-
-        // @ts-expect-error dispatch could be null?
-        dispatch({ type: 'audioLoaded', payload: { duration: audio.duration } })
-    }
-
-    const handleToggleSlowPlay = () => {
-        const audio = audioRef.current
-        if (audio === null) {
-            console.error('audioRef.current is null')
-            return
-        }
-
-        // @ts-expect-error dispatch could be null?
-        dispatch({ type: 'toggleSlowPlay' })
-        audio.playbackRate = audio.playbackRate === 0.75 ? 1 : 0.75
-    }
 
     return (
         <div className="flex flex-col rounded items-center">
-            <audio
-                className="my-4"
-                ref={audioRef}
-                src={audioUrl}
-                onTimeUpdate={handleAudioTimeUpdate}
-                onEnded={handleAudioEnded}
-                onLoadedMetadata={handleLoadedMetadata}
+            <HiddenAudio
+                audioUrl={audioUrl}
+                transcription={transcription}
+                onFinish={onFinish}
             />
 
             {listenerState === 'loading' && <div>Loading...</div>}
 
             {listenerState === 'loaded' && (
                 <div className="mt-32 text-center">
-                    <Button size="lg" onClick={handleStartPlay}>
+                    <Button
+                        size="lg"
+                        /* @ts-expect-error */
+                        onClick={() => dispatch({ type: 'startPlay' })}
+                    >
                         <div className="flex gap-2 items-center">
                             <PlayCircle color="white" size={30} /> <p>播放</p>
                         </div>
@@ -197,10 +53,7 @@ export default function Listener({ audioUrl, transcription, onFinish }: Props) {
                         <MainAreaAll transcription={transcription} />
                     )}
 
-                    <AudioOperator
-                        handleTogglePlay={handleTogglePlay}
-                        onToggleSlowPlay={handleToggleSlowPlay}
-                    />
+                    <AudioOperator />
                 </div>
             )}
         </div>

@@ -79,8 +79,9 @@ function audioListenerReducer(
             break
         }
 
-        case 'enterPlay': {
+        case 'startPlay': {
             state.listenerState = 'playing'
+            state.audio.isPlaying = true
             break
         }
 
@@ -92,13 +93,8 @@ function audioListenerReducer(
             break
         }
 
-        case 'startPlay': {
-            state.audio.isPlaying = true
-            break
-        }
-
-        case 'pausePlay': {
-            state.audio.isPlaying = false
+        case 'togglePlay': {
+            state.audio.isPlaying = !state.audio.isPlaying
             break
         }
 
@@ -140,7 +136,6 @@ function audioListenerReducer(
             state.contentIndex += 1
             state.currentSentence.understood = false
             state.currentSentence.repeatTime = 0
-
             break
         }
 

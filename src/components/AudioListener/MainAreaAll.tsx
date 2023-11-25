@@ -1,7 +1,7 @@
 import { Transcription, isContentType } from '@/types/Transcription'
 import { Button } from '../ui/button'
 import { useState } from 'react'
-import { useAudioListenerState } from './Provider'
+import { useAudioListenerState } from './StateProvider'
 
 type Props = {
     transcription: Transcription

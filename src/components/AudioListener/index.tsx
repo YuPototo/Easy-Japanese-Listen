@@ -1,6 +1,6 @@
 import { Transcription } from '@/types/Transcription'
 
-import { AudioListenerProvider } from './Provider'
+import { AudioListenerProvider } from './StateProvider'
 import Listener from './Listener'
 
 type Props = {

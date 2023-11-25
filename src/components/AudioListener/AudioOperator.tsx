@@ -1,16 +1,13 @@
 import { Check, Pause, PlayCircle } from 'lucide-react'
 import { Button } from '../ui/button'
-import { useAudioListenerDispatch, useAudioListenerState } from './Provider'
+import {
+    useAudioListenerDispatch,
+    useAudioListenerState,
+} from './StateProvider'
 
-type Props = {
-    handleTogglePlay: () => void
-    onToggleSlowPlay: () => void
-}
+type Props = {}
 
-export default function AudioOperator({
-    handleTogglePlay,
-    onToggleSlowPlay,
-}: Props) {
+export default function AudioOperator({}: Props) {
     const { audio } = useAudioListenerState()
     const { playMode, isPlaying, slowPlay } = audio
 
@@ -31,7 +28,8 @@ export default function AudioOperator({
                 fill="outline"
                 btnColor={isPlaying ? 'gray' : 'orange'}
                 size="icon"
-                onClick={handleTogglePlay}
+                // @ts-expect-error dispatch could be null?
+                onClick={() => dispatch({ type: 'togglePlay' })}
             >
                 {isPlaying ? <Pause size={20} /> : <PlayCircle size={20} />}
             </Button>
@@ -39,7 +37,8 @@ export default function AudioOperator({
             <Button
                 fill="outline"
                 btnColor="gray"
-                onClick={onToggleSlowPlay}
+                // @ts-expect-error dispatch could be null?
+                onClick={() => dispatch({ type: 'toggleSlowPlay' })}
                 className="flex gap-2"
             >
                 {slowPlay && <Check />}慢

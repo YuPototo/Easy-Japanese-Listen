@@ -1,7 +1,10 @@
 import { Transcription } from '@/types/Transcription'
 import ContentSentence from './ContentSentence'
 import { Button } from '../ui/button'
-import { useAudioListenerDispatch, useAudioListenerState } from './Provider'
+import {
+    useAudioListenerDispatch,
+    useAudioListenerState,
+} from './StateProvider'
 import { useMemo } from 'react'
 
 type Props = {
