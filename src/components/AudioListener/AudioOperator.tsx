@@ -1,29 +1,28 @@
 import { Check, Pause, PlayCircle } from 'lucide-react'
 import { Button } from '../ui/button'
+import { useAudioListenerDispatch, useAudioListenerState } from './Provider'
 
 type Props = {
-    playMode: 'bySentence' | 'all'
-    isPlaying: boolean
-    slowPlay: boolean
     handleTogglePlay: () => void
-    handleTogglePlayBackRate: () => void
-    handleChangePlayMode: () => void
+    onToggleSlowPlay: () => void
 }
 
 export default function AudioOperator({
-    playMode,
-    isPlaying,
-    slowPlay,
     handleTogglePlay,
-    handleTogglePlayBackRate,
-    handleChangePlayMode,
+    onToggleSlowPlay,
 }: Props) {
+    const { audio } = useAudioListenerState()
+    const { playMode, isPlaying, slowPlay } = audio
+
+    const dispatch = useAudioListenerDispatch()
+
     return (
         <div className="flex justify-around my-6 w-full">
             <Button
                 fill="outline"
                 btnColor="gray"
-                onClick={handleChangePlayMode}
+                // @ts-expect-error dispatch could be null?
+                onClick={() => dispatch({ type: 'toggleMode' })}
             >
                 {playMode == 'bySentence' ? '全文' : '分句'}
             </Button>
@@ -40,7 +39,7 @@ export default function AudioOperator({
             <Button
                 fill="outline"
                 btnColor="gray"
-                onClick={handleTogglePlayBackRate}
+                onClick={onToggleSlowPlay}
                 className="flex gap-2"
             >
                 {slowPlay && <Check />}慢

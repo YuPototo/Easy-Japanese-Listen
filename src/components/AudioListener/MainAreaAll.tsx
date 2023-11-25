@@ -1,19 +1,17 @@
 import { Transcription } from '@/types/Transcription'
 import { Button } from '../ui/button'
 import { useState } from 'react'
+import { useAudioListenerState } from './Provider'
 
 type Props = {
-    currentTime: number
-    duration: number
     transcription: Transcription
 }
 
-export default function MainAreaAll({
-    currentTime,
-    duration,
-    transcription,
-}: Props) {
+export default function MainAreaAll({ transcription }: Props) {
     const [showText, setShowText] = useState(false)
+
+    const { audio } = useAudioListenerState()
+    const { duration, currentTime } = audio
 
     return (
         <div>

@@ -1,24 +1,27 @@
 import { Transcription } from '@/types/Transcription'
 import ContentSentence from './ContentSentence'
 import { Button } from '../ui/button'
+import { useAudioListenerDispatch, useAudioListenerState } from './Provider'
+import { useMemo } from 'react'
 
 type Props = {
-    understood: boolean
-    transcriptionPart: Transcription[number]
-    contentIndex: number
-    contentLength: number
-    repeatTime: number
-    onUnderstood: () => void
+    transcription: Transcription
 }
 
-export default function MainAreaBySentence({
-    understood,
-    transcriptionPart,
-    contentIndex,
-    contentLength,
-    repeatTime,
-    onUnderstood,
-}: Props) {
+export default function MainAreaBySentence({ transcription }: Props) {
+    const { contentIndex, sentenceContent } = useAudioListenerState()
+
+    const { understood, repeatTime } = sentenceContent
+
+    const dispatch = useAudioListenerDispatch()
+
+    const transcriptionPart = transcription[contentIndex]
+
+    const contentLength = useMemo(
+        () => transcription.filter((el) => el.type === 'content').length,
+        [transcription],
+    )
+
     return (
         <div>
             <div className="my-6">
@@ -38,7 +41,10 @@ export default function MainAreaBySentence({
                 <Button
                     size="lg"
                     fill="outline"
-                    onClick={onUnderstood}
+                    onClick={() => {
+                        // @ts-expect-error dispatch could be null?
+                        dispatch({ type: 'understood' })
+                    }}
                     disabled={understood || transcriptionPart.type === 'filler'}
                 >
                     听懂了
