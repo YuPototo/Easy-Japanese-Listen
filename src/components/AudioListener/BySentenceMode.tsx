@@ -1,4 +1,3 @@
-import { Transcription } from '@/types/Transcription'
 import ContentSentence from './ContentSentence'
 import { Button } from '../ui/button'
 import {

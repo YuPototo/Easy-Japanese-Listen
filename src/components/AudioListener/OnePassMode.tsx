@@ -1,4 +1,4 @@
-import { Transcription, isContentType } from '@/types/Transcription'
+import { isContentType } from '@/types/Transcription'
 import { Button } from '../ui/button'
 import { useState } from 'react'
 import { useAudioListenerState } from './StateProvider'
@@ -36,11 +36,9 @@ export default function OnePassMode() {
             </div>
 
             <div className="flex gap-2">
-                <Button fill="outline">A</Button>
-                <Button fill="outline">B</Button>
-                <Button fill="outline">显示原文</Button>
-                <Button fill="outline">-5</Button>
-                <Button fill="outline">+5</Button>
+                <Button fill="outline" onClick={() => setShowText(!showText)}>
+                    {showText ? '隐藏原文' : '显示原文'}
+                </Button>
             </div>
         </div>
     )
