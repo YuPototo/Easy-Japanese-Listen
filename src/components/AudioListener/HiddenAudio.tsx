@@ -58,7 +58,7 @@ export default function HiddenAudio({ onFinish }: Props) {
 
         const onCanPlay = () => {
             // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'dataLoaded' })
+            dispatch({ type: 'DATA_LOADED' })
         }
 
         audio.addEventListener('canplay', onCanPlay)
@@ -83,7 +83,7 @@ export default function HiddenAudio({ onFinish }: Props) {
         const currentTime = audio.currentTime
 
         // @ts-expect-error dispatch could be null?
-        dispatch({ type: 'audioTimeUpdate', payload: { currentTime } })
+        dispatch({ type: 'AUDIO_TIME_UPDATE', payload: { currentTime } })
 
         const currentBreakpoint =
             breakpoints[transcriptionPartIndex] ?? Infinity
@@ -96,7 +96,7 @@ export default function HiddenAudio({ onFinish }: Props) {
 
         if (transcriptionPart.type === 'filler') {
             // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'finishFiller' })
+            dispatch({ type: 'FINISH_FILLER_SENTENCE' })
             return
         }
 
@@ -104,12 +104,12 @@ export default function HiddenAudio({ onFinish }: Props) {
             // all these actions can be done in one dispatch: toNextSentence
 
             // @ts-expect-error dispatch could be null
-            dispatch({ type: 'toNextContentSentence' })
+            dispatch({ type: 'FINISH_CONTENT_SENTENCE' })
         } else {
             audio.currentTime = lastBreakpoint
 
             // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'repeatSentence' })
+            dispatch({ type: 'SENENCE_REPEATED' })
         }
     }
 
@@ -142,7 +142,7 @@ export default function HiddenAudio({ onFinish }: Props) {
 
         // @ts-expect-error dispatch could be null?
         dispatch({
-            type: 'audioLoaded',
+            type: 'AUDIO_METADATA_LOADED',
             // @ts-expect-error dispatch could be null?
             payload: { duration: audio.duration },
         })

@@ -46,7 +46,7 @@ export default function BySentenceMode() {
                     fill="outline"
                     onClick={() => {
                         // @ts-expect-error dispatch could be null?
-                        dispatch({ type: 'understood' })
+                        dispatch({ type: 'SENTENCE_UNDERSTOOD' })
                     }}
                     disabled={understood || transcriptionPart.type === 'filler'}
                 >

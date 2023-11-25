@@ -55,7 +55,7 @@ function BeforeStudyStage() {
             <Button
                 size="lg"
                 /* @ts-expect-error */
-                onClick={() => dispatch({ type: 'startPlay' })}
+                onClick={() => dispatch({ type: 'START_STUDY' })}
             >
                 <div className="flex gap-2 items-center">
                     <PlayCircle color="white" size={30} /> <p>播放</p>

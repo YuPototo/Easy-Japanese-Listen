@@ -83,7 +83,7 @@ function audioListenerReducer(
 ) {
     switch (action.type) {
         /* Listener state */
-        case 'dataLoaded': {
+        case 'DATA_LOADED': {
             // 如果没有这个条件，就会经常触发这个 action
             if (state.listenerState === 'loading') {
                 state.listenerState = 'loaded'
@@ -91,63 +91,63 @@ function audioListenerReducer(
             break
         }
 
-        case 'startPlay': {
+        case 'START_STUDY': {
             state.listenerState = 'studying'
             state.audio.isPlaying = true
             break
         }
 
         /* audio state */
-        case 'toggleMode': {
+        case 'TOGGLE_MODE': {
             const currentMode = state.audio.playMode
             state.audio.playMode =
                 currentMode === 'bySentence' ? 'onePass' : 'bySentence'
             break
         }
 
-        case 'togglePlay': {
+        case 'TOGGLE_PLAY_AUDIO': {
             state.audio.isPlaying = !state.audio.isPlaying
             break
         }
 
-        case 'toggleSlowPlay': {
+        case 'TOGGLE_SLOW_PLAY': {
             state.audio.slowPlay = !state.audio.slowPlay
             break
         }
 
-        case 'audioLoaded': {
+        case 'AUDIO_METADATA_LOADED': {
             // @ts-expect-error action needs to be typed
             state.audio.duration = action.payload.duration
             break
         }
 
-        case 'audioTimeUpdate': {
+        case 'AUDIO_TIME_UPDATE': {
             // @ts-expect-error action needs to be typed
             state.audio.currentTime = action.payload.currentTime
             break
         }
 
-        case 'finishFiller': {
+        case 'FINISH_FILLER_SENTENCE': {
             state.transcriptionPartIndex += 1
             break
         }
 
-        /* sentence state */
-        case 'understood': {
-            state.currentSentence.understood = true
-            break
-        }
-
-        case 'repeatSentence': {
-            state.currentSentence.repeatTime += 1
-            break
-        }
-
-        case 'toNextContentSentence': {
+        case 'FINISH_CONTENT_SENTENCE': {
             state.transcriptionPartIndex += 1
             state.contentIndex += 1
             state.currentSentence.understood = false
             state.currentSentence.repeatTime = 0
+            break
+        }
+
+        /* sentence state */
+        case 'SENTENCE_UNDERSTOOD': {
+            state.currentSentence.understood = true
+            break
+        }
+
+        case 'SENENCE_REPEATED': {
+            state.currentSentence.repeatTime += 1
             break
         }
 
