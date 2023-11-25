@@ -9,7 +9,8 @@ type Props = {
 }
 
 export default function MainAreaBySentence({ transcription }: Props) {
-    const { contentIndex, sentenceContent } = useAudioListenerState()
+    const { contentIndex, currentSentence: sentenceContent } =
+        useAudioListenerState()
 
     const { understood, repeatTime } = sentenceContent
 

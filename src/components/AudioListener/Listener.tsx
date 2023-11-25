@@ -14,8 +14,12 @@ type Props = {
 }
 
 export default function Listener({ audioUrl, transcription, onFinish }: Props) {
-    const { audio, listenerState, transcriptionPartIndex, sentenceContent } =
-        useAudioListenerState()
+    const {
+        audio,
+        listenerState,
+        transcriptionPartIndex,
+        currentSentence: sentenceContent,
+    } = useAudioListenerState()
 
     const dispatch = useAudioListenerDispatch()
 

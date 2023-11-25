@@ -1,4 +1,5 @@
-import { Dispatch, createContext, useContext, useReducer } from 'react'
+import { Dispatch, createContext, useContext } from 'react'
+import { useImmerReducer } from 'use-immer'
 
 export interface AudioListenerState {
     listenerState: 'loading' | 'loaded' | 'playing'
@@ -14,7 +15,7 @@ export interface AudioListenerState {
         currentTime: number
     }
 
-    sentenceContent: {
+    currentSentence: {
         understood: boolean
         repeatTime: number
     }
@@ -31,7 +32,7 @@ export const initialState: AudioListenerState = {
         duration: 0,
         currentTime: 0,
     },
-    sentenceContent: {
+    currentSentence: {
         understood: false,
         repeatTime: 0,
     },
@@ -50,7 +51,10 @@ export function AudioListenerProvider({
 }: {
     children: React.ReactNode
 }) {
-    const [state, dispatch] = useReducer(audioListenerReducer, initialState)
+    const [state, dispatch] = useImmerReducer(
+        audioListenerReducer,
+        initialState,
+    )
 
     return (
         <AudioListenerContext.Provider value={state}>
@@ -64,139 +68,80 @@ export function AudioListenerProvider({
 function audioListenerReducer(
     state: AudioListenerState,
     action: { type: string },
-): AudioListenerState {
+) {
     switch (action.type) {
         case 'dataLoaded': {
-            return {
-                ...state,
-                listenerState: 'loaded',
-            }
+            state.listenerState = 'loaded'
+            break
         }
 
         case 'enterPlay': {
-            return {
-                ...state,
-                listenerState: 'playing',
-            }
+            state.listenerState = 'playing'
+            break
         }
 
         case 'toggleMode': {
-            return {
-                ...state,
-                audio: {
-                    ...state.audio,
-                    playMode:
-                        state.audio.playMode === 'bySentence'
-                            ? 'onePass'
-                            : 'bySentence',
-                },
-            }
+            const currentMode = state.audio.playMode
+            state.audio.playMode =
+                currentMode === 'bySentence' ? 'onePass' : 'bySentence'
+            break
         }
 
         case 'startPlay': {
-            return {
-                ...state,
-                audio: {
-                    ...state.audio,
-                    isPlaying: true,
-                },
-            }
+            state.audio.isPlaying = true
+            break
         }
 
         case 'pausePlay': {
-            return {
-                ...state,
-                audio: {
-                    ...state.audio,
-                    isPlaying: false,
-                },
-            }
+            state.audio.isPlaying = false
+            break
         }
 
         case 'toggleSlowPlay': {
-            return {
-                ...state,
-                audio: {
-                    ...state.audio,
-                    slowPlay: !state.audio.slowPlay,
-                },
-            }
+            state.audio.slowPlay = !state.audio.slowPlay
+            break
         }
 
         case 'audioLoaded': {
-            return {
-                ...state,
-                audio: {
-                    ...state.audio,
-                    // @ts-expect-error action needs to be typed
-                    duration: action.payload.duration,
-                },
-            }
+            // @ts-expect-error action needs to be typed
+            state.audio.duration = action.payload.duration
+            break
         }
 
         case 'audioTimeUpdate': {
-            return {
-                ...state,
-                audio: {
-                    ...state.audio,
-                    // @ts-expect-error action needs to be typed
-                    currentTime: action.payload.currentTime,
-                },
-            }
+            // @ts-expect-error action needs to be typed
+            state.audio.currentTime = action.payload.currentTime
+            break
         }
 
         case 'transcriptionPartIndexInc': {
-            return {
-                ...state,
-                transcriptionPartIndex: state.transcriptionPartIndex + 1,
-            }
+            state.transcriptionPartIndex += 1
+            break
         }
 
         case 'contentIndexInc': {
-            return {
-                ...state,
-                contentIndex: state.contentIndex + 1,
-            }
+            state.contentIndex += 1
+            break
         }
 
         case 'understood': {
-            return {
-                ...state,
-                sentenceContent: {
-                    ...state.sentenceContent,
-                    understood: true,
-                },
-            }
+            state.currentSentence.understood = true
+            break
         }
 
         case 'resetUnderstood': {
-            return {
-                ...state,
-                sentenceContent: {
-                    ...state.sentenceContent,
-                    understood: false,
-                },
-            }
+            state.currentSentence.understood = false
+            break
         }
 
         case 'incRepeatCount': {
-            return {
-                ...state,
-                sentenceContent: {
-                    ...state.sentenceContent,
-                    repeatTime: state.sentenceContent.repeatTime + 1,
-                },
-            }
+            state.currentSentence.repeatTime += 1
+            break
         }
 
         case 'resetRepeatCount': {
-            return {
-                ...state,
-                sentenceContent: {
-                    ...state.sentenceContent,
-                    repeatTime: 0,
-                },
-            }
+            state.currentSentence.repeatTime = 0
+            break
         }
 
         default: {
