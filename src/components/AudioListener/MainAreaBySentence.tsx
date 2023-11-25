@@ -11,7 +11,7 @@ type Props = {
     onUnderstood: () => void
 }
 
-export default function BySentenceMainArea({
+export default function MainAreaBySentence({
     understood,
     transcriptionPart,
     contentIndex,

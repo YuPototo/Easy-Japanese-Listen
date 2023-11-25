@@ -3,8 +3,8 @@ import { Button } from '../ui/button'
 import { PlayCircle } from 'lucide-react'
 import { Transcription } from '@/types/Transcription'
 import AudioOperator from './AudioOperator'
-import ContentSentence from './ContentSentence'
-import BySentenceMainArea from './BySentenceMainArea'
+import MainAreaBySentence from './MainAreaBySentence'
+import MainAreaAll from './MainAreaAll'
 
 type Props = {
     audioUrl: string
@@ -23,6 +23,8 @@ export default function AudioListener({
     const [repeatTime, setRepeatTime] = useState(0)
     const [transcriptionPartIndex, setTranscriptionPart] = useState(0)
     const [understood, setUnderstood] = useState(false)
+    const [currentTime, setCurrentTime] = useState(0)
+    const [duration, setDuration] = useState(0)
 
     // 这里只考虑 type = 'content' 的句子
     const [contentIndex, setContentIndex] = useState(0)
@@ -77,6 +79,7 @@ export default function AudioListener({
         }
 
         const currentTime = audio.currentTime
+        setCurrentTime(audio.currentTime)
 
         const currentBreakpoint =
             breakpoints[transcriptionPartIndex] ?? Infinity
@@ -90,7 +93,7 @@ export default function AudioListener({
             return
         }
 
-        if (understood) {
+        if (understood || playMode === 'all') {
             setTranscriptionPart(transcriptionPartIndex + 1)
             setContentIndex(contentIndex + 1)
             setUnderstood(false)
@@ -133,6 +136,10 @@ export default function AudioListener({
             console.error('audioRef.current is null')
             return
         }
+        if (playMode === 'all') {
+            onFinish()
+            return
+        }
 
         if (!understood) {
             const lastBreakpoint = breakpoints[transcriptionPartIndex - 1] ?? 0
@@ -141,6 +148,16 @@ export default function AudioListener({
         } else {
             onFinish()
         }
+    }
+
+    const handleLoadedMetadata = () => {
+        const audio = audioRef.current
+        if (audio === null) {
+            console.error('audioRef.current is null')
+            return
+        }
+
+        setDuration(audio.duration)
     }
 
     const contentLength = transcription.filter(
@@ -157,6 +174,7 @@ export default function AudioListener({
                 src={audioUrl}
                 onTimeUpdate={handleAudioTimeUpdate}
                 onEnded={handleAudioEnded}
+                onLoadedMetadata={handleLoadedMetadata}
             />
 
             {listenerState === 'loading' && <div>Loading...</div>}
@@ -174,7 +192,7 @@ export default function AudioListener({
             {listenerState === 'playing' && (
                 <div>
                     {playMode === 'bySentence' ? (
-                        <BySentenceMainArea
+                        <MainAreaBySentence
                             understood={understood}
                             transcriptionPart={transcriptionPart}
                             repeatTime={repeatTime}
@@ -183,7 +201,11 @@ export default function AudioListener({
                             onUnderstood={() => setUnderstood(true)}
                         />
                     ) : (
-                        <div>全文模式: todo</div>
+                        <MainAreaAll
+                            currentTime={currentTime}
+                            duration={duration}
+                            transcription={transcription}
+                        />
                     )}
                     <AudioOperator
                         playMode={playMode}
