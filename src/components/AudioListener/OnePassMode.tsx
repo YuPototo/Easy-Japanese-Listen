@@ -3,15 +3,11 @@ import { Button } from '../ui/button'
 import { useState } from 'react'
 import { useAudioListenerState } from './StateProvider'
 
-type Props = {
-    transcription: Transcription
-}
-
-export default function MainAreaAll({ transcription }: Props) {
+export default function OnePassMode() {
     const [showText, setShowText] = useState(false)
 
-    const { audio } = useAudioListenerState()
-    const { duration, currentTime } = audio
+    const { audio: audioSlice, transcription } = useAudioListenerState()
+    const { duration, currentTime } = audioSlice
 
     const contentOnly = transcription.filter(isContentType)
 

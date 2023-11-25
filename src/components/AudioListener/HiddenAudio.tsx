@@ -3,22 +3,19 @@ import {
     useAudioListenerDispatch,
     useAudioListenerState,
 } from './StateProvider'
-import { Transcription } from '@/types/Transcription'
 
 type Props = {
-    audioUrl: string
-    transcription: Transcription
     onFinish: () => void
 }
 
-export default function HiddenAudio(props: Props) {
-    const { audioUrl, transcription, onFinish } = props
-
+export default function HiddenAudio({ onFinish }: Props) {
     const {
+        audioUrl,
         audio: audioSlice,
         listenerState,
         transcriptionPartIndex,
         currentSentence,
+        transcription,
     } = useAudioListenerState()
 
     const { isPlaying, playMode } = audioSlice

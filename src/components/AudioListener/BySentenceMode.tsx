@@ -7,13 +7,13 @@ import {
 } from './StateProvider'
 import { useMemo } from 'react'
 
-type Props = {
-    transcription: Transcription
-}
-
-export default function MainAreaBySentence({ transcription }: Props) {
-    const { contentIndex, transcriptionPartIndex, currentSentence } =
-        useAudioListenerState()
+export default function BySentenceMode() {
+    const {
+        transcription,
+        contentIndex,
+        transcriptionPartIndex,
+        currentSentence,
+    } = useAudioListenerState()
 
     const { understood, repeatTime } = currentSentence
 

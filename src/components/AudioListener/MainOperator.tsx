@@ -7,7 +7,7 @@ import {
 
 type Props = {}
 
-export default function AudioOperator({}: Props) {
+export default function MainOperator({}: Props) {
     const { audio } = useAudioListenerState()
     const { playMode, isPlaying, slowPlay } = audio
 

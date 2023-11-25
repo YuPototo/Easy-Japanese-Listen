@@ -1,8 +1,12 @@
+import { Transcription } from '@/types/Transcription'
 import { Dispatch, createContext, useContext } from 'react'
 import { useImmerReducer } from 'use-immer'
 
 export interface AudioListenerState {
-    listenerState: 'loading' | 'loaded' | 'playing'
+    audioUrl: string
+    transcription: Transcription
+
+    listenerState: 'loading' | 'loaded' | 'studying'
 
     transcriptionPartIndex: number
     contentIndex: number
@@ -22,7 +26,9 @@ export interface AudioListenerState {
 }
 
 export const initialState: AudioListenerState = {
+    audioUrl: '',
     listenerState: 'loading',
+    transcription: [],
     transcriptionPartIndex: 0,
     contentIndex: 0,
     audio: {
@@ -48,8 +54,12 @@ const AudioListenerDispatchContext = createContext<DispatchFunction | null>(
 
 export function AudioListenerProvider({
     children,
+    transcription,
+    audioUrl,
 }: {
     children: React.ReactNode
+    transcription: Transcription
+    audioUrl: string
 }) {
     const [state, dispatch] = useImmerReducer(
         audioListenerReducer,
@@ -57,7 +67,9 @@ export function AudioListenerProvider({
     )
 
     return (
-        <AudioListenerContext.Provider value={state}>
+        <AudioListenerContext.Provider
+            value={{ ...state, transcription, audioUrl }}
+        >
             <AudioListenerDispatchContext.Provider value={dispatch}>
                 {children}
             </AudioListenerDispatchContext.Provider>
@@ -80,7 +92,7 @@ function audioListenerReducer(
         }
 
         case 'startPlay': {
-            state.listenerState = 'playing'
+            state.listenerState = 'studying'
             state.audio.isPlaying = true
             break
         }

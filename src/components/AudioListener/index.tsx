@@ -15,12 +15,11 @@ export default function AudioListener({
     onFinish,
 }: Props) {
     return (
-        <AudioListenerProvider>
-            <Listener
-                audioUrl={audioUrl}
-                transcription={transcription}
-                onFinish={onFinish}
-            />
+        <AudioListenerProvider
+            transcription={transcription}
+            audioUrl={audioUrl}
+        >
+            <Listener onFinish={onFinish} />
         </AudioListenerProvider>
     )
 }
