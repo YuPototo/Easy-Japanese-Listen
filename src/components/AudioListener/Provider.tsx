@@ -70,8 +70,12 @@ function audioListenerReducer(
     action: { type: string },
 ) {
     switch (action.type) {
+        /* Listener state */
         case 'dataLoaded': {
-            state.listenerState = 'loaded'
+            // 如果没有这个条件，就会经常触发这个 action
+            if (state.listenerState === 'loading') {
+                state.listenerState = 'loaded'
+            }
             break
         }
 
@@ -80,6 +84,7 @@ function audioListenerReducer(
             break
         }
 
+        /* audio state */
         case 'toggleMode': {
             const currentMode = state.audio.playMode
             state.audio.playMode =
@@ -114,33 +119,28 @@ function audioListenerReducer(
             break
         }
 
-        case 'transcriptionPartIndexInc': {
+        case 'finishFiller': {
             state.transcriptionPartIndex += 1
             break
         }
 
-        case 'contentIndexInc': {
-            state.contentIndex += 1
-            break
-        }
-
+        /* sentence state */
         case 'understood': {
             state.currentSentence.understood = true
             break
         }
 
-        case 'resetUnderstood': {
-            state.currentSentence.understood = false
-            break
-        }
-
-        case 'incRepeatCount': {
+        case 'repeatSentence': {
             state.currentSentence.repeatTime += 1
             break
         }
 
-        case 'resetRepeatCount': {
+        case 'toNextContentSentence': {
+            state.transcriptionPartIndex += 1
+            state.contentIndex += 1
+            state.currentSentence.understood = false
             state.currentSentence.repeatTime = 0
+
             break
         }
 

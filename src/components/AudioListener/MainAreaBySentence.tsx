@@ -9,14 +9,14 @@ type Props = {
 }
 
 export default function MainAreaBySentence({ transcription }: Props) {
-    const { contentIndex, currentSentence: sentenceContent } =
+    const { contentIndex, transcriptionPartIndex, currentSentence } =
         useAudioListenerState()
 
-    const { understood, repeatTime } = sentenceContent
+    const { understood, repeatTime } = currentSentence
 
     const dispatch = useAudioListenerDispatch()
 
-    const transcriptionPart = transcription[contentIndex]
+    const transcriptionPart = transcription[transcriptionPartIndex]
 
     const contentLength = useMemo(
         () => transcription.filter((el) => el.type === 'content').length,

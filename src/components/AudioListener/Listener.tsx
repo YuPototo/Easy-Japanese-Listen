@@ -35,11 +35,8 @@ export default function Listener({ audioUrl, transcription, onFinish }: Props) {
         }
 
         const onCanPlay = () => {
-            // I have to add this check because onCanPlay will be called many times
-            if (listenerState === 'loading') {
-                // @ts-expect-error dispatch could be null?
-                dispatch({ type: 'dataLoaded' })
-            }
+            // @ts-expect-error dispatch could be null?
+            dispatch({ type: 'dataLoaded' })
         }
 
         audio.addEventListener('canplay', onCanPlay)
@@ -77,29 +74,20 @@ export default function Listener({ audioUrl, transcription, onFinish }: Props) {
 
         if (transcriptionPart.type === 'filler') {
             // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'transcriptionPartIndexInc' })
+            dispatch({ type: 'finishFiller' })
             return
         }
 
         if (understood || playMode === 'onePass') {
             // all these actions can be done in one dispatch: toNextSentence
 
-            // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'transcriptionPartIndexInc' })
-
-            // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'contentIndexInc' })
-
-            // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'resetUnderstood' })
-
-            // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'resetRepeatCount' })
+            // @ts-expect-error dispatch could be null
+            dispatch({ type: 'toNextContentSentence' })
         } else {
             audio.currentTime = lastBreakpoint
 
             // @ts-expect-error dispatch could be null?
-            dispatch({ type: 'incRepeatCount' })
+            dispatch({ type: 'repeatSentence' })
         }
     }
 
@@ -118,17 +106,18 @@ export default function Listener({ audioUrl, transcription, onFinish }: Props) {
     }
 
     const handleTogglePlay = () => {
-        if (audioRef.current === null) {
-            console.error('audioRef.current is null')
+        const audio = audioRef.current
+        if (audio === null) {
+            console.error('audioRef is null')
             return
         }
 
         if (isPlaying) {
-            audioRef.current.pause()
+            audio.pause()
             // @ts-expect-error dispatch could be null?
             dispatch({ type: 'pausePlay' })
         } else {
-            audioRef.current.play()
+            audio.play()
             // @ts-expect-error dispatch could be null?
             dispatch({ type: 'startPlay' })
         }

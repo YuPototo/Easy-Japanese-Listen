@@ -13,3 +13,7 @@ export type Content = {
 export type TranscriptionPart = Filler | Content
 
 export type Transcription = TranscriptionPart[]
+
+export function isContentType(sentence: Filler | Content): sentence is Content {
+    return sentence.type === 'content'
+}

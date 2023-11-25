@@ -1,4 +1,4 @@
-import { Transcription } from '@/types/Transcription'
+import { Transcription, isContentType } from '@/types/Transcription'
 import { Button } from '../ui/button'
 import { useState } from 'react'
 import { useAudioListenerState } from './Provider'
@@ -13,20 +13,18 @@ export default function MainAreaAll({ transcription }: Props) {
     const { audio } = useAudioListenerState()
     const { duration, currentTime } = audio
 
+    const contentOnly = transcription.filter(isContentType)
+
     return (
         <div>
             <div>
                 {showText ? (
-                    transcription
-                        .filter((el) => el.type === 'content')
-                        .map((sentence, i) => (
-                            <div key={i} className="flex gap-2 my-2">
-                                {/* @ts-expect-error */}
-                                <div>{sentence.speaker}</div>
-                                {/* @ts-expect-error */}
-                                <div>{sentence.text}</div>
-                            </div>
-                        ))
+                    contentOnly.map((sentence, i) => (
+                        <div key={i} className="flex gap-2 my-2">
+                            <div>{sentence.speaker}</div>
+                            <div>{sentence.text}</div>
+                        </div>
+                    ))
                 ) : (
                     <div className="flex flex-col gap-4 my-4">
                         <div className="w-8/12 h-10 bg-gray-700 rounded"></div>
