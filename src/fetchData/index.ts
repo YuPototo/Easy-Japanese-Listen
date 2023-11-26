@@ -66,7 +66,7 @@ export function useTrackList(albumId: string | number) {
                 .from('track')
                 .select('*')
                 .eq('album_id', albumId)
-                .order('id', { ascending: true })
+                .order('track_title', { ascending: true })
             if (error) console.log(error)
             else setTracks(data)
         }

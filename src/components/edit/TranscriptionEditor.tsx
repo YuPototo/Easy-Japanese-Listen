@@ -8,6 +8,8 @@ import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
 import AudioForEdit from '../WaveAudio'
 
+const SPEAKER_LIST = ['男', '女  ', 'A', 'B']
+
 type Props = {
     fileName: string
     audioUrl?: string | null
@@ -102,7 +104,7 @@ export default function TranscriptionEditor({
                                 isNew={false}
                                 currentTime={currentTime}
                                 transcriptionPart={sentence}
-                                speakerList={['男', '女', 'A', 'B']}
+                                speakerList={SPEAKER_LIST}
                                 onClose={() => setUpateSentenceIndex(null)}
                                 onSave={(transcriptionPart) =>
                                     handleUpdateSentence(
@@ -128,7 +130,7 @@ export default function TranscriptionEditor({
                     <SentenceEditor
                         isNew={true}
                         currentTime={currentTime}
-                        speakerList={['男', '女', 'A', 'B']}
+                        speakerList={SPEAKER_LIST}
                         onClose={() => setNewSentence(false)}
                         onSave={handleAddSentence}
                     />
