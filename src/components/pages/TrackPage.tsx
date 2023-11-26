@@ -1,11 +1,10 @@
 'use client'
 
+import { useAlbumInfo, useTrack } from '@/fetchData'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import AudioPlayer from '../AudioPlayer'
-import { TranscriptionSchema } from '@/lib/validator'
-import { useAlbumInfo, useTrack } from '@/fetchData'
-import { useState } from 'react'
+import AudioListener from '../AudioListener'
+import { useEffect, useState } from 'react'
 
 type Props = {
     albumId: string | number
@@ -13,82 +12,111 @@ type Props = {
 }
 
 export default function TrackPage({ albumId, trackId }: Props) {
-    const { album, isLoading } = useAlbumInfo(albumId)
-    const { track, audioUrl } = useTrack(trackId)
-    const [hasFinished, setHasFinished] = useState(false)
+    const { album, isLoading: isLoadingAlbum } = useAlbumInfo(albumId)
+    const {
+        track,
+        audioUrl,
+        isLoading: isLoadingTrack,
+        error: trackError,
+        loadingSuccess: trackLoadingSuccess,
+    } = useTrack(trackId)
 
-    const showAudio = track !== null && audioUrl !== null && !hasFinished
+    const isLoading = isLoadingAlbum || isLoadingTrack
+
+    const [pageState, setPageState] = usePageState({
+        trackLoadingSuccess,
+        trackError,
+    })
 
     return (
         <div>
-            <div className="flex gap-2 items-center">
-                <AlbumTitleLink
-                    albumId={albumId}
-                    isLoading={isLoading}
-                    title={album?.album_title}
-                />
-                <ChevronRight size={16} />
-                <div>{track?.track_title}</div>
-            </div>
+            <BreadcrumbNav
+                isLoading={isLoading}
+                albumId={albumId}
+                albumTitle={album?.album_title}
+                trackTitle={track?.track_title}
+            />
 
-            {showAudio && (
-                <div className="mt-6 w-full">
-                    <AudioPlayerWrapper
-                        audioUrl={audioUrl}
-                        transcription={track.transcription}
-                        onFinish={() => setHasFinished(true)}
+            <div className="my-4">
+                {/* todo：use skeleton */}
+                {pageState === 'loading' && <div>Loading...</div>}
+
+                {pageState === 'error' && (
+                    <div className="text-red-800">Error: {trackError}</div>
+                )}
+
+                {pageState === 'loaded' && (
+                    <AudioListener
+                        audioUrl={audioUrl!}
+                        //@ts-expect-error
+                        transcription={track!.transcription}
+                        onFinish={() => setPageState('finished')}
                     />
-                </div>
-            )}
+                )}
 
-            {hasFinished && (
-                <div>
+                {pageState === 'finished' && (
                     <div>todo: 完成听力后的操作区域</div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     )
 }
 
-function AlbumTitleLink({
+function BreadcrumbNav({
     albumId,
-    title,
+    albumTitle,
+    trackTitle,
     isLoading,
 }: {
-    albumId: string | number
+    albumId: number | string
+    albumTitle?: string
+    trackTitle?: string
     isLoading: boolean
-    title?: string
 }) {
     if (isLoading) {
-        // todo: use a skeleton
-        return <div>Loading...</div>
-    }
-    return <Link href={`/album/${albumId}`}>{title}</Link>
-}
-
-function AudioPlayerWrapper({
-    audioUrl,
-    transcription,
-    onFinish,
-}: {
-    audioUrl: string
-    transcription: unknown
-    onFinish: () => void
-}) {
-    // Should I useMemo here?
-    const parseTranscription = TranscriptionSchema.safeParse(transcription)
-
-    if (!parseTranscription.success) {
+        /* todo：use skeleton */
         return (
-            <div className="text-red-500">invalid transcription structure</div>
+            <div className="flex gap-2 items-center">
+                <div>Loading...</div>
+            </div>
         )
     }
 
     return (
-        <AudioPlayer
-            audioUrl={audioUrl}
-            transcription={parseTranscription.data}
-            onFinish={onFinish}
-        />
+        <div className="flex gap-2 items-center">
+            <Link href={`/album/${albumId}`}>{albumTitle}</Link>
+            <ChevronRight size={16} />
+            <div>{trackTitle}</div>
+        </div>
     )
+}
+
+type PageState =
+    | 'loading' // album and track are loading
+    | 'loaded' // album and track are loaded, transcription is parsed
+    | 'finished' // audio listener is finished
+    | 'error'
+
+function usePageState({
+    trackLoadingSuccess,
+    trackError,
+}: {
+    trackLoadingSuccess: boolean
+    trackError: string | null
+}) {
+    const [pageState, setPageState] = useState<PageState>('loading')
+
+    useEffect(() => {
+        if (trackLoadingSuccess) {
+            setPageState('loaded')
+        }
+    }, [trackLoadingSuccess])
+
+    useEffect(() => {
+        if (trackError) {
+            setPageState('error')
+        }
+    }, [trackError])
+
+    return [pageState, setPageState] as const
 }
