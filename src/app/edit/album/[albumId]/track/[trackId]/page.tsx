@@ -1,12 +1,21 @@
-import { EditTrackPage } from '@/components/pages/edit/EditTrackPage'
+'use client'
+
+import UpdateTrack from '@/components/edit/UpdateTrack'
+import { useRouter } from 'next/navigation'
 
 type PageParam = {
     params: { albumId: string; trackId: string }
 }
-export default async function Page({ params }: PageParam) {
+export default function Page({ params }: PageParam) {
+    const { albumId, trackId } = params
+    const router = useRouter()
+
     return (
-        <main>
-            <EditTrackPage albumId={params.albumId} trackId={params.trackId} />
-        </main>
+        <div>
+            <UpdateTrack
+                trackId={trackId}
+                onUpdated={() => router.push(`/edit/album/${albumId}`)}
+            />
+        </div>
     )
 }

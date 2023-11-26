@@ -1,12 +1,21 @@
-import AddTrackPage from '@/components/pages/edit/AddTrackPage'
+'use client'
+
+import AddTrack from '@/components/edit/AddTrack'
+import { useRouter } from 'next/navigation'
 
 type PageParam = {
     params: { albumId: string }
 }
-export default async function Page({ params }: PageParam) {
+export default function Page({ params }: PageParam) {
+    const { albumId } = params
+    const router = useRouter()
+
     return (
-        <main>
-            <AddTrackPage albumId={params.albumId} />
-        </main>
+        <div>
+            <AddTrack
+                albumId={albumId}
+                onAdded={() => router.push(`/edit/album/${albumId}`)}
+            />
+        </div>
     )
 }
