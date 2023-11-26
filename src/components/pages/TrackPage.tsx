@@ -4,7 +4,8 @@ import { useAlbumInfo, useTrack } from '@/fetchData'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import AudioListener from '../AudioListener'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { Button } from '../ui/button'
 
 type Props = {
     albumId: string | number
@@ -12,6 +13,8 @@ type Props = {
 }
 
 export default function TrackPage({ albumId, trackId }: Props) {
+    const [trackFinished, setTrackFinished] = useState(false)
+
     const { album, isLoading: isLoadingAlbum } = useAlbumInfo(albumId)
     const {
         track,
@@ -22,11 +25,6 @@ export default function TrackPage({ albumId, trackId }: Props) {
     } = useTrack(trackId)
 
     const isLoading = isLoadingAlbum || isLoadingTrack
-
-    const [pageState, setPageState] = usePageState({
-        trackLoadingSuccess,
-        trackError,
-    })
 
     return (
         <div>
@@ -39,23 +37,27 @@ export default function TrackPage({ albumId, trackId }: Props) {
 
             <div className="my-4">
                 {/* todo：use skeleton */}
-                {pageState === 'loading' && <div>Loading...</div>}
+                {isLoadingTrack && <div>Loading...</div>}
 
-                {pageState === 'error' && (
+                {trackError !== null && (
                     <div className="text-red-800">Error: {trackError}</div>
                 )}
 
-                {pageState === 'loaded' && (
+                {trackFinished == false && trackLoadingSuccess === true && (
                     <AudioListener
-                        audioUrl={audioUrl!}
-                        //@ts-expect-error
-                        transcription={track!.transcription}
-                        onFinish={() => setPageState('finished')}
+                        // @ts-expect-error when trackLoadingSuccess is true, track must be defined
+                        audioUrl={audioUrl}
+                        // @ts-expect-error when trackLoadingSuccess is true, track must be defined and have valid transcription
+                        transcription={track.transcription}
+                        onFinish={() => setTrackFinished(true)}
                     />
                 )}
 
-                {pageState === 'finished' && (
-                    <div>todo: 完成听力后的操作区域</div>
+                {trackFinished && (
+                    <FinishTrackOperator
+                        albumId={albumId}
+                        //nextTrackId={5}
+                    />
                 )}
             </div>
         </div>
@@ -74,7 +76,7 @@ function BreadcrumbNav({
     isLoading: boolean
 }) {
     if (isLoading) {
-        /* todo：use skeleton */
+        /* todo use skeleton */
         return (
             <div className="flex gap-2 items-center">
                 <div>Loading...</div>
@@ -91,32 +93,29 @@ function BreadcrumbNav({
     )
 }
 
-type PageState =
-    | 'loading' // album and track are loading
-    | 'loaded' // album and track are loaded, transcription is parsed
-    | 'finished' // audio listener is finished
-    | 'error'
-
-function usePageState({
-    trackLoadingSuccess,
-    trackError,
+function FinishTrackOperator({
+    albumId,
+    nextTrackId,
 }: {
-    trackLoadingSuccess: boolean
-    trackError: string | null
+    albumId: number | string
+    nextTrackId?: number | string
 }) {
-    const [pageState, setPageState] = useState<PageState>('loading')
-
-    useEffect(() => {
-        if (trackLoadingSuccess) {
-            setPageState('loaded')
-        }
-    }, [trackLoadingSuccess])
-
-    useEffect(() => {
-        if (trackError) {
-            setPageState('error')
-        }
-    }, [trackError])
-
-    return [pageState, setPageState] as const
+    if (nextTrackId !== undefined) {
+        return (
+            <div className="flex gap-4 flex-col">
+                <Link href={`/album/${albumId}`}>返回听力列表</Link>
+                {/* todo: how to implement listen again? */}
+                <Button onClick={() => console.log('todo')}>再听一次</Button>
+                <Link href={`/album/${albumId}/track/${nextTrackId}`}>
+                    下一个听力
+                </Link>
+            </div>
+        )
+    }
+    return (
+        <div className="flex gap-4 flex-col">
+            <Link href={`/`}>返回专辑列表</Link>
+            <Button onClick={() => console.log('todo')}>再听一次</Button>
+        </div>
+    )
 }

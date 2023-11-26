@@ -18,7 +18,6 @@ export default function MainOperator({}: Props) {
             <Button
                 fill="outline"
                 btnColor="gray"
-                // @ts-expect-error dispatch could be null?
                 onClick={() => dispatch({ type: 'TOGGLE_MODE' })}
             >
                 {playMode == 'bySentence' ? '全文' : '分句'}
@@ -28,7 +27,6 @@ export default function MainOperator({}: Props) {
                 fill="outline"
                 btnColor={isPlaying ? 'gray' : 'orange'}
                 size="icon"
-                // @ts-expect-error dispatch could be null?
                 onClick={() => dispatch({ type: 'TOGGLE_PLAY_AUDIO' })}
             >
                 {isPlaying ? <Pause size={20} /> : <PlayCircle size={20} />}
@@ -37,7 +35,6 @@ export default function MainOperator({}: Props) {
             <Button
                 fill="outline"
                 btnColor="gray"
-                // @ts-expect-error dispatch could be null?
                 onClick={() => dispatch({ type: 'TOGGLE_SLOW_PLAY' })}
                 className="flex gap-2"
             >

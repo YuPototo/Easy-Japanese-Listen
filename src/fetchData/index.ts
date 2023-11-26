@@ -3,7 +3,6 @@ import { Album, Track } from '@/database/dbTypeHelper'
 import supabase from '@/database/supabaseClient'
 import { TranscriptionSchema } from '@/lib/validator'
 import { useEffect, useState } from 'react'
-import { set } from 'zod'
 
 /**
  * Fetch an album's info
@@ -92,29 +91,34 @@ export function useTrack(trackId: string | number) {
                 .from('track')
                 .select('*')
                 .eq('id', trackId)
+
             if (error) {
                 console.error(error)
                 setError(error.message)
+                setIsLoading(false)
                 setLoadingSuccess(false)
-            } else {
-                setTrack(data[0])
-
-                const transcription = data[0].transcription
-
-                try {
-                    TranscriptionSchema.parse(transcription)
-                } catch (e) {
-                    console.error(e)
-                    setError('Invalid transcription schema')
-                    setLoadingSuccess(false)
-                }
-
-                const { data: audioData } = supabase.storage
-                    .from(BUCKET_NAME)
-                    .getPublicUrl(data[0].storage_path)
-
-                setAudioUrl(audioData.publicUrl)
+                return
             }
+
+            // validate transcription schema
+            const transcription = data[0].transcription
+            try {
+                TranscriptionSchema.parse(transcription)
+            } catch (e) {
+                console.error(e)
+                setError('Invalid transcription schema')
+                setLoadingSuccess(false)
+                setIsLoading(false)
+                return
+            }
+
+            setTrack(data[0])
+
+            // get audio url
+            const { data: audioData } = supabase.storage
+                .from(BUCKET_NAME)
+                .getPublicUrl(data[0].storage_path)
+            setAudioUrl(audioData.publicUrl)
 
             setIsLoading(false)
             setLoadingSuccess(true)

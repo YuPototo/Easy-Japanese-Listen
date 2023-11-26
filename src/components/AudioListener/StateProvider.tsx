@@ -1,5 +1,5 @@
 import { Transcription } from '@/types/Transcription'
-import { Dispatch, createContext, useContext } from 'react'
+import { createContext, useContext } from 'react'
 import { useImmerReducer } from 'use-immer'
 
 export interface AudioListenerState {
@@ -46,10 +46,47 @@ export const initialState: AudioListenerState = {
 
 const AudioListenerContext = createContext<AudioListenerState>(initialState)
 
-type DispatchFunction = Dispatch<{ type: string }>
+type AudioListenerAction =
+    | {
+          type: 'DATA_LOADED'
+      }
+    | {
+          type: 'START_STUDY'
+      }
+    | {
+          type: 'TOGGLE_MODE'
+      }
+    | {
+          type: 'TOGGLE_PLAY_AUDIO'
+      }
+    | {
+          type: 'TOGGLE_SLOW_PLAY'
+      }
+    | {
+          type: 'AUDIO_METADATA_LOADED'
+          payload: { duration: number }
+      }
+    | {
+          type: 'AUDIO_TIME_UPDATE'
+          payload: { currentTime: number }
+      }
+    | {
+          type: 'FINISH_FILLER_SENTENCE'
+      }
+    | {
+          type: 'FINISH_CONTENT_SENTENCE'
+      }
+    | {
+          type: 'SENTENCE_UNDERSTOOD'
+      }
+    | {
+          type: 'SENENCE_REPEATED'
+      }
 
-const AudioListenerDispatchContext = createContext<DispatchFunction | null>(
-    null,
+type AudioListenerDispatch = React.Dispatch<AudioListenerAction>
+
+const AudioListenerDispatchContext = createContext<AudioListenerDispatch>(
+    {} as AudioListenerDispatch,
 )
 
 export function AudioListenerProvider({
@@ -79,7 +116,7 @@ export function AudioListenerProvider({
 
 function audioListenerReducer(
     state: AudioListenerState,
-    action: { type: string },
+    action: AudioListenerAction,
 ) {
     switch (action.type) {
         /* Listener state */
@@ -116,13 +153,11 @@ function audioListenerReducer(
         }
 
         case 'AUDIO_METADATA_LOADED': {
-            // @ts-expect-error action needs to be typed
             state.audio.duration = action.payload.duration
             break
         }
 
         case 'AUDIO_TIME_UPDATE': {
-            // @ts-expect-error action needs to be typed
             state.audio.currentTime = action.payload.currentTime
             break
         }
@@ -152,6 +187,7 @@ function audioListenerReducer(
         }
 
         default: {
+            // @ts-expect-error type is unkown for TS. But I keep it like this to catch runtime type.
             throw new Error('Unknown action: ' + action.type)
         }
     }
