@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 export default function EditHomePage() {
     return (
-        <div>
+        <div className="flex flex-col gap-10 items-center">
             <div className="my-6">
                 <AlbumGrid />
             </div>
@@ -21,7 +21,7 @@ export function AlbumGrid() {
     const { albums, isLoading, error } = useAlbumList()
 
     return (
-        <div className="flex  gap-4 items-center">
+        <div className="flex flex-col gap-4 items-center">
             {albums?.map((album) => (
                 <Link
                     href={`/edit/album/${album.id}`}
