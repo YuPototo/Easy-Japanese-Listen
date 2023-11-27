@@ -1,6 +1,6 @@
 'use client'
 
-import { useAlbumInfo, useTrack } from '@/fetchData'
+import { useAlbumInfo, useNextTrackId, useTrack } from '@/fetchData'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import AudioListener from '@/components/AudioListener'
@@ -37,7 +37,6 @@ export default function TrackPage({ params }: PageParam) {
             />
 
             <div className="my-4">
-                {/* todo：use skeleton */}
                 {isLoadingTrack && <div>Loading...</div>}
 
                 {trackError !== null && (
@@ -57,7 +56,7 @@ export default function TrackPage({ params }: PageParam) {
                 {trackFinished && (
                     <FinishTrackOperator
                         albumId={albumId}
-                        //nextTrackId={5}
+                        currentTrackId={trackId}
                     />
                 )}
             </div>
@@ -96,16 +95,21 @@ function BreadcrumbNav({
 
 function FinishTrackOperator({
     albumId,
-    nextTrackId,
+    currentTrackId,
 }: {
     albumId: number | string
-    nextTrackId?: number | string
+    currentTrackId: number | string
 }) {
-    if (nextTrackId !== undefined) {
+    const { nextTrackId, isLoading } = useNextTrackId(currentTrackId)
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
+
+    if (nextTrackId !== null) {
         return (
             <div className="flex gap-4 flex-col">
                 <Link href={`/album/${albumId}`}>返回听力列表</Link>
-                {/* todo: how to implement listen again? */}
                 <Button onClick={() => console.log('todo')}>再听一次</Button>
                 <Link href={`/album/${albumId}/track/${nextTrackId}`}>
                     下一个听力
@@ -115,6 +119,7 @@ function FinishTrackOperator({
     }
     return (
         <div className="flex gap-4 flex-col">
+            <div>这张专辑已经听完了</div>
             <Link href={`/`}>返回专辑列表</Link>
             <Button onClick={() => console.log('todo')}>再听一次</Button>
         </div>

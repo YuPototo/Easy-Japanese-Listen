@@ -6,7 +6,8 @@ create table track (
     album_id integer not null references album(id),
     storage_path varchar(255) not null,
     created_at timestamp with time zone not null default now(),
-    updated_at timestamp with time zone not null default now()
+    updated_at timestamp with time zone not null default now(),
+    position_index integer
 );
 
 -- -- temporarily disable row level security

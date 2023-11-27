@@ -5,7 +5,7 @@
 Step 1: Run following command to create a new migration file.
 
 ```bash
-supabase migration new migration_name
+supabase migration new <migration_name>
 ```
 
 Step 2: Go to `supabase/migrations` folder and edit the migration file.

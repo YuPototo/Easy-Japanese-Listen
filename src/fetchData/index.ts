@@ -66,7 +66,7 @@ export function useTrackList(albumId: string | number) {
                 .from('track')
                 .select('*')
                 .eq('album_id', albumId)
-                .order('track_title', { ascending: true })
+                .order('position_index', { ascending: true })
             if (error) console.log(error)
             else setTracks(data)
         }
@@ -127,4 +127,31 @@ export function useTrack(trackId: string | number) {
     }, [trackId])
 
     return { track, audioUrl, isLoading, loadingSuccess, error }
+}
+
+export function useNextTrackId(trackId: string | number) {
+    const [isLoading, setIsLoading] = useState(true)
+    const [nextTrackId, setNextTrackId] = useState<number | null>(null)
+
+    useEffect(() => {
+        const fetchNextTrackId = async () => {
+            setIsLoading(true)
+            const trackInt =
+                typeof trackId === 'string' ? parseInt(trackId) : trackId
+            const { data, error } = await supabase.rpc('get_next_track', {
+                current_track_id: trackInt,
+            })
+            if (error) {
+                console.error(error)
+                setIsLoading(false)
+                return
+            } else {
+                setNextTrackId(data)
+                setIsLoading(false)
+            }
+        }
+        fetchNextTrackId()
+    }, [trackId])
+
+    return { nextTrackId, isLoading }
 }

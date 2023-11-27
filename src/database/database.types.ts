@@ -60,6 +60,7 @@ export interface Database {
           album_id: number
           created_at: string
           id: number
+          position_index: number | null
           storage_path: string
           track_title: string
           transcription: Json
@@ -69,6 +70,7 @@ export interface Database {
           album_id: number
           created_at?: string
           id?: number
+          position_index?: number | null
           storage_path: string
           track_title: string
           transcription: Json
@@ -78,6 +80,7 @@ export interface Database {
           album_id?: number
           created_at?: string
           id?: number
+          position_index?: number | null
           storage_path?: string
           track_title?: string
           transcription?: Json
@@ -97,7 +100,16 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_next_track: {
+        Args: {
+          current_track_id: number
+        }
+        Returns: number
+      }
+      hello_world: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
