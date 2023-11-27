@@ -5,7 +5,7 @@ export default function HotkeyExplain() {
     const [show, setShow] = useState(false)
     return (
         <div className="mb-8 flex flex-col gap-2">
-            <div className="flex gap-4 items-center">
+            <div className="flex items-center gap-4">
                 <h3>Hotkey</h3>
                 <Button
                     onClick={() => setShow((prev) => !prev)}

@@ -107,16 +107,16 @@ export default function SentenceEditor({
     const endTime = transcriptionPartDraft.endTime
 
     return (
-        <div className="bg-gray-900 p-8 rounded">
+        <div className="rounded bg-gray-900 p-8">
             <div>
                 {message && (
-                    <div className="bg-red-500 text-white p-2 rounded">
+                    <div className="rounded bg-red-500 p-2 text-white">
                         {message}
                     </div>
                 )}
             </div>
 
-            <div className="mb-10 flex gap-8 items-center">
+            <div className="mb-10 flex items-center gap-8">
                 <div className="w-[80px]">type</div>
                 <RadioGroup
                     items={[
@@ -128,7 +128,7 @@ export default function SentenceEditor({
                 />
             </div>
 
-            <div className="mb-10 flex gap-8 items-center">
+            <div className="mb-10 flex items-center gap-8">
                 <div className="w-[80px]">end time</div>
                 <Input
                     value={endTime || ''}
@@ -148,7 +148,7 @@ export default function SentenceEditor({
             </div>
 
             {sentenceType === 'content' && (
-                <div className="mb-10 flex gap-8 items-center">
+                <div className="mb-10 flex items-center gap-8">
                     <div className="w-[80px]">speaker</div>
                     <Input
                         className="w-[120px]"
@@ -169,7 +169,7 @@ export default function SentenceEditor({
             )}
 
             {sentenceType === 'content' && (
-                <div className="mb-10 flex gap-8 items-center">
+                <div className="mb-10 flex items-center gap-8">
                     <div className="w-[80px]">text</div>
                     <Input
                         value={text}

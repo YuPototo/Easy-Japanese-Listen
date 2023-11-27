@@ -36,7 +36,7 @@ export default function UpdateTrack({ trackId, onUpdated }: Props) {
     return (
         <div>
             {message && (
-                <div className=" bg-gray-100 p-2 rounded flex gap-4 items-center">
+                <div className=" flex items-center gap-4 rounded bg-gray-100 p-2">
                     <p className="text-red-500"> {message}</p>
                     <div>
                         <Button

@@ -78,14 +78,14 @@ function BreadcrumbNav({
     if (isLoading) {
         /* todo use skeleton */
         return (
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
                 <div>Loading...</div>
             </div>
         )
     }
 
     return (
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
             <Link href={`/album/${albumId}`}>{albumTitle}</Link>
             <ChevronRight size={16} />
             <div>{trackTitle}</div>
@@ -108,7 +108,7 @@ function FinishTrackOperator({
 
     if (nextTrackId !== null) {
         return (
-            <div className="flex gap-4 flex-col">
+            <div className="flex flex-col gap-4">
                 <Link href={`/album/${albumId}`}>返回听力列表</Link>
                 <Button onClick={() => console.log('todo')}>再听一次</Button>
                 <Link href={`/album/${albumId}/track/${nextTrackId}`}>
@@ -118,7 +118,7 @@ function FinishTrackOperator({
         )
     }
     return (
-        <div className="flex gap-4 flex-col">
+        <div className="flex flex-col gap-4">
             <div>这张专辑已经听完了</div>
             <Link href={`/`}>返回专辑列表</Link>
             <Button onClick={() => console.log('todo')}>再听一次</Button>

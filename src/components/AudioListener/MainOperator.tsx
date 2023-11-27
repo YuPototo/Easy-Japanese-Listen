@@ -14,7 +14,7 @@ export default function MainOperator({}: Props) {
     const dispatch = useAudioListenerDispatch()
 
     return (
-        <div className="flex justify-around my-6 w-full">
+        <div className="my-6 flex w-full justify-around">
             <Button
                 fill="outline"
                 btnColor="gray"

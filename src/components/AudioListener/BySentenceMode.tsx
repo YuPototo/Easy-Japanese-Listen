@@ -40,7 +40,7 @@ export default function BySentenceMode() {
                 )}
             </div>
 
-            <div className="my-5 mb-7 mx-auto">
+            <div className="mx-auto my-5 mb-7">
                 <Button
                     size="lg"
                     fill="outline"

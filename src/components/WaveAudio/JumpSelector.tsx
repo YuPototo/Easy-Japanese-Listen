@@ -7,7 +7,7 @@ type Props = {
 
 export default function JumpSelector({ options, moveBy }: Props) {
     return (
-        <div className="flex gap-4 items-center">
+        <div className="flex items-center gap-4">
             <div>move</div>
             {options.map((second) => (
                 <Button

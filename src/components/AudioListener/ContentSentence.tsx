@@ -9,14 +9,14 @@ export default function ContentSentence({ repeatCount, text }: Props) {
     const [showSentence, setShowSentence] = useState(false)
 
     return (
-        <div className="flex flex-col items-center my-10">
+        <div className="my-10 flex flex-col items-center">
             {showSentence ? (
                 <div className="text-xl">{text}</div>
             ) : (
-                <div className="w-full  flex flex-col gap-4 items-center">
+                <div className="flex  w-full flex-col items-center gap-4">
                     <div
                         onClick={() => setShowSentence(true)}
-                        className="w-10/12 h-10 bg-gray-700 rounded"
+                        className="h-10 w-10/12 rounded bg-gray-700"
                     ></div>
                     <div className="text-gray-500">重复次数: {repeatCount}</div>
                 </div>

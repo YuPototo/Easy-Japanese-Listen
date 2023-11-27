@@ -15,12 +15,12 @@ export default function EditAlbumPage({ params }: PageParam) {
 
     return (
         <div className="">
-            <div className=" bg-gray-800 h-full items-center flex flex-col">
+            <div className=" flex h-full flex-col items-center bg-gray-800">
                 <AlbumTitle title={album?.album_title} isLoading={isLoading} />
-                <div className="p-2 flex flex-col gap-2">
+                <div className="flex flex-col gap-2 p-2">
                     {tracks?.map((track) => (
                         <Link
-                            className="p-2 rounded hover:bg-green-800 hover:cursor-pointer"
+                            className="rounded p-2 hover:cursor-pointer hover:bg-green-800"
                             key={track.id}
                             href={`./${albumId}/track/${track.id}`}
                         >
@@ -49,5 +49,5 @@ function AlbumTitle({
     if (isLoading) {
         return <div>Loading...</div>
     }
-    return <div className="text-lg mb-10">{title}</div>
+    return <div className="mb-10 text-lg">{title}</div>
 }

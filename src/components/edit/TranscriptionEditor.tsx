@@ -94,7 +94,7 @@ export default function TranscriptionEditor({
             <div
                 className={cn(
                     newSentence ? 'h-[100px]' : 'max-h-[600px]',
-                    'sentence-list bg-green-900 py-5 px-5 rounded overflow-y-scroll',
+                    'sentence-list overflow-y-scroll rounded bg-green-900 px-5 py-5',
                 )}
             >
                 {transcriptionDraft.map((sentence, index) => (

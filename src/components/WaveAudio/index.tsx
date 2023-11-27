@@ -234,7 +234,7 @@ export default function WaveAudio({
                 />
             </div>
 
-            <div className="flex items-center gap-4 my-2">
+            <div className="my-2 flex items-center gap-4">
                 {loopPoints[0] !== null && (
                     <div>A {formatTime(loopPoints[0])}</div>
                 )}
@@ -244,7 +244,7 @@ export default function WaveAudio({
             </div>
 
             {error && (
-                <div className="bg-red-500 text-white p-2 rounded my-4">
+                <div className="my-4 rounded bg-red-500 p-2 text-white">
                     {error}
                 </div>
             )}

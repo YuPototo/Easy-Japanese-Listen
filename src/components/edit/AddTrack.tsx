@@ -46,7 +46,7 @@ export default function AddAudio({ albumId, onAdded }: Props) {
             <div>tmp test file name: 2020_12_n3_1_1.mp3</div>
 
             {message && (
-                <div className=" bg-gray-100 p-2 rounded flex gap-4 items-center">
+                <div className=" flex items-center gap-4 rounded bg-gray-100 p-2">
                     <p className="text-red-500"> {message}</p>
                     <div>
                         <Button
@@ -101,7 +101,7 @@ function AddInfo({
 }) {
     return (
         <>
-            <div className="my-8 w-[300px] flex flex-col gap-6">
+            <div className="my-8 flex w-[300px] flex-col gap-6">
                 <Input
                     value={title}
                     placeholder="audio title"

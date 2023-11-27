@@ -17,7 +17,7 @@ export default function Listener({ onFinish }: Props) {
     const { listenerState } = useAudioListenerState()
 
     return (
-        <div className="flex flex-col rounded items-center">
+        <div className="flex flex-col items-center rounded">
             <HiddenAudio onFinish={onFinish} />
 
             {listenerState === 'loadError' && <LoadErrorStage />}
@@ -55,7 +55,7 @@ function BeforeStudyStage() {
     return (
         <div className="mt-32 text-center">
             <Button size="lg" onClick={() => dispatch({ type: 'START_STUDY' })}>
-                <div className="flex gap-2 items-center">
+                <div className="flex items-center gap-2">
                     <PlayCircle color="white" size={30} /> <p>播放</p>
                 </div>
             </Button>

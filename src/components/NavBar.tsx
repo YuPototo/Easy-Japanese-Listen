@@ -3,9 +3,9 @@ import Image from 'next/image'
 
 export default function NavBar() {
     return (
-        <div className="fixed bg-slate-700 top-0 inset-x-0 h-fit border-b z-50 py-2">
-            <div className="container h-full mx-auto flex items-center justify-between gap-2">
-                <Link href="/" className="flex gap-2 items-center">
+        <div className="fixed inset-x-0 top-0 z-50 h-fit border-b bg-slate-700 py-2">
+            <div className="container mx-auto flex h-full items-center justify-between gap-2">
+                <Link href="/" className="flex items-center gap-2">
                     <Image
                         src="/headset64.png"
                         alt="logo"

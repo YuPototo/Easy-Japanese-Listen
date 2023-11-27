@@ -11,7 +11,7 @@ export default function TrackList({ id }: Props) {
     const tracks = useTrackList(id)
 
     return (
-        <div className="flex flex-col gap-4 text-lg items-center">
+        <div className="flex flex-col items-center gap-4 text-lg">
             {tracks?.map((track) => (
                 <div className="m-2" key={track.id}>
                     <Link

@@ -7,7 +7,7 @@ export default function AlbumGrid() {
     const { albums, isLoading, error } = useAlbumList()
 
     return (
-        <div className="flex flex-col gap-4 items-center">
+        <div className="flex flex-col items-center gap-4">
             {albums?.map((album) => (
                 <Link
                     href={`/album/${album.id}`}
@@ -21,7 +21,7 @@ export default function AlbumGrid() {
             {isLoading && <div>Loading...</div>}
 
             {error && (
-                <div className="text-red-500 bg-red-100 p-2 rounded-md">
+                <div className="rounded-md bg-red-100 p-2 text-red-500">
                     {error}
                 </div>
             )}

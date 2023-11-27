@@ -113,7 +113,7 @@ export default function AudioPlayer({
         return (
             <div className="mt-32 text-center">
                 <Button size="lg" onClick={handleStartPlay}>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex items-center gap-2">
                         <PlayCircle color="white" size={30} /> <p>播放</p>
                     </div>
                 </Button>
@@ -122,7 +122,7 @@ export default function AudioPlayer({
     }
 
     return (
-        <div className="flex flex-col rounded items-center">
+        <div className="flex flex-col items-center rounded">
             <audio
                 className="my-4"
                 autoPlay
@@ -147,7 +147,7 @@ export default function AudioPlayer({
                 )}
             </div>
 
-            <div className="my-5 mb-7 mx-auto">
+            <div className="mx-auto my-5 mb-7">
                 <Button
                     size="lg"
                     fill="outline"
@@ -158,7 +158,7 @@ export default function AudioPlayer({
                 </Button>
             </div>
 
-            <div className="flex justify-around my-6 w-full">
+            <div className="my-6 flex w-full justify-around">
                 <Button
                     fill="outline"
                     btnColor={isPlaying ? 'gray' : 'orange'}
@@ -193,14 +193,14 @@ function Sentence({
     onClickBlocker: () => void
 }) {
     return (
-        <div className="flex flex-col items-center my-10">
+        <div className="my-10 flex flex-col items-center">
             {showSentence ? (
                 <div className={cn('text-xl')}>{text}</div>
             ) : (
-                <div className="w-full  flex flex-col gap-4 items-center">
+                <div className="flex  w-full flex-col items-center gap-4">
                     <div
                         onClick={onClickBlocker}
-                        className="w-10/12 h-10 bg-gray-700 rounded"
+                        className="h-10 w-10/12 rounded bg-gray-700"
                     ></div>
                     <div className="text-gray-500">重复次数: {repeatCount}</div>
                 </div>

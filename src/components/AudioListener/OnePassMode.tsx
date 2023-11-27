@@ -16,17 +16,17 @@ export default function OnePassMode() {
             <div>
                 {showText ? (
                     contentOnly.map((sentence, i) => (
-                        <div key={i} className="flex gap-2 my-2">
+                        <div key={i} className="my-2 flex gap-2">
                             <div>{sentence.speaker}</div>
                             <div>{sentence.text}</div>
                         </div>
                     ))
                 ) : (
-                    <div className="flex flex-col gap-4 my-4">
-                        <div className="w-8/12 h-10 bg-gray-700 rounded"></div>
-                        <div className="w-5/12 h-10 bg-gray-700 rounded"></div>
-                        <div className="w-10/12 h-10 bg-gray-700 rounded"></div>
-                        <div className="w-5/12 h-10 bg-gray-700 rounded"></div>
+                    <div className="my-4 flex flex-col gap-4">
+                        <div className="h-10 w-8/12 rounded bg-gray-700"></div>
+                        <div className="h-10 w-5/12 rounded bg-gray-700"></div>
+                        <div className="h-10 w-10/12 rounded bg-gray-700"></div>
+                        <div className="h-10 w-5/12 rounded bg-gray-700"></div>
                     </div>
                 )}
             </div>
