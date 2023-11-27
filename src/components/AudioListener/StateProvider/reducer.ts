@@ -20,6 +20,11 @@ export function audioListenerReducer(
             break
         }
 
+        case 'AUDIO_LOAD_ERROR': {
+            state.listenerState = 'loadError'
+            break
+        }
+
         /* audio state */
         case 'TOGGLE_MODE': {
             const currentMode = state.audio.playMode

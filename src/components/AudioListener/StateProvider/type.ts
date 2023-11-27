@@ -4,7 +4,7 @@ export interface AudioListenerState {
     audioUrl: string
     transcription: Transcription
 
-    listenerState: 'loading' | 'loaded' | 'studying'
+    listenerState: 'loading' | 'loaded' | 'studying' | 'loadError'
 
     transcriptionPartIndex: number
     contentIndex: number
@@ -24,6 +24,9 @@ export interface AudioListenerState {
 }
 
 export type AudioListenerAction =
+    | {
+          type: 'AUDIO_LOAD_ERROR'
+      }
     | {
           type: 'DATA_LOADED'
       }

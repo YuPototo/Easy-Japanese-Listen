@@ -138,6 +138,10 @@ export default function HiddenAudio({ onFinish }: Props) {
         })
     }
 
+    const handleLoadError = () => {
+        dispatch({ type: 'AUDIO_LOAD_ERROR' })
+    }
+
     return (
         <audio
             className="my-4"
@@ -146,6 +150,10 @@ export default function HiddenAudio({ onFinish }: Props) {
             onTimeUpdate={handleAudioTimeUpdate}
             onEnded={handleAudioEnded}
             onLoadedMetadata={handleLoadedMetadata}
+            // todo: how to identify load error?
+            // Here I assume that all error is load error
+            // When audio doesn't exist, there will be an error here
+            onError={handleLoadError}
         />
     )
 }

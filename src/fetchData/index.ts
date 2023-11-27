@@ -114,10 +114,11 @@ export function useTrack(trackId: string | number) {
 
             setTrack(data[0])
 
-            // get audio url
+            // get audio url: 一定会获取到一个链接
             const { data: audioData } = supabase.storage
                 .from(BUCKET_NAME)
                 .getPublicUrl(data[0].storage_path)
+
             setAudioUrl(audioData.publicUrl)
 
             setIsLoading(false)

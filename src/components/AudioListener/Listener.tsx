@@ -20,6 +20,8 @@ export default function Listener({ onFinish }: Props) {
         <div className="flex flex-col rounded items-center">
             <HiddenAudio onFinish={onFinish} />
 
+            {listenerState === 'loadError' && <LoadErrorStage />}
+
             {listenerState === 'loading' && <LoadingStage />}
 
             {listenerState === 'loaded' && <BeforeStudyStage />}
@@ -57,6 +59,15 @@ function BeforeStudyStage() {
                     <PlayCircle color="white" size={30} /> <p>播放</p>
                 </div>
             </Button>
+        </div>
+    )
+}
+
+function LoadErrorStage() {
+    return (
+        <div>
+            Audio resource load error
+            <div>todo: add more info or call to action </div>
         </div>
     )
 }
