@@ -14,7 +14,7 @@ export default function Page({ params }: PageParam) {
         <div>
             <AddTrack
                 albumId={albumId}
-                onAdded={() => router.push(`/edit/album/${albumId}`)}
+                onAdded={() => router.push(`/edit/listen/album/${albumId}`)}
             />
         </div>
     )

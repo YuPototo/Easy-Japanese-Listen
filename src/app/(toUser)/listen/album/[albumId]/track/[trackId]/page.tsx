@@ -87,7 +87,7 @@ function BreadcrumbNav({
 
     return (
         <div className="flex items-center gap-2">
-            <Link href={`/album/${albumId}`}>{albumTitle}</Link>
+            <Link href={`/listen/album/${albumId}`}>{albumTitle}</Link>
             <ChevronRight size={16} />
             <div>{trackTitle}</div>
         </div>
@@ -112,9 +112,9 @@ function FinishTrackOperator({
     if (nextTrackId !== null) {
         return (
             <div className="flex flex-col gap-4">
-                <Link href={`/album/${albumId}`}>返回听力列表</Link>
+                <Link href={`/listen/album/${albumId}`}>返回听力列表</Link>
                 <Button onClick={onRestart}>再听一次</Button>
-                <Link href={`/album/${albumId}/track/${nextTrackId}`}>
+                <Link href={`/listen/album/${albumId}/track/${nextTrackId}`}>
                     下一个听力
                 </Link>
             </div>

@@ -14,7 +14,7 @@ export default function Page({ params }: PageParam) {
         <div>
             <UpdateTrack
                 trackId={trackId}
-                onUpdated={() => router.push(`/edit/album/${albumId}`)}
+                onUpdated={() => router.push(`/edit/listen/album/${albumId}`)}
             />
         </div>
     )

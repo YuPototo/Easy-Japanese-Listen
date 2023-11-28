@@ -10,7 +10,7 @@ export default function EditHomePage() {
             <div className="my-6">
                 <AlbumGrid />
             </div>
-            <Link href="/edit/album/new">
+            <Link href="/edit/listen/album/new">
                 <Button>Add Album</Button>
             </Link>
         </div>
@@ -24,7 +24,7 @@ export function AlbumGrid() {
         <div className="flex flex-col items-center gap-4">
             {albums?.map((album) => (
                 <Link
-                    href={`/edit/album/${album.id}`}
+                    href={`/edit/listen/album/${album.id}`}
                     className="m-2 text-xl"
                     key={album.id}
                 >

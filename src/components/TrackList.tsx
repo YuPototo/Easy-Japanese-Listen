@@ -15,7 +15,7 @@ export default function TrackList({ id }: Props) {
             {tracks?.map((track) => (
                 <div className="m-2" key={track.id}>
                     <Link
-                        href={`/album/${id}/track/${track.id}`}
+                        href={`/listen/album/${id}/track/${track.id}`}
                         className="p-2"
                     >
                         {track.track_title}

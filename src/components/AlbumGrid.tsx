@@ -10,7 +10,7 @@ export default function AlbumGrid() {
         <div className="flex flex-col items-center gap-4">
             {albums?.map((album) => (
                 <Link
-                    href={`/album/${album.id}`}
+                    href={`/listen/album/${album.id}`}
                     className="m-2 text-xl"
                     key={album.id}
                 >

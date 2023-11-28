@@ -25,7 +25,7 @@ export default function CreateAlbumPage() {
 
         const albumId = data[0].id
 
-        router.push(`/edit/album/${albumId}`)
+        router.push(`/edit/listen/album/${albumId}`)
     }
 
     return (

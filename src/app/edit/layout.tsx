@@ -2,13 +2,12 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../globals.css'
 import { cn } from '@/lib/utils'
-import NavBar from '@/components/NavBar'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-    title: '日语轻松听 - admin',
-    description: '轻松进行日语听力练习',
+    title: '日语轻松学 - admin',
+    description: '',
 }
 
 export default function RootLayout({

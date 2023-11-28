@@ -22,14 +22,14 @@ export default function EditAlbumPage({ params }: PageParam) {
                         <Link
                             className="rounded p-2 hover:cursor-pointer hover:bg-green-800"
                             key={track.id}
-                            href={`./${albumId}/track/${track.id}`}
+                            href={`/edit/listen/album/${albumId}/track/${track.id}`}
                         >
                             {track.track_title}
                         </Link>
                     ))}
 
                     <div className="mt-10">
-                        <Link href={`./${albumId}/new`}>
+                        <Link href={`/edit/listen/album/${albumId}/new`}>
                             <Button>Add Track</Button>
                         </Link>
                     </div>
