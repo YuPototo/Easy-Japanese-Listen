@@ -208,6 +208,14 @@ export default function WaveAudio({
         setPlaybackRate(speed)
     }
 
+    if (error) {
+        return (
+            <div className="my-4 rounded bg-red-500 p-2 text-white">
+                {error}
+            </div>
+        )
+    }
+
     return (
         <div>
             <HotkeyExplain />
@@ -242,12 +250,6 @@ export default function WaveAudio({
                     <div>B {formatTime(loopPoints[1])}</div>
                 )}
             </div>
-
-            {error && (
-                <div className="my-4 rounded bg-red-500 p-2 text-white">
-                    {error}
-                </div>
-            )}
         </div>
     )
 }
