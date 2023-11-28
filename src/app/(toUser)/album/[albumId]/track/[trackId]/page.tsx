@@ -57,6 +57,7 @@ export default function TrackPage({ params }: PageParam) {
                     <FinishTrackOperator
                         albumId={albumId}
                         currentTrackId={trackId}
+                        onRestart={() => setTrackFinished(false)}
                     />
                 )}
             </div>
@@ -96,9 +97,11 @@ function BreadcrumbNav({
 function FinishTrackOperator({
     albumId,
     currentTrackId,
+    onRestart,
 }: {
     albumId: number | string
     currentTrackId: number | string
+    onRestart: () => void
 }) {
     const { nextTrackId, isLoading } = useNextTrackId(currentTrackId)
 
@@ -110,7 +113,7 @@ function FinishTrackOperator({
         return (
             <div className="flex flex-col gap-4">
                 <Link href={`/album/${albumId}`}>返回听力列表</Link>
-                <Button onClick={() => console.log('todo')}>再听一次</Button>
+                <Button onClick={onRestart}>再听一次</Button>
                 <Link href={`/album/${albumId}/track/${nextTrackId}`}>
                     下一个听力
                 </Link>
@@ -121,7 +124,7 @@ function FinishTrackOperator({
         <div className="flex flex-col gap-4">
             <div>这张专辑已经听完了</div>
             <Link href={`/`}>返回专辑列表</Link>
-            <Button onClick={() => console.log('todo')}>再听一次</Button>
+            <Button onClick={onRestart}>再听一次</Button>
         </div>
     )
 }
