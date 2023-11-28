@@ -14,7 +14,7 @@ export default function AlbumGrid() {
                     className="m-2 text-xl"
                     key={album.id}
                 >
-                    {album.album_title}
+                    {album.title}
                 </Link>
             ))}
 

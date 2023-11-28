@@ -18,7 +18,7 @@ export default function TrackList({ id }: Props) {
                         href={`/listen/album/${id}/track/${track.id}`}
                         className="p-2"
                     >
-                        {track.track_title}
+                        {track.title}
                     </Link>
                 </div>
             ))}

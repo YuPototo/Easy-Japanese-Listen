@@ -30,7 +30,7 @@ function AlbumTitle({ albumId }: { albumId: string | number }) {
 
     return (
         <div>
-            <div>{album?.album_title}</div>
+            <div>{album?.title}</div>
             {/* todo: use a skeleton */}
             {isLoading && <div>Loading...</div>}
         </div>

@@ -22,18 +22,17 @@ export function AlbumGrid() {
 
     return (
         <div className="flex flex-col items-center gap-4">
+            haha
             {albums?.map((album) => (
                 <Link
                     href={`/edit/listen/album/${album.id}`}
                     className="m-2 text-xl"
                     key={album.id}
                 >
-                    {album.album_title}
+                    {album.title}
                 </Link>
             ))}
-
             {isLoading && <div>Loading...</div>}
-
             {error && (
                 <div className="rounded-md bg-red-100 p-2 text-red-500">
                     {error}

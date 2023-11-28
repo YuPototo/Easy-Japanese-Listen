@@ -32,8 +32,8 @@ export default function TrackPage({ params }: PageParam) {
             <BreadcrumbNav
                 isLoading={isLoading}
                 albumId={albumId}
-                albumTitle={album?.album_title}
-                trackTitle={track?.track_title}
+                albumTitle={album?.title}
+                trackTitle={track?.title}
             />
 
             <div className="my-4">

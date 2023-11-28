@@ -1,7 +1,7 @@
 -- add album table
 create table album (
     id serial primary key,
-    album_title varchar(255) not null,
+    title varchar(255) not null,
     created_at timestamp with time zone not null default now(),
     updated_at timestamp with time zone not null default now()
 );

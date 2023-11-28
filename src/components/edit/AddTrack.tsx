@@ -26,7 +26,7 @@ export default function AddAudio({ albumId, onAdded }: Props) {
 
         const { error } = await supabase.from('track').insert({
             album_id,
-            track_title: audioTitle,
+            title: audioTitle,
             storage_path: fileName,
             transcription,
         })

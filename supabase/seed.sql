@@ -1,14 +1,14 @@
 -- 所有 seed 的数据都已经导出，暂时不需要 seed 了。
 -- -- Insert album
 -- insert into
---     public .album (album_title)
+--     public .album (title)
 -- values
 --     ('Test Track Postion Album'),
 --     ('Test Error Album');
 -- -- Insert track for album 100
 -- insert into
 --     public .track (
---         track_title,
+--         title,
 --         transcription,
 --         storage_path,
 --         position_index,
@@ -26,7 +26,7 @@
 --             from
 --                 public .album
 --             where
---                 album_title = 'Test Track Postion Album'
+--                 title = 'Test Track Postion Album'
 --         )
 --     ),
 --     (
@@ -40,7 +40,7 @@
 --             from
 --                 public .album
 --             where
---                 album_title = 'Test Track Postion Album'
+--                 title = 'Test Track Postion Album'
 --         )
 --     ),
 --     (
@@ -54,13 +54,13 @@
 --             from
 --                 public .album
 --             where
---                 album_title = 'Test Track Postion Album'
+--                 title = 'Test Track Postion Album'
 --         )
 --     );
 -- -- Insert track for album 101
 -- insert into
 --     public .track (
---         track_title,
+--         title,
 --         transcription,
 --         storage_path,
 --         position_index,
@@ -78,7 +78,7 @@
 --             from
 --                 public .album
 --             where
---                 album_title = 'Test Error Album'
+--                 title = 'Test Error Album'
 --         )
 --     ),
 --     (
@@ -92,6 +92,6 @@
 --             from
 --                 public .album
 --             where
---                 album_title = 'Test Error Album'
+--                 title = 'Test Error Album'
 --         )
 --     );

@@ -55,7 +55,7 @@ export default function UpdateTrack({ trackId, onUpdated }: Props) {
                     // use key to force re-render
                     key={track.id}
                     audioUrl={audioUrl}
-                    audioTitle={track.track_title}
+                    audioTitle={track.title}
                     fileName={track.storage_path}
                     initialTranscription={
                         track.transcription as TranscriptionPart[]

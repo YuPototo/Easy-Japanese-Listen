@@ -14,7 +14,7 @@ export default function CreateAlbumPage() {
     const handleCreateAlbum = async () => {
         const { data, error } = await supabase
             .from('album')
-            .insert({ album_title: albumTitle })
+            .insert({ title: albumTitle })
             .select()
 
         // todo: handle error
