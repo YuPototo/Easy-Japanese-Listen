@@ -5,7 +5,12 @@ export default async function ListenHomePage() {
     return (
         <main className="">
             <div className="mt-16 flex items-center justify-center gap-4">
-                <Image src="/headset64.png" alt="icon" width="48" height="48" />
+                <Image
+                    src="/icons/headset64.png"
+                    alt="icon"
+                    width="48"
+                    height="48"
+                />
                 <h1 className="text-2xl">日语轻松听</h1>
             </div>
             <div className="mt-16">
