@@ -2,6 +2,7 @@
 create table album (
     id serial primary key,
     title varchar(255) not null,
+    cover_path varchar(255),
     created_at timestamp with time zone not null default now(),
     updated_at timestamp with time zone not null default now()
 );

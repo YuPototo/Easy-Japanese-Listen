@@ -1,5 +1,6 @@
--- create 1 public buckets
+-- create 2 public buckets
 insert into
     storage.buckets (id, name, public)
 values
-    ('audios', 'audios', true);
+    ('audios', 'audios', true),
+    ('images', 'images', true);

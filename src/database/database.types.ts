@@ -36,18 +36,21 @@ export interface Database {
     Tables: {
       album: {
         Row: {
+          cover_path: string | null
           created_at: string
           id: number
           title: string
           updated_at: string
         }
         Insert: {
+          cover_path?: string | null
           created_at?: string
           id?: number
           title: string
           updated_at?: string
         }
         Update: {
+          cover_path?: string | null
           created_at?: string
           id?: number
           title?: string

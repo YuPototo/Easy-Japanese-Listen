@@ -2,21 +2,15 @@
 
 import Link from 'next/link'
 import { useAlbumList } from '@/fetchData'
+import { AlbumWithCover } from '@/types/EnhancedType'
+import Image from 'next/image'
 
 export default function AlbumGrid() {
     const { albums, isLoading, error } = useAlbumList()
 
     return (
         <div className="flex flex-col items-center gap-4">
-            {albums?.map((album) => (
-                <Link
-                    href={`/listen/album/${album.id}`}
-                    className="m-2 text-xl"
-                    key={album.id}
-                >
-                    {album.title}
-                </Link>
-            ))}
+            {albums?.map((album) => <AlbumCard album={album} key={album.id} />)}
 
             {isLoading && <div>Loading...</div>}
 
@@ -26,5 +20,23 @@ export default function AlbumGrid() {
                 </div>
             )}
         </div>
+    )
+}
+
+function AlbumCard({ album }: { album: AlbumWithCover }) {
+    return (
+        <Link
+            href={`/listen/album/${album.id}`}
+            className="m-2 text-xl"
+            key={album.id}
+        >
+            <Image
+                src={album.coverUrl}
+                alt={album.title}
+                width="100"
+                height="100"
+            />
+            {album.title}
+        </Link>
     )
 }

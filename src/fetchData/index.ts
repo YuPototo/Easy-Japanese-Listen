@@ -1,7 +1,8 @@
-import { BUCKET_NAME } from '@/constants'
+import { AUDIO_BUCKET_NAME, IMAGE_BUCKET_NAME } from '@/constants'
 import { Album, Track } from '@/database/dbTypeHelper'
 import supabase from '@/database/supabaseClient'
 import { TranscriptionSchema } from '@/lib/validator'
+import { AlbumWithCover } from '@/types/EnhancedType'
 import { useEffect, useState } from 'react'
 
 /**
@@ -36,7 +37,7 @@ export function useAlbumInfo(albumId: string | number) {
 }
 
 export function useAlbumList() {
-    const [albums, setAlbums] = useState<Album[] | null>(null)
+    const [albums, setAlbums] = useState<AlbumWithCover[] | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
@@ -45,8 +46,33 @@ export function useAlbumList() {
             setIsLoading(true)
 
             const { data, error } = await supabase.from('album').select('*')
-            if (error) console.log(error)
-            else setAlbums(data)
+            if (error) {
+                console.log(error)
+                setError(error.message)
+            } else {
+                // get album cover
+
+                const albumsWithCover: AlbumWithCover[] = []
+
+                for (let i = 0; i < data.length; i++) {
+                    const album = data[i]
+
+                    let coverPath = album.cover_path
+                        ? album.cover_path
+                        : 'default_cover.png'
+
+                    const { data: coverUrl } = await supabase.storage
+                        .from(IMAGE_BUCKET_NAME)
+                        .getPublicUrl(coverPath)
+
+                    albumsWithCover.push({
+                        ...album,
+                        coverUrl: coverUrl.publicUrl,
+                    })
+                }
+
+                setAlbums(albumsWithCover)
+            }
 
             setIsLoading(false)
         }
@@ -116,7 +142,7 @@ export function useTrack(trackId: string | number) {
 
             // get audio url: 一定会获取到一个链接
             const { data: audioData } = supabase.storage
-                .from(BUCKET_NAME)
+                .from(AUDIO_BUCKET_NAME)
                 .getPublicUrl(data[0].storage_path)
 
             setAudioUrl(audioData.publicUrl)
