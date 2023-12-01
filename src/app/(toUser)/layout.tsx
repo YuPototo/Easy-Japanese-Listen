@@ -21,7 +21,7 @@ export default function RootLayout({
             lang="en"
             className={cn(
                 inter.className,
-                `m-4 bg-background text-foreground antialiased`,
+                `bg-background text-foreground antialiased`,
             )}
         >
             <body className="min-h-screen">

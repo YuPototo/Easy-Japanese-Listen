@@ -1,7 +1,8 @@
-import Link from 'next/link'
 import Image from 'next/image'
 import ModuleCard from '@/components/ModuleCard'
 import { Headphones } from 'lucide-react'
+import { kuaileFont } from '@/lib/font'
+import { cn } from '@/lib/utils'
 
 export default async function Home() {
     return (
@@ -13,10 +14,12 @@ export default async function Home() {
                     width="48"
                     height="48"
                 />
-                <h1 className="text-2xl">日语轻松学</h1>
+                <h1 className={cn(kuaileFont.className, 'text-2xl')}>
+                    日语轻松练
+                </h1>
             </div>
             <div className="mt-16 flex flex-col items-center">
-                <ModuleCard href="/listen" title="听力练习">
+                <ModuleCard href="/listen" title="精听">
                     <Headphones size={64} />
                 </ModuleCard>
             </div>
