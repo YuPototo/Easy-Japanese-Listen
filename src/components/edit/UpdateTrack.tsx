@@ -61,7 +61,6 @@ export default function UpdateTrack({ trackId, onUpdated }: Props) {
                         track.transcription as TranscriptionPart[]
                     }
                     onSubmit={handleUpdateTranscription}
-                    onError={setMessage}
                 />
             )}
         </div>

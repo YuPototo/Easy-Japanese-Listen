@@ -78,7 +78,6 @@ export default function AddAudio({ albumId, onAdded }: Props) {
                         initialTranscription={[]}
                         startWithNewSentence
                         onSubmit={handleSubmit}
-                        onError={setMessage}
                     />
                 )}
             </div>

@@ -7,6 +7,7 @@ import SentenceEditor from './SentenceEditor'
 import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
 import AudioForEdit from '../WaveAudio'
+import { TranscriptionSchema } from '@/lib/validator'
 
 const SPEAKER_LIST = ['男', '女  ', 'A', 'B']
 
@@ -17,7 +18,6 @@ type Props = {
     initialTranscription: TranscriptionPart[]
     startWithNewSentence?: boolean
     onSubmit: (transcription: TranscriptionPart[]) => void
-    onError: (message: string) => void
 }
 export default function TranscriptionEditor({
     fileName,
@@ -26,7 +26,6 @@ export default function TranscriptionEditor({
     initialTranscription,
     startWithNewSentence = false,
     onSubmit,
-    onError,
 }: Props) {
     const [transcriptionDraft, setTranscriptionDraft] =
         useState<TranscriptionPart[]>(initialTranscription)
@@ -74,6 +73,16 @@ export default function TranscriptionEditor({
             return newTranscription
         })
         setUpateSentenceIndex(null)
+    }
+
+    const handleSubmit = () => {
+        const { success, error } = validateDraft(transcriptionDraft)
+        if (!success) {
+            // todo: handle error
+            alert(error)
+            return
+        }
+        onSubmit(transcriptionDraft)
     }
 
     // todo: refactor this logic
@@ -144,10 +153,36 @@ export default function TranscriptionEditor({
             )}
 
             <div className="mt-10">
-                <Button onClick={() => onSubmit(transcriptionDraft)}>
-                    Submit
-                </Button>
+                <Button onClick={handleSubmit}>Submit</Button>
             </div>
         </div>
     )
+}
+
+function validateDraft(draft: unknown) {
+    if (!Array.isArray(draft)) {
+        return { success: false, error: 'draft is not an array' }
+    }
+
+    if (draft.length === 0) {
+        return { success: false, error: 'draft is empty' }
+    }
+
+    try {
+        TranscriptionSchema.parse(draft)
+    } catch (err) {
+        // @ts-expect-error
+        return { success: false, error: err.message }
+    }
+
+    const lastSentence = draft[draft.length - 1] as TranscriptionPart
+
+    if (lastSentence.endTime !== 9999) {
+        return {
+            success: false,
+            error: 'Last sentence must end with 9999',
+        }
+    }
+
+    return { success: true, error: null }
 }
