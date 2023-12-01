@@ -1,15 +1,24 @@
 'use client'
 
 import { useAlbumList } from '@/fetchData'
-import { AlbumCard } from './AlbumCard'
+import AlbumListCard from './AlbumListCard'
 
-export default function AlbumGrid() {
+type Props = {
+    isUser?: boolean
+}
+
+export default function AlbumGrid({ isUser }: Props) {
     const { albums, isLoading, error } = useAlbumList()
 
     return (
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-12">
             {albums?.map((album, i) => (
-                <AlbumCard album={album} key={album.id} index={i} />
+                <AlbumListCard
+                    isUser={isUser}
+                    album={album}
+                    key={album.id}
+                    index={i}
+                />
             ))}
 
             {isLoading && <div>Loading...</div>}

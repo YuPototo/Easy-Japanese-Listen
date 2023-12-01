@@ -1,42 +1,14 @@
-'use client'
+import ModuleCard from '@/components/ModuleCard'
+import { Headphones } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
-import { useAlbumList } from '@/fetchData'
-import Link from 'next/link'
-
-export default function EditHomePage() {
+export default function Page() {
     return (
         <div className="flex flex-col items-center gap-10">
-            <div className="my-6">
-                <AlbumGrid />
+            <div className="mt-16 flex flex-col items-center">
+                <ModuleCard href="/edit/listen" title="精听">
+                    <Headphones size={64} />
+                </ModuleCard>
             </div>
-            <Link href="/edit/listen/album/new">
-                <Button>Add Album</Button>
-            </Link>
-        </div>
-    )
-}
-
-export function AlbumGrid() {
-    const { albums, isLoading, error } = useAlbumList()
-
-    return (
-        <div className="flex flex-col items-center gap-4">
-            {albums?.map((album) => (
-                <Link
-                    href={`/edit/listen/album/${album.id}`}
-                    className="m-2 text-xl"
-                    key={album.id}
-                >
-                    {album.title}
-                </Link>
-            ))}
-            {isLoading && <div>Loading...</div>}
-            {error && (
-                <div className="rounded-md bg-red-100 p-2 text-red-500">
-                    {error}
-                </div>
-            )}
         </div>
     )
 }

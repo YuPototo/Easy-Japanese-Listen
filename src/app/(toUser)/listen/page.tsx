@@ -1,4 +1,6 @@
 import AlbumGrid from '@/components/AlbumGrid'
+import { kuaileFont } from '@/lib/font'
+import { cn } from '@/lib/utils'
 import Image from 'next/image'
 
 export default async function ListenHomePage() {
@@ -11,10 +13,10 @@ export default async function ListenHomePage() {
                     width="48"
                     height="48"
                 />
-                <h1 className="text-2xl">日语轻松听</h1>
+                <h1 className={cn(kuaileFont.className, 'text-2xl')}>精听</h1>
             </div>
             <div className="mt-16">
-                <AlbumGrid />
+                <AlbumGrid isUser />
             </div>
         </main>
     )

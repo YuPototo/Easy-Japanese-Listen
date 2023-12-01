@@ -1,5 +1,9 @@
-import { AUDIO_BUCKET_NAME, IMAGE_BUCKET_NAME } from '@/constants'
-import { Album, Track } from '@/database/dbTypeHelper'
+import {
+    AUDIO_BUCKET_NAME,
+    IMAGE_BUCKET_NAME,
+    DEFAULT_ALUM_COVER,
+} from '@/constants'
+import { Track } from '@/database/dbTypeHelper'
 import supabase from '@/database/supabaseClient'
 import { TranscriptionSchema } from '@/lib/validator'
 import { AlbumWithCover } from '@/types/EnhancedType'
@@ -9,7 +13,7 @@ import { useEffect, useState } from 'react'
  * Fetch an album's info
  */
 export function useAlbumInfo(albumId: string | number) {
-    const [album, setAlbum] = useState<Album | null>(null)
+    const [album, setAlbum] = useState<AlbumWithCover | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
@@ -25,7 +29,19 @@ export function useAlbumInfo(albumId: string | number) {
                 console.log(error)
                 setError(error.message)
             } else {
-                setAlbum(data[0])
+                // get album cover
+                let coverPath = data[0].cover_path
+                    ? data[0].cover_path
+                    : DEFAULT_ALUM_COVER
+
+                const { data: coverUrl } = await supabase.storage
+                    .from(IMAGE_BUCKET_NAME)
+                    .getPublicUrl(coverPath)
+
+                setAlbum({
+                    ...data[0],
+                    coverUrl: coverUrl.publicUrl,
+                })
             }
 
             setIsLoading(false)
@@ -59,7 +75,7 @@ export function useAlbumList() {
 
                     let coverPath = album.cover_path
                         ? album.cover_path
-                        : 'default_cover.png'
+                        : DEFAULT_ALUM_COVER
 
                     const { data: coverUrl } = await supabase.storage
                         .from(IMAGE_BUCKET_NAME)
