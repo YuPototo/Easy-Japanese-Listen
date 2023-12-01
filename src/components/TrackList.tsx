@@ -1,26 +1,26 @@
 'use client'
 
+import { Track } from '@/database/dbTypeHelper'
 import Link from 'next/link'
-import { useTrackList } from '@/fetchData'
 
 type Props = {
-    id: string | number
+    albumId: string | number
+    tracks: Track[]
 }
 
-export default function TrackList({ id }: Props) {
-    const tracks = useTrackList(id)
-
+export default function TrackList({ albumId, tracks }: Props) {
     return (
-        <div className="flex flex-col items-center gap-4 text-lg">
-            {tracks?.map((track) => (
-                <div className="m-2" key={track.id}>
-                    <Link
-                        href={`/listen/album/${id}/track/${track.id}`}
-                        className="p-2"
-                    >
+        <div className="mt-12 flex w-full flex-col items-center gap-4 ">
+            {tracks.map((track) => (
+                <Link
+                    key={track.id}
+                    href={`/listen/album/${albumId}/track/${track.id}`}
+                    className="py-1 hover:bg-gray-700"
+                >
+                    <div className="w-72 rounded text-center">
                         {track.title}
-                    </Link>
-                </div>
+                    </div>
+                </Link>
             ))}
         </div>
     )
