@@ -4,7 +4,7 @@ export default async function Page() {
     return (
         <main className="">
             <h1>Button Page</h1>
-            <table>
+            <table className="border-separate border-spacing-x-3 border-spacing-y-6">
                 <thead>
                     <tr>
                         <th>btnColor</th>
@@ -13,7 +13,7 @@ export default async function Page() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr className="">
                         <td>orange</td>
                         <td>fill</td>
                         <td>
