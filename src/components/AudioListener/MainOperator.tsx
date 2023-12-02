@@ -1,4 +1,4 @@
-import { Check, Pause, PlayCircle } from 'lucide-react'
+import { Pause, PlayCircle } from 'lucide-react'
 import { Button } from '../ui/button'
 import {
     useAudioListenerDispatch,
