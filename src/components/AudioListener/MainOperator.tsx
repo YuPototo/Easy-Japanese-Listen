@@ -17,7 +17,6 @@ export default function MainOperator({}: Props) {
         <div className="my-6 flex w-full justify-around">
             <Button
                 fill="outline"
-                btnColor="gray"
                 onClick={() => dispatch({ type: 'TOGGLE_MODE' })}
             >
                 {playMode == 'bySentence' ? '全文' : '分句'}
@@ -25,7 +24,6 @@ export default function MainOperator({}: Props) {
 
             <Button
                 fill="outline"
-                btnColor={isPlaying ? 'gray' : 'orange'}
                 size="icon"
                 onClick={() => dispatch({ type: 'TOGGLE_PLAY_AUDIO' })}
             >
@@ -34,11 +32,10 @@ export default function MainOperator({}: Props) {
 
             <Button
                 fill="outline"
-                btnColor="gray"
                 onClick={() => dispatch({ type: 'TOGGLE_SLOW_PLAY' })}
                 className="flex gap-2"
             >
-                {slowPlay && <Check />}慢
+                {slowPlay ? '常速' : '慢速'}
             </Button>
         </div>
     )

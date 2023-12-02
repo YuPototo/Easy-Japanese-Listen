@@ -28,7 +28,7 @@ export default function TrackPage({ params }: PageParam) {
     const isLoading = isLoadingAlbum || isLoadingTrack
 
     return (
-        <div>
+        <div className="flex flex-grow flex-col">
             <BreadcrumbNav
                 isLoading={isLoading}
                 albumId={albumId}
@@ -36,7 +36,7 @@ export default function TrackPage({ params }: PageParam) {
                 trackTitle={track?.title}
             />
 
-            <div className="my-4">
+            <>
                 {isLoadingTrack && <div>Loading...</div>}
 
                 {trackError !== null && (
@@ -60,7 +60,7 @@ export default function TrackPage({ params }: PageParam) {
                         onRestart={() => setTrackFinished(false)}
                     />
                 )}
-            </div>
+            </>
         </div>
     )
 }

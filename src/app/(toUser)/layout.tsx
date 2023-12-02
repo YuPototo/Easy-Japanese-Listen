@@ -21,12 +21,12 @@ export default function RootLayout({
             lang="en"
             className={cn(
                 inter.className,
-                `bg-background text-foreground antialiased`,
+                ` bg-background text-foreground antialiased`,
             )}
         >
-            <body className="min-h-screen">
+            <body className="flex min-h-screen flex-col">
                 <NavBar />
-                <div className="container mx-auto mt-12 h-full max-w-7xl">
+                <div className="container mx-auto my-10 flex max-w-7xl flex-grow flex-col ">
                     {children}
                 </div>
             </body>

@@ -88,7 +88,10 @@ export default function HiddenAudio({ onFinish }: Props) {
 
         const lastBreakpoint = breakpoints[transcriptionPartIndex - 1] ?? 0
 
+        console.log('before')
+
         if (currentTime < currentBreakpoint) return
+        console.log('after')
 
         const transcriptionPart = transcription[transcriptionPartIndex]
 
@@ -100,6 +103,7 @@ export default function HiddenAudio({ onFinish }: Props) {
         if (understood || playMode === 'onePass') {
             dispatch({ type: 'FINISH_CONTENT_SENTENCE' })
         } else {
+            console.log('repeat')
             audio.currentTime = lastBreakpoint
             dispatch({ type: 'SENENCE_REPEATED' })
         }

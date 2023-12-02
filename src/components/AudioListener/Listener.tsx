@@ -17,7 +17,7 @@ export default function Listener({ onFinish }: Props) {
     const { listenerState } = useAudioListenerState()
 
     return (
-        <div className="flex flex-col items-center rounded">
+        <>
             <HiddenAudio onFinish={onFinish} />
 
             {listenerState === 'loadError' && <LoadErrorStage />}
@@ -27,7 +27,7 @@ export default function Listener({ onFinish }: Props) {
             {listenerState === 'loaded' && <BeforeStudyStage />}
 
             {listenerState === 'studying' && <StudyStage />}
-        </div>
+        </>
     )
 }
 
@@ -37,7 +37,7 @@ function StudyStage() {
     const { playMode } = audioSlice
 
     return (
-        <div>
+        <div className="flex w-full flex-grow flex-col items-center justify-between">
             {playMode === 'bySentence' ? <BySentenceMode /> : <OnePassMode />}
 
             <MainOperator />
@@ -46,28 +46,33 @@ function StudyStage() {
 }
 
 function LoadingStage() {
-    return <div>Loading ...</div>
+    return <>Loading ...</>
 }
 
 function BeforeStudyStage() {
     const dispatch = useAudioListenerDispatch()
 
     return (
-        <div className="mt-32 text-center">
-            <Button size="lg" onClick={() => dispatch({ type: 'START_STUDY' })}>
-                <div className="flex items-center gap-2">
-                    <PlayCircle color="white" size={30} /> <p>播放</p>
-                </div>
-            </Button>
+        <div className="flex flex-grow flex-col items-center justify-center">
+            <div className="mb-12">
+                <Button
+                    size="lg"
+                    onClick={() => dispatch({ type: 'START_STUDY' })}
+                >
+                    <div className="flex items-center gap-2">
+                        <PlayCircle color="white" size={30} /> <p>播放</p>
+                    </div>
+                </Button>
+            </div>
         </div>
     )
 }
 
 function LoadErrorStage() {
     return (
-        <div>
+        <>
             Audio resource load error
             <div>todo: add more info or call to action </div>
-        </div>
+        </>
     )
 }

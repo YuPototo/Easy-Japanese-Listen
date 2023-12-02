@@ -5,6 +5,7 @@ import {
     useAudioListenerState,
 } from './StateProvider'
 import { useMemo } from 'react'
+import { cn } from '@/lib/utils'
 
 export default function BySentenceMode() {
     const {
@@ -26,18 +27,26 @@ export default function BySentenceMode() {
     )
 
     return (
-        <div>
-            <div className="my-6">
-                句子：{contentIndex + 1}/{contentLength}
+        <div className="flex w-full flex-grow flex-col items-center">
+            <div
+                className={cn(
+                    'my-6 self-end transition-opacity',
+                    understood ? 'opacity-100' : 'opacity-0',
+                )}
+            >
+                {contentIndex + 1}/{contentLength}
             </div>
             <div className="w-full">
                 {transcriptionPart.type === 'content' && (
                     <ContentSentence
                         key={contentIndex}
                         repeatCount={repeatTime}
+                        understood={understood}
                         text={transcriptionPart.text}
                     />
                 )}
+
+                {understood && <div className="mb-10 text-center">......</div>}
             </div>
 
             <div className="mx-auto my-5 mb-7">

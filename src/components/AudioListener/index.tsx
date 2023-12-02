@@ -15,11 +15,13 @@ export default function AudioListener({
     onFinish,
 }: Props) {
     return (
-        <AudioListenerProvider
-            transcription={transcription}
-            audioUrl={audioUrl}
-        >
-            <Listener onFinish={onFinish} />
-        </AudioListenerProvider>
+        <div className="flex flex-grow flex-col items-center rounded">
+            <AudioListenerProvider
+                transcription={transcription}
+                audioUrl={audioUrl}
+            >
+                <Listener onFinish={onFinish} />
+            </AudioListenerProvider>
+        </div>
     )
 }
