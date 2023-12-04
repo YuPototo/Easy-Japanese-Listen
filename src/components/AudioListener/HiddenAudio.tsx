@@ -113,6 +113,7 @@ export default function HiddenAudio({ onFinish }: Props) {
     }
 
     const handleAudioEnded = () => {
+        console.log('audio ended')
         const audio = audioRef.current
         if (audio === null) {
             console.error('audioRef.current is null')
@@ -123,12 +124,16 @@ export default function HiddenAudio({ onFinish }: Props) {
             return
         }
 
-        if (!understood) {
+        const transcriptionPart = transcription[transcriptionPartIndex]
+
+        const pass = understood || transcriptionPart.type === 'filler'
+
+        if (pass) {
+            onFinish()
+        } else {
             const lastBreakpoint = breakpoints[transcriptionPartIndex - 1] ?? 0
             audio.currentTime = lastBreakpoint
             audio.play()
-        } else {
-            onFinish()
         }
     }
 

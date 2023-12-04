@@ -51,7 +51,6 @@ export default function BySentenceMode() {
             <div className="mx-auto my-5 mb-7">
                 <Button
                     size="lg"
-                    fill="outline"
                     onClick={() => {
                         dispatch({ type: 'SENTENCE_UNDERSTOOD' })
                     }}
