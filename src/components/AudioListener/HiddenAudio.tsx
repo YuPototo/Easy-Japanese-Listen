@@ -56,8 +56,15 @@ export default function HiddenAudio({ onFinish }: Props) {
             return
         }
 
-        const onCanPlay = () => {
-            dispatch({ type: 'DATA_LOADED' })
+        const onCanPlay = async () => {
+            try {
+                throw Error('sdf')
+                // await audio.play()
+                // dispatch({ type: 'START_STUDY' })
+            } catch (err) {
+                // 仅在自动播放失败后，触发下面的 action
+                dispatch({ type: 'DATA_LOADED' })
+            }
         }
 
         audio.addEventListener('canplay', onCanPlay)
@@ -88,10 +95,7 @@ export default function HiddenAudio({ onFinish }: Props) {
 
         const lastBreakpoint = breakpoints[transcriptionPartIndex - 1] ?? 0
 
-        console.log('before')
-
         if (currentTime < currentBreakpoint) return
-        console.log('after')
 
         const transcriptionPart = transcription[transcriptionPartIndex]
 
@@ -103,7 +107,6 @@ export default function HiddenAudio({ onFinish }: Props) {
         if (understood || playMode === 'onePass') {
             dispatch({ type: 'FINISH_CONTENT_SENTENCE' })
         } else {
-            console.log('repeat')
             audio.currentTime = lastBreakpoint
             dispatch({ type: 'SENENCE_REPEATED' })
         }

@@ -1,5 +1,5 @@
 import { Button } from '../ui/button'
-import { PlayCircle } from 'lucide-react'
+import { Play } from 'lucide-react'
 import MainOperator from './MainOperator'
 import BySentenceMode from './BySentenceMode'
 import OnePassMode from './OnePassMode'
@@ -60,7 +60,7 @@ function BeforeStudyStage() {
                     onClick={() => dispatch({ type: 'START_STUDY' })}
                 >
                     <div className="flex items-center gap-2">
-                        <PlayCircle color="white" size={30} /> <p>播放</p>
+                        <Play color="white" size={28} /> <p>播放</p>
                     </div>
                 </Button>
             </div>

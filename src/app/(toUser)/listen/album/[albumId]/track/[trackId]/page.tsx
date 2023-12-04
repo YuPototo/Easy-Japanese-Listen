@@ -121,10 +121,14 @@ function FinishTrackOperator({
         )
     }
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-grow flex-col items-center justify-center gap-12">
             <div>这张专辑已经听完了</div>
-            <Link href={`/`}>返回专辑列表</Link>
-            <Button onClick={onRestart}>再听一次</Button>
+            <Link href={`/`}>
+                <Button fill="outline">返回专辑列表</Button>
+            </Link>
+            <div>
+                <Button onClick={onRestart}>再听一次</Button>
+            </div>
         </div>
     )
 }

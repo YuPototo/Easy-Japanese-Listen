@@ -6,7 +6,7 @@ import Image from 'next/image'
 export default async function ListenHomePage() {
     return (
         <main className="">
-            <div className="mt-16 flex items-center justify-center gap-4">
+            <div className="flex items-center justify-center gap-4">
                 <Image
                     src="/icons/headset64.png"
                     alt="icon"

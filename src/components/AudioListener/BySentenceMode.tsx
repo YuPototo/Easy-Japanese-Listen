@@ -21,20 +21,12 @@ export default function BySentenceMode() {
 
     const transcriptionPart = transcription[transcriptionPartIndex]
 
-    const contentLength = useMemo(
-        () => transcription.filter((el) => el.type === 'content').length,
-        [transcription],
-    )
+    const isFiller = transcriptionPart.type === 'filler'
 
     return (
-        <div className="flex w-full flex-grow flex-col items-center">
-            <div
-                className={cn(
-                    'my-6 self-end transition-opacity',
-                    understood ? 'opacity-100' : 'opacity-0',
-                )}
-            >
-                {contentIndex + 1}/{contentLength}
+        <div className="flex w-full flex-grow flex-col items-center justify-between">
+            <div className="my-6 self-end text-gray-400 transition-opacity">
+                {transcriptionPartIndex + 1}/{transcription.length}
             </div>
             <div className="w-full">
                 {transcriptionPart.type === 'content' && (
@@ -46,7 +38,14 @@ export default function BySentenceMode() {
                     />
                 )}
 
-                {understood && <div className="mb-10 text-center">......</div>}
+                <div
+                    className={cn(
+                        'my-5 text-center transition-opacity',
+                        understood || isFiller ? 'opacity-100' : 'opacity-0',
+                    )}
+                >
+                    ......
+                </div>
             </div>
 
             <div className="mx-auto my-5 mb-7">
@@ -56,7 +55,7 @@ export default function BySentenceMode() {
                     onClick={() => {
                         dispatch({ type: 'SENTENCE_UNDERSTOOD' })
                     }}
-                    disabled={understood || transcriptionPart.type === 'filler'}
+                    disabled={understood || isFiller}
                 >
                     听懂了
                 </Button>

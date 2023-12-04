@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 export default async function Home() {
     return (
         <main className="">
-            <div className="mt-16 flex items-center justify-center gap-4">
+            <div className="flex items-center justify-center gap-4">
                 <Image
                     src="/icons/wave_2_64.png"
                     alt="icon"
