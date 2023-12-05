@@ -5,7 +5,8 @@ import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import TranscriptionEditor from './TranscriptionEditor'
 import supabase from '@/database/supabaseClient'
-import { Transcription } from '@/types/Transcription'
+import { Transcription, TranscriptionPart } from '@/types/Transcription'
+import { AudioSection } from '@/types/AudioSection'
 
 type AddAudioStep = 'info' | 'transcription'
 
@@ -20,7 +21,10 @@ export default function AddAudio({ albumId, onAdded }: Props) {
     const [fileName, setFileName] = useState('')
     const [message, setMessage] = useState('')
 
-    const handleSubmit = async (transcription: Transcription) => {
+    const handleSubmit = async (
+        sections: AudioSection[],
+        transcription: TranscriptionPart[],
+    ) => {
         const album_id =
             typeof albumId === 'string' ? parseInt(albumId) : albumId
 
@@ -29,6 +33,7 @@ export default function AddAudio({ albumId, onAdded }: Props) {
             title: audioTitle,
             storage_path: fileName,
             transcription,
+            sections,
         })
 
         if (error) {
