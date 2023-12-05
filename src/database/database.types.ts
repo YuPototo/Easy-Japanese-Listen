@@ -64,6 +64,7 @@ export interface Database {
           created_at: string
           id: number
           position_index: number | null
+          sections: Json | null
           storage_path: string
           title: string
           transcription: Json
@@ -74,6 +75,7 @@ export interface Database {
           created_at?: string
           id?: number
           position_index?: number | null
+          sections?: Json | null
           storage_path: string
           title: string
           transcription: Json
@@ -84,6 +86,7 @@ export interface Database {
           created_at?: string
           id?: number
           position_index?: number | null
+          sections?: Json | null
           storage_path?: string
           title?: string
           transcription?: Json

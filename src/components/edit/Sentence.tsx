@@ -6,9 +6,14 @@ import formatTime from '@/lib/formatTime'
 type Props = {
     transcriptionPart: TranscriptionPart
     onUpdate: () => void
+    onAddSectionAbove: () => void
 }
 
-export default function Sentence({ transcriptionPart, onUpdate }: Props) {
+export default function Sentence({
+    transcriptionPart,
+    onUpdate,
+    onAddSectionAbove,
+}: Props) {
     const [isHover, setIsHover] = useState(false)
 
     const isFiller = transcriptionPart.type === 'filler'
@@ -23,18 +28,27 @@ export default function Sentence({ transcriptionPart, onUpdate }: Props) {
                 {isFiller ? '' : transcriptionPart.speaker}
             </div>
 
-            <div className="h-6 w-[500px] ">
+            <div className="h-full w-[500px] ">
                 {isFiller ? (
-                    <div className="h-full w-[300px] rounded bg-gray-800"></div>
+                    <div className="h-6 w-[300px] rounded bg-gray-800"></div>
                 ) : (
                     transcriptionPart.text
                 )}
             </div>
             <div>{formatTime(transcriptionPart.endTime)}</div>
             {isHover && (
-                <Button size="sm" fill="outline" onClick={onUpdate}>
-                    update
-                </Button>
+                <div className="flex gap-2">
+                    <Button size="sm" fill="outline" onClick={onUpdate}>
+                        update
+                    </Button>
+                    <Button
+                        size="sm"
+                        fill="outline"
+                        onClick={onAddSectionAbove}
+                    >
+                        add section above
+                    </Button>
+                </div>
             )}
         </div>
     )

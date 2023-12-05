@@ -14,3 +14,8 @@ export const TranscriptionSchema = z.array(
         }),
     ]),
 )
+
+export const AudioSectionSchema = z.object({
+    title: z.string().optional(),
+    startIndex: z.number(),
+})

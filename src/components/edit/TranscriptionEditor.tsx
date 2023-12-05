@@ -2,31 +2,39 @@
 
 import { TranscriptionPart } from '@/types/Transcription'
 import { useEffect, useRef, useState } from 'react'
-import Sentence from './Sentence'
 import SentenceEditor from './SentenceEditor'
 import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
 import AudioForEdit from './WaveAudio'
 import { TranscriptionSchema } from '@/lib/validator'
-
-const SPEAKER_LIST = ['男', '女  ', 'A', 'B']
+import { SPEAKER_LIST } from '@/constants'
+import { AudioSection } from '@/types/AudioSection'
+import TranscriptionTree from './TranscriptionTree'
 
 type Props = {
     fileName: string
     audioUrl?: string | null
     audioTitle: string
     initialTranscription: TranscriptionPart[]
+    initialSections?: AudioSection[]
     startWithNewSentence?: boolean
-    onSubmit: (transcription: TranscriptionPart[]) => void
+    onSubmit: (
+        sections: AudioSection[],
+        transcription: TranscriptionPart[],
+    ) => void
 }
 export default function TranscriptionEditor({
     fileName,
     audioUrl,
     audioTitle,
     initialTranscription,
+    initialSections,
     startWithNewSentence = false,
     onSubmit,
 }: Props) {
+    const [sectionDraft, setSectionDraft] = useState<AudioSection[]>(
+        initialSections ?? [],
+    )
     const [transcriptionDraft, setTranscriptionDraft] =
         useState<TranscriptionPart[]>(initialTranscription)
     const [currentTime, setCurrentTime] = useState(0)
@@ -67,11 +75,16 @@ export default function TranscriptionEditor({
     }
 
     const handleDeleteSentence = (index: number) => {
+        window.confirm('要删除吗？记得确认 section 的位置')
+
         setTranscriptionDraft((prev) => {
             const newTranscription = [...prev]
             newTranscription.splice(index, 1)
             return newTranscription
         })
+
+        // todo: 处理 section 的 startIndex 变化。以后放在 context reducer 里面做。
+
         setUpateSentenceIndex(null)
     }
 
@@ -82,7 +95,32 @@ export default function TranscriptionEditor({
             alert(error)
             return
         }
-        onSubmit(transcriptionDraft)
+        onSubmit(sectionDraft, transcriptionDraft)
+    }
+
+    const handleAddSection = (aboveIndex: number) => {
+        // chech if the aboveIndex is already in a section
+        const aboveSection = sectionDraft.findIndex(
+            (section) => section.startIndex === aboveIndex,
+        )
+
+        if (aboveSection !== -1) {
+            alert('这个位置已经有 section 了')
+            return
+        }
+
+        const newSection: AudioSection = {
+            startIndex: aboveIndex,
+        }
+
+        setSectionDraft((prev) => {
+            const newSections = [...prev]
+            newSections.push(newSection)
+
+            // reorder the sections
+            newSections.sort((a, b) => a.startIndex - b.startIndex)
+            return newSections
+        })
     }
 
     // todo: refactor this logic
@@ -106,31 +144,18 @@ export default function TranscriptionEditor({
                     'sentence-list overflow-y-scroll rounded bg-green-900 px-5 py-5',
                 )}
             >
-                {transcriptionDraft.map((sentence, index) => (
-                    <div className="my-4" key={index}>
-                        {updateSentenceIndex === index ? (
-                            <SentenceEditor
-                                isNew={false}
-                                currentTime={currentTime}
-                                transcriptionPart={sentence}
-                                speakerList={SPEAKER_LIST}
-                                onClose={() => setUpateSentenceIndex(null)}
-                                onSave={(transcriptionPart) =>
-                                    handleUpdateSentence(
-                                        transcriptionPart,
-                                        index,
-                                    )
-                                }
-                                onDelete={() => handleDeleteSentence(index)}
-                            />
-                        ) : (
-                            <Sentence
-                                transcriptionPart={sentence}
-                                onUpdate={() => setUpateSentenceIndex(index)}
-                            />
-                        )}
-                    </div>
-                ))}
+                <TranscriptionTree
+                    currentTime={currentTime}
+                    updateSentenceIndex={updateSentenceIndex}
+                    sections={sectionDraft}
+                    transcription={transcriptionDraft}
+                    onCloseSentenceEditor={() => setUpateSentenceIndex(null)}
+                    onOpenSentenceUpdator={setUpateSentenceIndex}
+                    onDeleteSentence={handleDeleteSentence}
+                    onSaveTranscription={handleUpdateSentence}
+                    onAddSection={handleAddSection}
+                />
+
                 <div ref={endOfList}></div>
             </div>
 
@@ -200,6 +225,8 @@ function validateDraft(draft: unknown) {
             }
         }
     }
+
+    // todo: validate section
 
     return { success: true, error: null }
 }

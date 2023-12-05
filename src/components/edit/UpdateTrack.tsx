@@ -6,6 +6,7 @@ import { TranscriptionPart } from '@/types/Transcription'
 import { Button } from '../ui/button'
 import { useState } from 'react'
 import supabase from '@/database/supabaseClient'
+import { AudioSection } from '@/types/AudioSection'
 
 type Props = {
     trackId: string | number
@@ -17,11 +18,12 @@ export default function UpdateTrack({ trackId, onUpdated }: Props) {
     const [message, setMessage] = useState('')
 
     const handleUpdateTranscription = async (
+        sections: AudioSection[],
         transcription: TranscriptionPart[],
     ) => {
         const { error } = await supabase
             .from('track')
-            .update({ transcription })
+            .update({ transcription, sections })
             // @ts-expect-error
             .eq('id', track.id)
 
@@ -57,6 +59,7 @@ export default function UpdateTrack({ trackId, onUpdated }: Props) {
                     audioUrl={audioUrl}
                     audioTitle={track.title}
                     fileName={track.storage_path}
+                    initialSections={track.sections as AudioSection[]}
                     initialTranscription={
                         track.transcription as TranscriptionPart[]
                     }
