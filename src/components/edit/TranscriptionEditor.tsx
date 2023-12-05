@@ -6,7 +6,7 @@ import Sentence from './Sentence'
 import SentenceEditor from './SentenceEditor'
 import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
-import AudioForEdit from '../WaveAudio'
+import AudioForEdit from './WaveAudio'
 import { TranscriptionSchema } from '@/lib/validator'
 
 const SPEAKER_LIST = ['男', '女  ', 'A', 'B']
