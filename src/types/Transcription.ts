@@ -1,3 +1,5 @@
+// todo: use the zod type instead of my custom type
+
 export type Filler = {
     type: 'filler'
     endTime: number

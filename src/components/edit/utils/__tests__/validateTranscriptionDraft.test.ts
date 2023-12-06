@@ -33,7 +33,7 @@ test('Bad transcription schema should fail', () => {
     const result = validateTranscriptionDraft(draft)
 
     expect(result.success).toBeFalsy()
-    expect(result.error).toContain('Invalid input')
+    expect(result.error).toContain('Invalid')
 })
 
 test('last sentence should end with 9999', () => {

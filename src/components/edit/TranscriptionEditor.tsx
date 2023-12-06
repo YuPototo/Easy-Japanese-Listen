@@ -6,11 +6,12 @@ import SentenceEditor from './SentenceEditor'
 import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
 import AudioForEdit from './WaveAudio'
-import { TranscriptionSchema } from '@/lib/validator'
 import { SPEAKER_LIST } from '@/constants'
 import { AudioSection } from '@/types/AudioSection'
 import TranscriptionTree from './TranscriptionTree'
 import { validateTranscriptionDraft } from './utils/validateTranscriptionDraft'
+import { validateSectionTitle } from './utils/validateSectionTitle'
+import { validateSectionAndTranscription } from './utils/validateSectionAndTranscription'
 
 type Props = {
     fileName: string
@@ -98,6 +99,23 @@ export default function TranscriptionEditor({
 
         if (!transcriptionValidateResult.success) {
             const message = `transcription validation failed: ${transcriptionValidateResult.error}`
+            alert(message)
+            return
+        }
+
+        const sectionValidateResult = validateSectionTitle(sectionDraft)
+
+        if (!sectionValidateResult.success) {
+            const message = `section validation failed: ${sectionValidateResult.error}`
+            alert(message)
+            return
+        }
+
+        const sectionAndTranscriptionValidation =
+            validateSectionAndTranscription(transcriptionDraft, sectionDraft)
+
+        if (!sectionAndTranscriptionValidation.success) {
+            const message = `Failure: ${sectionAndTranscriptionValidation.error}`
             alert(message)
             return
         }
