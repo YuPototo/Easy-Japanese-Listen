@@ -10,11 +10,13 @@ export function validateTranscriptionDraft(draft: unknown) {
         return { success: false, error: 'draft is empty' }
     }
 
-    try {
-        TranscriptionSchema.parse(draft)
-    } catch (err) {
-        // @ts-expect-error
-        return { success: false, error: err.message }
+    const result = TranscriptionSchema.safeParse(draft)
+
+    if (!result.success) {
+        return {
+            success: false,
+            error: result.error.message,
+        }
     }
 
     const lastSentence = draft[draft.length - 1] as TranscriptionPart
