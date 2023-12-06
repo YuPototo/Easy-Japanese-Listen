@@ -5,8 +5,8 @@ import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import TranscriptionEditor from './TranscriptionEditor'
 import supabase from '@/database/supabaseClient'
-import { TranscriptionPart } from '@/types/Transcription'
-import { AudioSection } from '@/types/AudioSection'
+import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
+import { AudioSection } from '@/types/schema/audioSectionSchema'
 
 type AddAudioStep = 'info' | 'transcription'
 

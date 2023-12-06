@@ -5,8 +5,8 @@ import {
 } from '@/constants'
 import { Track } from '@/database/dbTypeHelper'
 import supabase from '@/database/supabaseClient'
-import { TranscriptionSchema } from '@/lib/validator'
 import { AlbumWithCover } from '@/types/EnhancedType'
+import { TranscriptionSchema } from '@/types/schema/transcriptionSchema'
 import { useEffect, useState } from 'react'
 
 /**

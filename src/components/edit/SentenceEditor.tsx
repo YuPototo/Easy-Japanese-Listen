@@ -4,7 +4,7 @@ import { Input } from '../ui/input'
 import { useState } from 'react'
 import RadioGroup from '../ui/radioGroup'
 import { Button } from '../ui/button'
-import { TranscriptionPart } from '@/types/Transcription'
+import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
 
 type Props = {
     isNew: boolean

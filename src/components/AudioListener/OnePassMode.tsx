@@ -1,4 +1,4 @@
-import { isContentType } from '@/types/Transcription'
+import { isContentType } from '@/types/schema/transcriptionSchema'
 import { Button } from '../ui/button'
 import { useState } from 'react'
 import { useAudioListenerState } from './StateProvider'

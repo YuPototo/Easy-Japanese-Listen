@@ -1,17 +1,17 @@
 'use client'
 
-import { TranscriptionPart } from '@/types/Transcription'
+import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
 import { useEffect, useRef, useState } from 'react'
 import SentenceEditor from './SentenceEditor'
 import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
 import AudioForEdit from './WaveAudio'
 import { SPEAKER_LIST } from '@/constants'
-import { AudioSection } from '@/types/AudioSection'
 import TranscriptionTree from './TranscriptionTree'
 import { validateTranscriptionDraft } from './utils/validateTranscriptionDraft'
 import { validateSectionTitle } from './utils/validateSectionTitle'
 import { validateSectionAndTranscription } from './utils/validateSectionAndTranscription'
+import { AudioSection } from '@/types/schema/audioSectionSchema'
 
 type Props = {
     fileName: string

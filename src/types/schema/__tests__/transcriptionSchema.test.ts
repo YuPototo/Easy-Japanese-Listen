@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { TranscriptionPartSchema, AudioSectionSchema } from '../validator'
+import { TranscriptionPartSchema } from '../transcriptionSchema'
 
 describe('TranscriptionPartSchema', () => {
     test('Filler type ', () => {
@@ -72,35 +72,5 @@ describe('TranscriptionPartSchema', () => {
         ]
         const result2 = TranscriptionPartSchema.safeParse(draft2)
         expect(result2.success).toBeFalsy()
-    })
-})
-
-describe('AudioSectionSchema', () => {
-    test('correct', () => {
-        const draft = {
-            title: 'title',
-            startIndex: 0,
-        }
-
-        const result = AudioSectionSchema.safeParse(draft)
-        expect(result.success).toBeTruthy()
-    })
-
-    test('Correct: No title', () => {
-        const draft = {
-            startIndex: 0,
-        }
-
-        const result = AudioSectionSchema.safeParse(draft)
-        expect(result.success).toBeTruthy()
-    })
-
-    test('Invalid: No start index', () => {
-        const draft = {
-            title: 'title',
-        }
-
-        const result = AudioSectionSchema.safeParse(draft)
-        expect(result.success).toBeFalsy()
     })
 })

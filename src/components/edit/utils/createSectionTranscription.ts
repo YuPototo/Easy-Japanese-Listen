@@ -1,5 +1,5 @@
-import { AudioSection } from '@/types/AudioSection'
-import { TranscriptionPart } from '@/types/Transcription'
+import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
+import { AudioSection } from '@/types/schema/audioSectionSchema'
 
 type IndexedTranscriptionPart = TranscriptionPart & {
     // index here is the index of the transcription part in the whole transcription

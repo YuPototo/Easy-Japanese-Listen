@@ -2,11 +2,11 @@
 
 import { useTrack } from '@/fetchData'
 import TranscriptionEditor from './TranscriptionEditor'
-import { TranscriptionPart } from '@/types/Transcription'
+import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
 import { Button } from '../ui/button'
 import { useState } from 'react'
 import supabase from '@/database/supabaseClient'
-import { AudioSection } from '@/types/AudioSection'
+import { AudioSection } from '@/types/schema/audioSectionSchema'
 
 type Props = {
     trackId: string | number

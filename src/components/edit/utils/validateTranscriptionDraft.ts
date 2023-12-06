@@ -1,5 +1,5 @@
-import { TranscriptionSchema } from '@/lib/validator'
-import { TranscriptionPart } from '@/types/Transcription'
+import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
+import { TranscriptionSchema } from '@/types/schema/transcriptionSchema'
 
 export function validateTranscriptionDraft(draft: unknown) {
     if (!Array.isArray(draft)) {

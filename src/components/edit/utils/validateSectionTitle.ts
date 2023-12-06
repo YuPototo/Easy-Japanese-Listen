@@ -1,4 +1,4 @@
-import { AudioSectionListSchema } from '@/lib/validator'
+import { AudioSectionListSchema } from '@/types/schema/audioSectionSchema'
 
 export function validateSectionTitle(draft: unknown) {
     if (!Array.isArray(draft)) {

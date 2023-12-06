@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import { createSectionTranscription } from '../createSectionTranscription'
-import { AudioSection } from '@/types/AudioSection'
-import { TranscriptionPart } from '@/types/Transcription'
+import { AudioSection } from '@/types/schema/audioSectionSchema'
+import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
 
 test('empty section and empty transcription', () => {
     const sections: AudioSection[] = []

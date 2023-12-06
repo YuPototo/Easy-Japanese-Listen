@@ -1,4 +1,4 @@
-import { TranscriptionPart } from '@/types/Transcription'
+import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import formatTime from '@/lib/formatTime'

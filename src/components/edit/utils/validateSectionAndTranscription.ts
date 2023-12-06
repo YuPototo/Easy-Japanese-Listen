@@ -1,5 +1,5 @@
-import { AudioSection } from '@/types/AudioSection'
-import { Transcription } from '@/types/Transcription'
+import { Transcription } from '@/types/schema/transcriptionSchema'
+import { AudioSection } from '@/types/schema/audioSectionSchema'
 
 export function validateSectionAndTranscription(
     transcription: Transcription,

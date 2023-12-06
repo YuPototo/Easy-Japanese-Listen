@@ -1,5 +1,4 @@
-import { AudioSection } from '@/types/AudioSection'
-import { TranscriptionPart } from '@/types/Transcription'
+import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
 import { createSectionTranscription } from './utils/createSectionTranscription'
 import { useMemo } from 'react'
 import SentenceEditor from './SentenceEditor'
@@ -7,6 +6,7 @@ import Sentence from './Sentence'
 import { SPEAKER_LIST } from '@/constants'
 import SectionTitle from './SectionTitle'
 import SectionTitleEditor from './SectionTitleEditor'
+import { AudioSection } from '@/types/schema/audioSectionSchema'
 
 type Props = {
     currentTime: number

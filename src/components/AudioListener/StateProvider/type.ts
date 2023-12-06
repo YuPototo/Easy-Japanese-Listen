@@ -1,4 +1,4 @@
-import { Transcription } from '@/types/Transcription'
+import { Transcription } from '@/types/schema/transcriptionSchema'
 
 export interface AudioListenerState {
     audioUrl: string

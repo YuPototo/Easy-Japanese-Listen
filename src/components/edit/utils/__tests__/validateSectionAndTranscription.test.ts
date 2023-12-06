@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 
 import { validateSectionAndTranscription } from '../validateSectionAndTranscription'
-import { Transcription } from '@/types/Transcription'
+import { Transcription } from '@/types/schema/transcriptionSchema'
 
 test('Section startIndex 0 could not be found in transcription', () => {
     const transcription: Transcription = []
