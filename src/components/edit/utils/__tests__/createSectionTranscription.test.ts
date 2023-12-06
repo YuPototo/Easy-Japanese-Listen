@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { createSectionTranscription } from '../helpers'
+import { createSectionTranscription } from '../createSectionTranscription'
 import { AudioSection } from '@/types/AudioSection'
 import { TranscriptionPart } from '@/types/Transcription'
 

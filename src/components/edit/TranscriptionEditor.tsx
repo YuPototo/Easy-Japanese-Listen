@@ -41,6 +41,9 @@ export default function TranscriptionEditor({
     const [updateSentenceIndex, setUpateSentenceIndex] = useState<
         number | null
     >(null)
+    const [updateSectionIndex, setUpdateSectionIndex] = useState<number | null>(
+        null,
+    )
     const [newSentence, setNewSentence] = useState(startWithNewSentence)
 
     // use this to scroll to the end of the list
@@ -89,7 +92,9 @@ export default function TranscriptionEditor({
     }
 
     const handleSubmit = () => {
-        const { success, error } = validateDraft(transcriptionDraft)
+        const { success, error } =
+            validateTranscriptionDraft(transcriptionDraft)
+
         if (!success) {
             // todo: handle error
             alert(error)
@@ -123,6 +128,31 @@ export default function TranscriptionEditor({
         })
     }
 
+    const handleSaveSectionTitle = (title: string, index: number) => {
+        setSectionDraft((prev) => {
+            const newSections = [...prev]
+            if (title === '') {
+                delete newSections[index].title
+                return newSections
+            } else {
+                newSections[index].title = title
+                return newSections
+            }
+        })
+        setUpdateSectionIndex(null)
+    }
+
+    const handleDeleteSectionTitle = (index: number) => {
+        window.confirm('要删除吗?')
+
+        setSectionDraft((prev) => {
+            const newSections = [...prev]
+            newSections.splice(index, 1)
+            return newSections
+        })
+        setUpdateSectionIndex(null)
+    }
+
     // todo: refactor this logic
     const audioSrc =
         audioUrl ?? `${process.env.NEXT_PUBLIC_AUDIO_BASE_URL}/${fileName}`
@@ -147,12 +177,17 @@ export default function TranscriptionEditor({
                 <TranscriptionTree
                     currentTime={currentTime}
                     updateSentenceIndex={updateSentenceIndex}
+                    updateSectionIndex={updateSectionIndex}
                     sections={sectionDraft}
                     transcription={transcriptionDraft}
                     onCloseSentenceEditor={() => setUpateSentenceIndex(null)}
                     onOpenSentenceUpdator={setUpateSentenceIndex}
+                    onOpenSectionUpdator={setUpdateSectionIndex}
+                    onCloseSectionEditor={() => setUpdateSectionIndex(null)}
                     onDeleteSentence={handleDeleteSentence}
+                    onDeleteSectionTitle={handleDeleteSectionTitle}
                     onSaveTranscription={handleUpdateSentence}
+                    onSaveSectionTitle={handleSaveSectionTitle}
                     onAddSection={handleAddSection}
                 />
 
@@ -184,7 +219,7 @@ export default function TranscriptionEditor({
     )
 }
 
-function validateDraft(draft: unknown) {
+function validateTranscriptionDraft(draft: unknown) {
     if (!Array.isArray(draft)) {
         return { success: false, error: 'draft is not an array' }
     }
@@ -225,8 +260,6 @@ function validateDraft(draft: unknown) {
             }
         }
     }
-
-    // todo: validate section
 
     return { success: true, error: null }
 }

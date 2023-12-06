@@ -1,19 +1,26 @@
 import { AudioSection } from '@/types/AudioSection'
 import { TranscriptionPart } from '@/types/Transcription'
-import { createSectionTranscription } from './helpers'
+import { createSectionTranscription } from './utils/createSectionTranscription'
 import { useMemo } from 'react'
 import SentenceEditor from './SentenceEditor'
 import Sentence from './Sentence'
 import { SPEAKER_LIST } from '@/constants'
+import SectionTitle from './SectionTitle'
+import SectionTitleEditor from './SectionTitleEditor'
 
 type Props = {
     currentTime: number
     updateSentenceIndex: number | null
+    updateSectionIndex: number | null
     sections: AudioSection[]
     transcription: TranscriptionPart[]
     onCloseSentenceEditor: () => void
     onOpenSentenceUpdator: (index: number) => void
+    onOpenSectionUpdator: (index: number) => void
+    onCloseSectionEditor: () => void
     onDeleteSentence: (index: number) => void
+    onDeleteSectionTitle: (index: number) => void
+    onSaveSectionTitle: (title: string, index: number) => void
     onSaveTranscription: (
         transcriptionPart: TranscriptionPart,
         index: number,
@@ -24,12 +31,17 @@ type Props = {
 export default function TranscriptionTree({
     currentTime,
     updateSentenceIndex,
+    updateSectionIndex,
     sections,
     transcription,
     onCloseSentenceEditor,
     onOpenSentenceUpdator,
+    onCloseSectionEditor,
+    onOpenSectionUpdator,
     onDeleteSentence,
+    onDeleteSectionTitle,
     onSaveTranscription,
+    onSaveSectionTitle,
     onAddSection,
 }: Props) {
     const tree = useMemo(
@@ -44,16 +56,26 @@ export default function TranscriptionTree({
             {tree.map((section, sectionIndex) => {
                 return (
                     <div key={sectionIndex}>
-                        {/* todo: refactor following code */}
-                        {sectionIndex === 0 && hasFirstSection && (
-                            <div className="p-2">
-                                --- {section.title ?? '⭐️'} ---
-                            </div>
-                        )}
-                        {sectionIndex !== 0 && (
-                            <div className="p-2">
-                                --- {section.title ?? '⭐️'} ---
-                            </div>
+                        {sectionIndex === updateSectionIndex ? (
+                            <SectionTitleEditor
+                                title={section.title}
+                                onClose={onCloseSectionEditor}
+                                onDelete={() =>
+                                    onDeleteSectionTitle(sectionIndex)
+                                }
+                                onSave={(title) =>
+                                    onSaveSectionTitle(title, sectionIndex)
+                                }
+                            />
+                        ) : (
+                            <SectionTitle
+                                sectionIndex={sectionIndex}
+                                hasFirstSection={hasFirstSection}
+                                title={section.title}
+                                onUpdate={() =>
+                                    onOpenSectionUpdator(sectionIndex)
+                                }
+                            />
                         )}
 
                         {section.transcription.map((sentence) => (
