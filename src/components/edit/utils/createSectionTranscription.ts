@@ -6,15 +6,15 @@ type IndexedTranscriptionPart = TranscriptionPart & {
     gloabalIndex: number
 }
 
-type SectionTranscription = Array<{
+export type SectionTranscription = {
     title?: string
     transcription: IndexedTranscriptionPart[]
-}>
+}
 
 export function createSectionTranscription(
     sections: AudioSection[],
     transcription: TranscriptionPart[],
-): SectionTranscription {
+): SectionTranscription[] {
     // case 1: empty section
     if (sections.length === 0) {
         // case 1-1: non-empty transcription

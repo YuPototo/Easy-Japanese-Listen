@@ -39,13 +39,17 @@ export default function TranscriptionEditor({
     )
     const [transcriptionDraft, setTranscriptionDraft] =
         useState<TranscriptionPart[]>(initialTranscription)
+
     const [currentTime, setCurrentTime] = useState(0)
+
     const [updateSentenceIndex, setUpateSentenceIndex] = useState<
         number | null
     >(null)
+
     const [updateSectionIndex, setUpdateSectionIndex] = useState<number | null>(
         null,
     )
+
     const [newSentence, setNewSentence] = useState(startWithNewSentence)
 
     // use this to scroll to the end of the list
