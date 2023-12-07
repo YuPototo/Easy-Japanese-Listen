@@ -19,7 +19,7 @@ export default function SectionTitle({
     if (sectionIndex === 0) {
         if (hasFirstSection) {
             return (
-                <div className="flex items-center gap-4">
+                <div className="mb-2 mt-4 flex items-center gap-4">
                     <div>--- {title ?? '⭐️'} ---</div>
                     <Button fill="outline" onClick={onUpdate}>
                         update
@@ -30,7 +30,7 @@ export default function SectionTitle({
     }
 
     return (
-        <div className="flex items-center gap-4">
+        <div className="mb-2 mt-4 flex items-center gap-4">
             <div>--- {title ?? '⭐️'} ---</div>
             <Button fill="outline" onClick={onUpdate}>
                 update

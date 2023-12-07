@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import AudioInfo from './AudioInfo'
 import AudioWavePlayer from './AudioWavePlayer'
-import ContentTree from './ContentTree'
+import AudioContent from './AudioContent'
 
 export default function ContentEditor() {
     return (
@@ -9,7 +9,7 @@ export default function ContentEditor() {
             <AudioInfo />
             <AudioWavePlayer />
 
-            <ContentTree />
+            <AudioContent />
 
             <div className="mt-10">
                 <Button onClick={() => console.log('todo')}>Submit</Button>

@@ -8,7 +8,7 @@ import { useMemo, useRef } from 'react'
 import { createSectionTranscription } from '../utils/createSectionTranscription'
 import AudioSection from './AudioSection'
 
-export default function ContentTree() {
+export default function AudioContent() {
     const { addNewTranscriptionPart, audio } = useAudioContentEditorState()
     const dispatch = useAudioContentEditorDispatch()
 

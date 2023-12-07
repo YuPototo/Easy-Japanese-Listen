@@ -10,6 +10,7 @@ export const initialState: AudioContentEditorState = {
         sections: [],
     },
     addNewTranscriptionPart: false,
+    updateSectionTitleIndex: -1,
 }
 
 export const AudioContentEditorContext =

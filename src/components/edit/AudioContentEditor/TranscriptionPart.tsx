@@ -20,7 +20,7 @@ export default function TranscriptionPart({
 
     return (
         <div
-            className={'flex items-center gap-4 p-1 hover:bg-green-800'}
+            className={'my-2 flex items-center gap-4 p-1 hover:bg-green-800'}
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
         >

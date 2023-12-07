@@ -21,10 +21,14 @@ type Props = {
 }
 
 export function AudioContentEditorProvider({ children, audio }: Props) {
-    const [state, dispatch] = useImmerReducer(audioContentReducer, initialState)
+    const fixInitialState = { ...initialState, audio }
+    const [state, dispatch] = useImmerReducer(
+        audioContentReducer,
+        fixInitialState,
+    )
 
     return (
-        <AudioContentEditorContext.Provider value={{ ...state, audio }}>
+        <AudioContentEditorContext.Provider value={state}>
             <AudioContentEditorDispatchContext.Provider value={dispatch}>
                 {children}
             </AudioContentEditorDispatchContext.Provider>
