@@ -29,6 +29,10 @@ export default function SectionTitleEditor({ title, sectionIndex }: Props) {
     }
 
     const handleDelete = () => {
+        const confirmDelete = window.confirm('要删除吗?')
+
+        if (!confirmDelete) return
+
         dispatch({
             type: 'DELETE_SECTION_TITLE',
             payload: sectionIndex,

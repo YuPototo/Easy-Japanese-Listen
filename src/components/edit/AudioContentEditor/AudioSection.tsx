@@ -23,7 +23,6 @@ export default function AudioSection({
     hasFirstSection,
 }: Props) {
     const { updateSectionTitleIndex } = useAudioContentEditorState()
-    const dispatch = useAudioContentEditorDispatch()
 
     return (
         <div className="m-2">
@@ -37,23 +36,16 @@ export default function AudioSection({
                     sectionIndex={sectionIndex}
                     hasFirstSection={hasFirstSection}
                     title={section.title}
-                    onUpdate={() =>
-                        dispatch({
-                            type: 'START_UPDATE_SECTION_TITLE',
-                            payload: sectionIndex,
-                        })
-                    }
                 />
             )}
 
             {section.transcription.map((part, partIndex) => (
                 <TranscriptionPart
                     key={partIndex}
+                    sentenceGlobalIndex={part.gloabalIndex}
                     transcriptionPart={part}
                     // todo
                     onUpdate={() => {}}
-                    // todo
-                    onAddSectionAbove={() => {}}
                 />
             ))}
         </div>

@@ -35,3 +35,7 @@ export type AudioContentEditorAction =
           type: 'DELETE_SECTION_TITLE'
           payload: number
       }
+    | {
+          type: 'ADD_NEW_SECTION'
+          payload: number
+      }

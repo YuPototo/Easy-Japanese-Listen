@@ -3,6 +3,7 @@ import { AudioSection } from '@/types/schema/audioSectionSchema'
 
 type IndexedTranscriptionPart = TranscriptionPart & {
     // index here is the index of the transcription part in the whole transcription
+    // todo: rename this to globalIndex
     gloabalIndex: number
 }
 

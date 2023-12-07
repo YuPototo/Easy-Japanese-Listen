@@ -2,21 +2,31 @@ import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import formatTime from '@/lib/formatTime'
+import { useAudioContentEditorDispatch } from './StateProvider'
 
 type Props = {
+    sentenceGlobalIndex: number
     transcriptionPart: TranscriptionPart
     onUpdate: () => void
-    onAddSectionAbove: () => void
 }
 
 export default function TranscriptionPart({
     transcriptionPart,
+    sentenceGlobalIndex,
     onUpdate,
-    onAddSectionAbove,
 }: Props) {
     const [isHover, setIsHover] = useState(false)
+    const dispatch = useAudioContentEditorDispatch()
 
     const isFiller = transcriptionPart.type === 'filler'
+
+    const handleAddSectionAbove = () => {
+        console.log('todo')
+        dispatch({
+            type: 'ADD_NEW_SECTION',
+            payload: sentenceGlobalIndex,
+        })
+    }
 
     return (
         <div
@@ -44,7 +54,7 @@ export default function TranscriptionPart({
                     <Button
                         size="sm"
                         fill="outline"
-                        onClick={onAddSectionAbove}
+                        onClick={handleAddSectionAbove}
                     >
                         add section above
                     </Button>

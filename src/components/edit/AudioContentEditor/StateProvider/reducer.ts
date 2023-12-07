@@ -58,6 +58,17 @@ export function audioContentReducer(
             break
         }
 
+        case 'ADD_NEW_SECTION': {
+            const { payload: sentenceIndex } = action
+            const newSection = {
+                startIndex: sentenceIndex,
+            }
+            state.audio.sections.push(newSection)
+            // sort sections by startIndex
+            state.audio.sections.sort((a, b) => a.startIndex - b.startIndex)
+            break
+        }
+
         default: {
             // @ts-expect-error
             throw new Error('Unknown action: ' + action.type)
