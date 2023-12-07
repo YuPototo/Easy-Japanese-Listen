@@ -11,6 +11,7 @@ export const initialState: AudioContentEditorState = {
     },
     addNewTranscriptionPart: false,
     updateSectionTitleIndex: -1,
+    updateTranscriptionPartIndex: -1,
 }
 
 export const AudioContentEditorContext =

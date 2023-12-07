@@ -69,6 +69,12 @@ export function audioContentReducer(
             break
         }
 
+        case 'START_UPDATE_TRANSCRIPTION_PART': {
+            const { payload: transcriptionPartIndex } = action
+            state.updateTranscriptionPartIndex = transcriptionPartIndex
+            break
+        }
+
         default: {
             // @ts-expect-error
             throw new Error('Unknown action: ' + action.type)

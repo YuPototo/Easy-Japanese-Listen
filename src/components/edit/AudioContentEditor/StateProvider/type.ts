@@ -11,6 +11,7 @@ export interface AudioContentEditorState {
     }
     addNewTranscriptionPart: boolean
     updateSectionTitleIndex: number
+    updateTranscriptionPartIndex: number
 }
 
 export type AudioContentEditorAction =
@@ -37,5 +38,9 @@ export type AudioContentEditorAction =
       }
     | {
           type: 'ADD_NEW_SECTION'
+          payload: number
+      }
+    | {
+          type: 'START_UPDATE_TRANSCRIPTION_PART'
           payload: number
       }

@@ -1,11 +1,9 @@
 import SectionTitle from './SectionTitle'
 import SectionTitleEditor from './SectionTitleEditor'
 import { SectionTranscription } from '../utils/createSectionTranscription'
-import {
-    useAudioContentEditorDispatch,
-    useAudioContentEditorState,
-} from './StateProvider'
+import { useAudioContentEditorState } from './StateProvider'
 import TranscriptionPart from './TranscriptionPart'
+import TranscriptionPartEditor from './TranscriptionPartEditor'
 
 /*
     TODO: pass only section index
@@ -22,7 +20,8 @@ export default function AudioSection({
     sectionIndex,
     hasFirstSection,
 }: Props) {
-    const { updateSectionTitleIndex } = useAudioContentEditorState()
+    const { updateSectionTitleIndex, updateTranscriptionPartIndex } =
+        useAudioContentEditorState()
 
     return (
         <div className="m-2">
@@ -39,15 +38,21 @@ export default function AudioSection({
                 />
             )}
 
-            {section.transcription.map((part, partIndex) => (
-                <TranscriptionPart
-                    key={partIndex}
-                    sentenceGlobalIndex={part.gloabalIndex}
-                    transcriptionPart={part}
-                    // todo
-                    onUpdate={() => {}}
-                />
-            ))}
+            {section.transcription.map((part) => {
+                const partGlobalIndex = part.gloabalIndex
+
+                if (updateTranscriptionPartIndex === partGlobalIndex) {
+                    return <TranscriptionPartEditor key={partGlobalIndex} />
+                }
+
+                return (
+                    <TranscriptionPart
+                        key={partGlobalIndex}
+                        sentenceGlobalIndex={partGlobalIndex}
+                        transcriptionPart={part}
+                    />
+                )
+            })}
         </div>
     )
 }

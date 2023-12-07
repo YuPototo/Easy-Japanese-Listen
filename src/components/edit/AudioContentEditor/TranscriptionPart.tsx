@@ -7,13 +7,11 @@ import { useAudioContentEditorDispatch } from './StateProvider'
 type Props = {
     sentenceGlobalIndex: number
     transcriptionPart: TranscriptionPart
-    onUpdate: () => void
 }
 
 export default function TranscriptionPart({
     transcriptionPart,
     sentenceGlobalIndex,
-    onUpdate,
 }: Props) {
     const [isHover, setIsHover] = useState(false)
     const dispatch = useAudioContentEditorDispatch()
@@ -21,9 +19,15 @@ export default function TranscriptionPart({
     const isFiller = transcriptionPart.type === 'filler'
 
     const handleAddSectionAbove = () => {
-        console.log('todo')
         dispatch({
             type: 'ADD_NEW_SECTION',
+            payload: sentenceGlobalIndex,
+        })
+    }
+
+    const handleStartUpdate = () => {
+        dispatch({
+            type: 'START_UPDATE_TRANSCRIPTION_PART',
             payload: sentenceGlobalIndex,
         })
     }
@@ -48,7 +52,11 @@ export default function TranscriptionPart({
             <div>{formatTime(transcriptionPart.endTime)}</div>
             {isHover && (
                 <div className="flex gap-2">
-                    <Button size="sm" fill="outline" onClick={onUpdate}>
+                    <Button
+                        size="sm"
+                        fill="outline"
+                        onClick={handleStartUpdate}
+                    >
                         update
                     </Button>
                     <Button

@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { useMemo, useRef } from 'react'
 import { createSectionTranscription } from '../utils/createSectionTranscription'
 import AudioSection from './AudioSection'
+import TranscriptionPartEditor from './TranscriptionPartEditor'
 
 export default function AudioContent() {
     const { addNewTranscriptionPart, audio } = useAudioContentEditorState()
@@ -44,7 +45,7 @@ export default function AudioContent() {
             </div>
 
             {addNewTranscriptionPart ? (
-                <div>todo</div>
+                <TranscriptionPartEditor />
             ) : (
                 <div className="my-5">
                     <Button
