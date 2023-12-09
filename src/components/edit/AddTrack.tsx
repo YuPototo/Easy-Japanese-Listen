@@ -3,10 +3,10 @@
 import { useState } from 'react'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
-import TranscriptionEditor from './TranscriptionEditor'
 import supabase from '@/database/supabaseClient'
 import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
 import { AudioSection } from '@/types/schema/audioSectionSchema'
+import AudioContentEditor from './AudioContentEditor'
 
 type AddAudioStep = 'info' | 'transcription'
 
@@ -67,11 +67,12 @@ export default function AddAudio({ albumId, onAdded }: Props) {
                 )}
 
                 {step == 'transcription' && (
-                    <TranscriptionEditor
-                        fileName={fileName}
-                        audioTitle={audioTitle}
-                        initialTranscription={[]}
-                        startWithNewSentence
+                    <AudioContentEditor
+                        audio={{
+                            fileName,
+                            audioTitle,
+                            transcription: [],
+                        }}
                         onSubmit={handleSubmit}
                     />
                 )}
