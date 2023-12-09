@@ -4,7 +4,7 @@ import {
     useAudioContentEditorState,
 } from './StateProvider'
 import { cn } from '@/lib/utils'
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { createSectionTranscription } from '../utils/createSectionTranscription'
 import AudioSection from './AudioSection'
 import TranscriptionPartEditor from './TranscriptionPartEditor'
@@ -17,6 +17,12 @@ export default function AudioContent() {
 
     // use this to scroll to the end of the list
     const endOfList = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        if (addNewTranscriptionPart && endOfList.current) {
+            endOfList.current.scrollIntoView({ behavior: 'smooth' })
+        }
+    }, [addNewTranscriptionPart])
 
     const { sections, transcription } = audio
 

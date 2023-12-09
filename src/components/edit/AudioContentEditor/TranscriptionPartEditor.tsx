@@ -120,6 +120,10 @@ export default function TranscriptionPartEditor({
                         ...payload,
                     },
                 })
+
+                setTimeout(() => {
+                    dispatch({ type: 'ADD_NEW_PART' })
+                }, 150)
                 return
             } else {
                 dispatch({
@@ -129,6 +133,10 @@ export default function TranscriptionPartEditor({
                         endTime,
                     },
                 })
+
+                setTimeout(() => {
+                    dispatch({ type: 'ADD_NEW_PART' })
+                }, 150)
                 return
             }
         }
