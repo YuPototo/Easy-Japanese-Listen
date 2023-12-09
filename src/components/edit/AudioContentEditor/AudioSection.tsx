@@ -4,6 +4,7 @@ import { SectionTranscription } from '../utils/createSectionTranscription'
 import { useAudioContentEditorState } from './StateProvider'
 import TranscriptionPart from './TranscriptionPart'
 import TranscriptionPartEditor from './TranscriptionPartEditor'
+import { SPEAKER_LIST } from '@/constants'
 
 /*
     TODO: pass only section index
@@ -20,8 +21,11 @@ export default function AudioSection({
     sectionIndex,
     hasFirstSection,
 }: Props) {
-    const { updateSectionTitleIndex, updateTranscriptionPartIndex } =
-        useAudioContentEditorState()
+    const {
+        currentTime,
+        updateSectionTitleIndex,
+        updateTranscriptionPartIndex,
+    } = useAudioContentEditorState()
 
     return (
         <div className="m-2">
@@ -42,7 +46,16 @@ export default function AudioSection({
                 const partGlobalIndex = part.gloabalIndex
 
                 if (updateTranscriptionPartIndex === partGlobalIndex) {
-                    return <TranscriptionPartEditor key={partGlobalIndex} />
+                    return (
+                        <TranscriptionPartEditor
+                            isNew={false}
+                            key={partGlobalIndex}
+                            transcriptionPart={part}
+                            speakerList={SPEAKER_LIST}
+                            globalIndex={partGlobalIndex}
+                            currentTime={currentTime}
+                        />
+                    )
                 }
 
                 return (

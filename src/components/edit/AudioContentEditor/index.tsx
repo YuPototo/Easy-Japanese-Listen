@@ -10,16 +10,17 @@ type Props = {
         transcription: Transcription
         sections?: AudioSection[]
     }
+    onSubmit: (sections: AudioSection[], transcription: Transcription) => void
 }
 
-export default function AudioContentEditor({ audio }: Props) {
+export default function AudioContentEditor({ audio, onSubmit }: Props) {
     // todo: make section required in the schema
     const fixedAudio = { ...audio, sections: audio.sections ?? [] }
 
     return (
         <>
             <AudioContentEditorProvider audio={fixedAudio}>
-                <ContentEditor />
+                <ContentEditor onSubmit={onSubmit} />
             </AudioContentEditorProvider>
         </>
     )

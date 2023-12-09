@@ -1,5 +1,8 @@
 import { AudioSection } from '@/types/schema/audioSectionSchema'
-import { Transcription } from '@/types/schema/transcriptionSchema'
+import {
+    Transcription,
+    TranscriptionPart,
+} from '@/types/schema/transcriptionSchema'
 
 export interface AudioContentEditorState {
     audio: {
@@ -9,6 +12,7 @@ export interface AudioContentEditorState {
         sections: AudioSection[]
         audioSrc?: string | null
     }
+    currentTime: number
     addNewTranscriptionPart: boolean
     updateSectionTitleIndex: number
     updateTranscriptionPartIndex: number
@@ -42,5 +46,30 @@ export type AudioContentEditorAction =
       }
     | {
           type: 'START_UPDATE_TRANSCRIPTION_PART'
+          payload: number
+      }
+    | {
+          type: 'CANCEL_UPDATE_TRANSCRIPTION_PART'
+      }
+    | {
+          type: 'DELETE_TRANSCRIPTION_PART'
+          payload: number
+      }
+    | {
+          type: 'UPDATE_TRANSCRIPTION_PART'
+          payload: {
+              index: number
+              transcriptionPart: TranscriptionPart
+          }
+      }
+    | {
+          type: 'CANCEL_ADD_TRANSCRIPTION_PART'
+      }
+    | {
+          type: 'ADD_TRANSCRIPTION_PART'
+          payload: TranscriptionPart
+      }
+    | {
+          type: 'UPDATE_CURRENT_TIME'
           payload: number
       }

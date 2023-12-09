@@ -30,6 +30,7 @@ export function audioContentReducer(
                 state.audio.sections[sectionIndex].title = title
             }
             state.updateSectionTitleIndex = -1
+
             break
         }
 
@@ -72,6 +73,53 @@ export function audioContentReducer(
         case 'START_UPDATE_TRANSCRIPTION_PART': {
             const { payload: transcriptionPartIndex } = action
             state.updateTranscriptionPartIndex = transcriptionPartIndex
+            break
+        }
+
+        case 'CANCEL_UPDATE_TRANSCRIPTION_PART': {
+            state.updateTranscriptionPartIndex = -1
+            break
+        }
+
+        case 'DELETE_TRANSCRIPTION_PART': {
+            const { payload: transcriptionPartIndex } = action
+            state.audio.transcription.splice(transcriptionPartIndex, 1)
+            state.updateTranscriptionPartIndex = -1
+
+            //  move section start index
+            const sections = state.audio.sections
+            for (let i = 0; i < sections.length; i++) {
+                const section = sections[i]
+                if (section.startIndex > transcriptionPartIndex) {
+                    section.startIndex -= 1
+                }
+            }
+
+            break
+        }
+
+        case 'UPDATE_TRANSCRIPTION_PART': {
+            const { index, transcriptionPart } = action.payload
+            state.audio.transcription[index] = transcriptionPart
+            state.updateTranscriptionPartIndex = -1
+            break
+        }
+
+        case 'CANCEL_ADD_TRANSCRIPTION_PART': {
+            state.addNewTranscriptionPart = false
+            break
+        }
+
+        case 'ADD_TRANSCRIPTION_PART': {
+            const { payload: transcriptionPart } = action
+            state.audio.transcription.push(transcriptionPart)
+            state.addNewTranscriptionPart = false
+            break
+        }
+
+        case 'UPDATE_CURRENT_TIME': {
+            const { payload: currentTime } = action
+            state.currentTime = currentTime
             break
         }
 

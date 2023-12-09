@@ -72,7 +72,9 @@ export default function AddAudio({ albumId, onAdded }: Props) {
                         audio={{
                             fileName,
                             audioTitle,
+                            transcription: [],
                         }}
+                        onSubmit={handleSubmit}
                     />
                 )}
             </div>

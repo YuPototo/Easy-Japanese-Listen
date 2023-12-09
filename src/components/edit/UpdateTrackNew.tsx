@@ -17,7 +17,7 @@ export default function UpdateTrackNew({ trackId, onUpdated }: Props) {
     const { track, audioUrl, loadingSuccess } = useTrack(trackId)
     const [message, setMessage] = useState('')
 
-    const handleUpdateTranscription = async (
+    const handleUpdateAudio = async (
         sections: AudioSection[],
         transcription: TranscriptionPart[],
     ) => {
@@ -63,6 +63,7 @@ export default function UpdateTrackNew({ trackId, onUpdated }: Props) {
                         sections: track.sections,
                         audioUrl,
                     }}
+                    onSubmit={handleUpdateAudio}
                 />
             )}
         </div>

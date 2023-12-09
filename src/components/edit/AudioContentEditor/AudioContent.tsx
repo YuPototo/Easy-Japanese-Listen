@@ -8,9 +8,11 @@ import { useMemo, useRef } from 'react'
 import { createSectionTranscription } from '../utils/createSectionTranscription'
 import AudioSection from './AudioSection'
 import TranscriptionPartEditor from './TranscriptionPartEditor'
+import { SPEAKER_LIST } from '@/constants'
 
 export default function AudioContent() {
-    const { addNewTranscriptionPart, audio } = useAudioContentEditorState()
+    const { addNewTranscriptionPart, audio, currentTime } =
+        useAudioContentEditorState()
     const dispatch = useAudioContentEditorDispatch()
 
     // use this to scroll to the end of the list
@@ -45,7 +47,11 @@ export default function AudioContent() {
             </div>
 
             {addNewTranscriptionPart ? (
-                <TranscriptionPartEditor />
+                <TranscriptionPartEditor
+                    isNew={true}
+                    speakerList={SPEAKER_LIST}
+                    currentTime={currentTime}
+                />
             ) : (
                 <div className="my-5">
                     <Button

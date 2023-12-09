@@ -9,6 +9,7 @@ export const initialState: AudioContentEditorState = {
         transcription: [],
         sections: [],
     },
+    currentTime: 0,
     addNewTranscriptionPart: false,
     updateSectionTitleIndex: -1,
     updateTranscriptionPartIndex: -1,
