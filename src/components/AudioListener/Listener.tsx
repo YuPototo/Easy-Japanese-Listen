@@ -38,9 +38,11 @@ function StudyStage() {
 
     return (
         <div className="flex w-full flex-grow flex-col items-center justify-between">
-            {playMode === 'bySentence' ? <BySentenceMode /> : <OnePassMode />}
-
-            <MainOperator />
+            {playMode === 'bySentence' ? (
+                <BySentenceMode mainOperator={<MainOperator />} />
+            ) : (
+                <OnePassMode mainOperator={<MainOperator />} />
+            )}
         </div>
     )
 }

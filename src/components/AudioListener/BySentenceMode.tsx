@@ -6,7 +6,11 @@ import {
 } from './StateProvider'
 import { cn } from '@/lib/utils'
 
-export default function BySentenceMode() {
+type Props = {
+    mainOperator: React.ReactNode
+}
+
+export default function BySentenceMode({ mainOperator }: Props) {
     const {
         transcription,
         contentIndex,
@@ -47,22 +51,40 @@ export default function BySentenceMode() {
                 </div>
             </div>
 
-            <div
-                className={cn(
-                    'mx-auto transition-opacity',
-                    isFiller ? 'opacity-0' : 'opacity-100',
-                )}
-            >
-                <Button
-                    size="lg"
-                    onClick={() => {
+            <div className="fixed bottom-0 flex w-full  flex-col gap-4 bg-background pt-2">
+                <SubOperator
+                    onUnderstood={() =>
                         dispatch({ type: 'SENTENCE_UNDERSTOOD' })
-                    }}
+                    }
                     disabled={understood}
-                >
-                    听懂了
-                </Button>
+                    hide={isFiller}
+                />
+
+                {mainOperator}
             </div>
+        </div>
+    )
+}
+
+function SubOperator({
+    hide,
+    disabled,
+    onUnderstood,
+}: {
+    hide: boolean
+    disabled: boolean
+    onUnderstood: () => void
+}) {
+    return (
+        <div
+            className={cn(
+                'mx-auto transition-opacity',
+                hide ? 'opacity-0' : 'opacity-100',
+            )}
+        >
+            <Button size="lg" onClick={onUnderstood} disabled={disabled}>
+                听懂了
+            </Button>
         </div>
     )
 }

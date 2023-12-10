@@ -85,7 +85,7 @@ function BreadcrumbNav({
     }
 
     return (
-        <div className="flex items-center gap-2">
+        <div className="mb-8 flex items-center gap-2">
             <Link href={`/listen/album/${albumId}`}>{albumTitle}</Link>
             <ChevronRight size={16} />
             <div>{trackTitle}</div>

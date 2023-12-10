@@ -3,17 +3,20 @@ import { Button } from '../ui/button'
 import { useState } from 'react'
 import { useAudioListenerState } from './StateProvider'
 
-export default function OnePassMode() {
+type Props = {
+    mainOperator: React.ReactNode
+}
+
+export default function OnePassMode({ mainOperator }: Props) {
     const [showText, setShowText] = useState(false)
 
-    const { audio: audioSlice, transcription } = useAudioListenerState()
-    const { duration, currentTime } = audioSlice
+    const { transcription } = useAudioListenerState()
 
     const contentOnly = transcription.filter(isContentType)
 
     return (
         <div className="mb-20 flex flex-grow flex-col items-center">
-            <div className="flex-grow">
+            <div className="mb-24 flex-grow">
                 {showText ? (
                     contentOnly.map((sentence, i) => (
                         <div key={i} className="my-2 flex gap-2">
@@ -31,15 +34,38 @@ export default function OnePassMode() {
                 )}
             </div>
 
+            <div className="fixed bottom-0 flex w-full flex-col gap-4 bg-background pt-2">
+                <SubOperator
+                    showText={showText}
+                    onShowText={() => setShowText(!showText)}
+                />
+                {mainOperator}
+            </div>
+        </div>
+    )
+}
+
+function SubOperator({
+    showText,
+    onShowText,
+}: {
+    showText: boolean
+    onShowText: () => void
+}) {
+    const { audio: audioSlice } = useAudioListenerState()
+    const { duration, currentTime } = audioSlice
+
+    return (
+        <>
             <div>
                 Slider: {currentTime}/{duration}
             </div>
 
-            <div className="fixed bottom-20 w-full bg-background text-center">
-                <Button fill="outline" onClick={() => setShowText(!showText)}>
+            <div className="w-full bg-background text-center">
+                <Button fill="outline" onClick={onShowText}>
                     {showText ? '隐藏原文' : '显示原文'}
                 </Button>
             </div>
-        </div>
+        </>
     )
 }

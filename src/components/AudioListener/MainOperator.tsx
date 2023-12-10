@@ -5,16 +5,14 @@ import {
     useAudioListenerState,
 } from './StateProvider'
 
-type Props = {}
-
-export default function MainOperator({}: Props) {
+export default function MainOperator() {
     const { audio } = useAudioListenerState()
     const { playMode, isPlaying, slowPlay } = audio
 
     const dispatch = useAudioListenerDispatch()
 
     return (
-        <div className="fixed bottom-0 flex w-full justify-around bg-background p-2 pb-5">
+        <div className="flex w-full justify-around p-2 pb-5">
             <Button
                 fill="outline"
                 onClick={() => dispatch({ type: 'TOGGLE_MODE' })}
