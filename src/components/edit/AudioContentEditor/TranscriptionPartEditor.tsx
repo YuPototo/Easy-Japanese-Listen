@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import RadioGroup from '@/components/ui/radioGroup'
 import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
-import { useState } from 'react'
 import { useImmer } from 'use-immer'
 import { useAudioContentEditorDispatch } from './StateProvider'
 
@@ -14,8 +13,10 @@ type Props = {
     globalIndex?: number
 }
 
-const initialDraft = {
+const initialDraft: TranscriptionPart = {
     type: 'content',
+    endTime: 0,
+    text: '',
 }
 
 export default function TranscriptionPartEditor({
@@ -26,9 +27,7 @@ export default function TranscriptionPartEditor({
     globalIndex,
 }: Props) {
     const [transcriptionPartDraft, updateTranscriptionDraft] =
-        // @ts-expect-error todo
         useImmer<TranscriptionPart>(transcriptionPart ?? initialDraft)
-    const [message, setMessage] = useState('')
     const dispatch = useAudioContentEditorDispatch()
 
     const sentenceType = transcriptionPartDraft.type
@@ -42,17 +41,6 @@ export default function TranscriptionPartEditor({
     const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
         const num = Number(value)
-
-        if (isNaN(num)) {
-            setMessage('Please enter a number')
-            return
-        }
-
-        if (num < 0) {
-            setMessage('Please enter a positive number')
-            return
-        }
-
         updateTranscriptionDraft((draft) => {
             draft.endTime = num
         })
@@ -92,65 +80,85 @@ export default function TranscriptionPartEditor({
         })
     }
 
-    // todo: refactor this event handler
-    const handleConfirm = () => {
-        const { type: sentenceType, endTime } = transcriptionPartDraft
-
-        if (!endTime) {
-            setMessage('end time is required')
-            return
+    const validateEndTime = () => {
+        if (!transcriptionPartDraft.endTime) {
+            alert('end time is required')
+            return false
         }
 
-        if (isNew) {
-            if (sentenceType === 'content') {
-                const { text, speaker } = transcriptionPartDraft
+        if (transcriptionPartDraft.endTime < 0) {
+            alert('end time must be greater than 0')
+            return false
+        }
 
-                if (!text) {
-                    setMessage('text is required for `content` type')
-                    return
-                }
+        if (transcriptionPartDraft.endTime > 9999) {
+            alert('end time must be less than 9999')
+            return false
+        }
 
-                const payload = speaker ? { speaker, text } : { text }
+        return true
+    }
 
-                dispatch({
-                    type: 'ADD_TRANSCRIPTION_PART',
-                    payload: {
-                        type: 'content',
-                        endTime,
-                        ...payload,
-                    },
-                })
+    const validateContent = () => {
+        const { type: sentenceType } = transcriptionPartDraft
 
-                setTimeout(() => {
-                    dispatch({ type: 'ADD_NEW_PART' })
-                }, 150)
-                return
-            } else {
-                dispatch({
-                    type: 'ADD_TRANSCRIPTION_PART',
-                    payload: {
-                        type: 'filler',
-                        endTime,
-                    },
-                })
+        if (sentenceType !== 'content') {
+            console.error('Not a content')
+            return false
+        }
 
-                setTimeout(() => {
-                    dispatch({ type: 'ADD_NEW_PART' })
-                }, 150)
+        const { text } = transcriptionPartDraft
+
+        if (!text) {
+            alert('text is required for `content` type')
+            return false
+        }
+
+        return true
+    }
+
+    const handleConfirmNewPart = () => {
+        if (sentenceType === 'content') {
+            console.log(validateContent())
+            if (!validateContent()) {
                 return
             }
+
+            const payload = speaker ? { speaker, text } : { text }
+
+            dispatch({
+                type: 'ADD_TRANSCRIPTION_PART',
+                payload: {
+                    type: 'content',
+                    endTime,
+                    ...payload,
+                },
+            })
+        } else {
+            dispatch({
+                type: 'ADD_TRANSCRIPTION_PART',
+                payload: {
+                    type: 'filler',
+                    endTime,
+                },
+            })
         }
 
+        // need to have this to recreate a clean part editor
+        setTimeout(() => {
+            dispatch({ type: 'ADD_NEW_PART' })
+        }, 150)
+        return
+    }
+
+    const handleConfirmUpdatePart = () => {
         if (globalIndex === undefined) {
             console.error('globalIndex is required for update')
             return
         }
 
         if (sentenceType === 'content') {
-            const { text, speaker } = transcriptionPartDraft
-
-            if (!text) {
-                setMessage('text is required for `content` type')
+            if (!validateContent()) {
                 return
             }
 
@@ -183,6 +191,21 @@ export default function TranscriptionPartEditor({
         }
     }
 
+    // todo: refactor this event handler
+    const handleConfirm = () => {
+        if (!validateEndTime()) {
+            return
+        }
+
+        if (isNew) {
+            handleConfirmNewPart()
+            return
+        } else {
+            handleConfirmUpdatePart()
+            return
+        }
+    }
+
     const handleClose = () => {
         if (isNew) {
             dispatch({
@@ -196,14 +219,6 @@ export default function TranscriptionPartEditor({
 
     return (
         <div className="rounded bg-gray-900 p-8">
-            <div>
-                {message && (
-                    <div className="rounded bg-red-500 p-2 text-white">
-                        {message}
-                    </div>
-                )}
-            </div>
-
             <div className="mb-10 flex items-center gap-8">
                 <div className="w-[80px]">type</div>
                 <RadioGroup
