@@ -7,7 +7,7 @@ import TranscriptionPartEditor from './TranscriptionPartEditor'
 import { SPEAKER_LIST } from '@/constants'
 
 /*
-    TODO: pass only section index
+    TODO p3: pass only section index
 */
 
 type Props = {
@@ -43,7 +43,7 @@ export default function AudioSection({
             )}
 
             {section.transcription.map((part) => {
-                const partGlobalIndex = part.gloabalIndex
+                const partGlobalIndex = part.globalIndex
 
                 if (updateTranscriptionPartIndex === partGlobalIndex) {
                     return (

@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-    title: '日语轻松学 - admin',
+    title: '日语轻松练 - admin',
     description: '',
 }
 

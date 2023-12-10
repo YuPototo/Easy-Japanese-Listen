@@ -1,16 +1,21 @@
 import Link from 'next/link'
+import type { Route } from 'next'
 
-type Props = {
+// I can't use a Type here because I need to pass generic to types
+// Or can I?
+
+export default function ModuleCard<T extends string>({
+    title,
+    href,
+    children,
+}: {
     title: string
-    href: string
+    href: Route<T> | URL
     children: React.ReactNode
-}
-
-export default function ModuleCard({ title, href, children }: Props) {
+}) {
     return (
         <Link
             className="flex h-36 w-36 flex-col items-center justify-start rounded-lg bg-zinc-100 px-10 shadow"
-            // @ts-expect-error handle this later
             href={href}
         >
             <div className="flex w-36 flex-grow items-center justify-center rounded-t-lg bg-green-400">
@@ -22,5 +27,5 @@ export default function ModuleCard({ title, href, children }: Props) {
 }
 
 /**
- * Todo: 实现设计稿里的 gradient background
+ * Todo p3: 实现设计稿里的 gradient background
  */

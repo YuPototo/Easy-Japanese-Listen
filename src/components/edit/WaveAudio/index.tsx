@@ -220,7 +220,7 @@ export default function WaveAudio({
         <div>
             <HotkeyExplain />
 
-            {/* todo: 不使用绝对值 */}
+            {/* todo t3: 不使用绝对值 */}
             <div className="w-[1200px]" ref={waveSurferRef} />
 
             {audioDuraton && (

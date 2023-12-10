@@ -3,8 +3,7 @@ import { AudioSection } from '@/types/schema/audioSectionSchema'
 
 type IndexedTranscriptionPart = TranscriptionPart & {
     // index here is the index of the transcription part in the whole transcription
-    // todo: rename this to globalIndex
-    gloabalIndex: number
+    globalIndex: number
 }
 
 export type SectionTranscription = {
@@ -24,7 +23,7 @@ export function createSectionTranscription(
                 {
                     transcription: transcription.map((part, index) => ({
                         ...part,
-                        gloabalIndex: index,
+                        globalIndex: index,
                     })),
                 },
             ]
@@ -57,7 +56,7 @@ export function createSectionTranscription(
                     .slice(startIndex, endIndex)
                     .map((part, index) => ({
                         ...part,
-                        gloabalIndex: index + startIndex,
+                        globalIndex: index + startIndex,
                     })),
             }
         })

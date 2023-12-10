@@ -21,10 +21,14 @@ export default function UpdateTrackNew({ trackId, onUpdated }: Props) {
         sections: AudioSection[],
         transcription: TranscriptionPart[],
     ) => {
+        if (!track) {
+            console.error('Impossible condition: track is not defined')
+            return
+        }
+
         const { error } = await supabase
             .from('track')
             .update({ transcription, sections })
-            // @ts-expect-error
             .eq('id', track.id)
 
         if (error) {

@@ -17,6 +17,7 @@ export default function TrackPage({ params }: PageParam) {
     const [trackFinished, setTrackFinished] = useState(false)
 
     const { album, isLoading: isLoadingAlbum } = useAlbumInfo(albumId)
+
     const {
         track,
         audioUrl,
@@ -45,9 +46,7 @@ export default function TrackPage({ params }: PageParam) {
 
                 {trackFinished == false && trackLoadingSuccess === true && (
                     <AudioListener
-                        // @ts-expect-error when trackLoadingSuccess is true, track must be defined
                         audioUrl={audioUrl}
-                        // @ts-expect-error when trackLoadingSuccess is true, track must be defined and have valid transcription
                         transcription={track.transcription}
                         onFinish={() => setTrackFinished(true)}
                     />
@@ -77,7 +76,7 @@ function BreadcrumbNav({
     isLoading: boolean
 }) {
     if (isLoading) {
-        /* todo use skeleton */
+        /* todo p3 use skeleton */
         return (
             <div className="flex items-center gap-2">
                 <div>Loading...</div>

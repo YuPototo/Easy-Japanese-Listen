@@ -1,6 +1,6 @@
 import { IMAGE_BUCKET_NAME, DEFAULT_ALUM_COVER } from '@/constants'
 import supabase from '@/database/supabaseClient'
-import { AlbumWithCover, EnhancedTrack } from '@/types/EnhancedType'
+import { AlbumWithCover } from '@/types/EnhancedType'
 import { useEffect, useState } from 'react'
 
 /**

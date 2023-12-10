@@ -12,14 +12,33 @@ import {
 } from '@/types/schema/transcriptionSchema'
 import { useEffect, useState } from 'react'
 
-type UseTrackResult = {
-    track: EnhancedTrack | null
-    audioUrl: string
-    isLoading: boolean
-    loadingSuccess: boolean
-    error: string | null
-}
+type UseTrackResult =
+    // success
+    | {
+          loadingSuccess: true
+          track: EnhancedTrack
+          audioUrl: string
+          isLoading: false
+          error: null
+      }
+    // is loading
+    | {
+          loadingSuccess: false
+          track: null
+          audioUrl: ''
+          isLoading: true
+          error: null
+      }
+    // error
+    | {
+          loadingSuccess: false
+          track: null
+          audioUrl: ''
+          isLoading: false
+          error: string
+      }
 
+// todo p3: refactor this hook
 export function useTrack(trackId: string | number): UseTrackResult {
     const [track, setTrack] = useState<EnhancedTrack | null>(null)
     const [audioUrl, setAudioUrl] = useState<string>('')
@@ -73,7 +92,37 @@ export function useTrack(trackId: string | number): UseTrackResult {
         fetchTracks()
     }, [trackId])
 
-    return { track, audioUrl, isLoading, loadingSuccess, error }
+    if (isLoading)
+        return {
+            track: null,
+            audioUrl: '',
+            isLoading,
+            loadingSuccess: false,
+            error: null,
+        }
+
+    if (error) {
+        return {
+            track: null,
+            audioUrl: '',
+            isLoading: false,
+            loadingSuccess: false,
+            error,
+        }
+    }
+
+    if (loadingSuccess) {
+        if (!track) throw new Error('track is null')
+        return {
+            track,
+            audioUrl,
+            isLoading,
+            loadingSuccess,
+            error: null,
+        }
+    }
+
+    throw new Error('unreachable useTrack result')
 }
 
 type ValidateTrackResult =

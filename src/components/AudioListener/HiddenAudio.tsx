@@ -162,7 +162,7 @@ export default function HiddenAudio({ onFinish }: Props) {
             onTimeUpdate={handleAudioTimeUpdate}
             onEnded={handleAudioEnded}
             onLoadedMetadata={handleLoadedMetadata}
-            // todo: how to identify load error?
+            //  p3: how to identify load error?
             // Here I assume that all error is load error
             // When audio doesn't exist, there will be an error here
             onError={handleLoadError}

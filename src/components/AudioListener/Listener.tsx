@@ -72,7 +72,7 @@ function LoadErrorStage() {
     return (
         <>
             Audio resource load error
-            <div>todo: add more info or call to action </div>
+            <div>todo p3: add more info or call to action </div>
         </>
     )
 }

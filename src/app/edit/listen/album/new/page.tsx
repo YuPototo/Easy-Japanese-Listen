@@ -17,7 +17,7 @@ export default function CreateAlbumPage() {
             .insert({ title: albumTitle })
             .select()
 
-        // todo: handle error
+        // todo p3: handle error
         if (error) {
             console.error(error)
             return

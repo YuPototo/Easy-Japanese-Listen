@@ -2,7 +2,7 @@ import { Track } from '@/database/dbTypeHelper'
 import supabase from '@/database/supabaseClient'
 import { useEffect, useState } from 'react'
 
-// todo: add loading and error
+// todo p3: add loading and error
 export function useTrackList(albumId: string | number) {
     const [tracks, setTracks] = useState<Track[] | null>(null)
 

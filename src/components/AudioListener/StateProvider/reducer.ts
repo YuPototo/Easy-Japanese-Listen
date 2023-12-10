@@ -78,7 +78,10 @@ export function audioListenerReducer(
         }
 
         default: {
-            // @ts-expect-error type is unkown for TS. But I keep it like this to catch runtime type.
+            // action.type should be exhaustive, as a result,
+            // TS will complain that type is never, which is right
+            // When there is no error, then we have unhandled action
+            // @ts-expect-error
             throw new Error('Unknown action: ' + action.type)
         }
     }
