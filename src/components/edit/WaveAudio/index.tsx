@@ -5,7 +5,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import HotkeyExplain from './HotKeyExplain'
 import WaveSurfer from 'wavesurfer.js'
-import Slider from './Slider'
+import Slider from '../../Slider'
 import PlayBackSelector from './playBackSelector'
 import JumpSelector from './JumpSelector'
 import formatTime from '@/lib/formatTime'
@@ -25,7 +25,7 @@ export default function WaveAudio({
     onTimeUpdate: onAudioTimeUpdate,
 }: Props) {
     const [isPlaying, setIsPlaying] = useState(false)
-    const [audioDuraton, setAudioDuration] = useState<number | null>(null)
+    const [audioDuration, setAudioDuration] = useState<number | null>(null)
     const [currentTime, setCurrentTime] = useState(0)
     const [playbackRate, setPlaybackRate] = useState<number>(1)
     const [error, setError] = useState<string | null>(null)
@@ -223,13 +223,13 @@ export default function WaveAudio({
             {/* todo t3: 不使用绝对值 */}
             <div className="w-[1200px]" ref={waveSurferRef} />
 
-            {audioDuraton && (
+            {audioDuration && (
                 <Slider
                     playing={isPlaying}
                     togglePlay={handleTogglePlay}
                     currentTime={currentTime}
-                    audioDuraton={audioDuraton}
-                    handleSeek={handleSeek}
+                    audioDuration={audioDuration}
+                    onSeek={handleSeek}
                 />
             )}
 

@@ -2,6 +2,7 @@ import { isContentType } from '@/types/schema/transcriptionSchema'
 import { Button } from '../ui/button'
 import { useState } from 'react'
 import { useAudioListenerState } from './StateProvider'
+import Slider from '../Slider'
 
 type Props = {
     mainOperator: React.ReactNode
@@ -58,7 +59,14 @@ function SubOperator({
     return (
         <>
             <div>
-                Slider: {currentTime}/{duration}
+                <Slider
+                    audioDuration={duration}
+                    currentTime={currentTime}
+                    onSeek={(e) => {
+                        console.log(e)
+                    }}
+                    togglePlay={() => {}}
+                />
             </div>
 
             <div className="w-full bg-background text-center">
