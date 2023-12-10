@@ -3,12 +3,13 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "test": "vitest",
-        "dev": "next dev",
         "build": "next build",
-        "start": "next start",
+        "dev": "next dev",
         "lint": "next lint",
-        "prettify": "npx prettier . --write"
+        "prettify": "npx prettier . --write",
+        "start": "next start",
+        "test": "vitest",
+        "test-db": "supabase test db"
     },
     "dependencies": {
         "@radix-ui/react-slot": "^1.0.2",

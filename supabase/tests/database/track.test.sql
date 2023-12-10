@@ -1,5 +1,5 @@
 begin;
-select plan(3); 
+select plan(4); 
 
 SELECT has_table('track');
 
