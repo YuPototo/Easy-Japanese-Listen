@@ -23,11 +23,11 @@ export default function BySentenceMode() {
     const isFiller = transcriptionPart.type === 'filler'
 
     return (
-        <div className="flex w-full flex-grow flex-col items-center justify-between">
+        <div className="mb-20 flex w-full flex-grow flex-col items-center">
             <div className="my-6 self-end text-gray-400 transition-opacity">
                 {transcriptionPartIndex + 1}/{transcription.length}
             </div>
-            <div className="w-full">
+            <div className="w-full flex-grow">
                 {transcriptionPart.type === 'content' && (
                     <ContentSentence
                         key={contentIndex}
@@ -47,13 +47,18 @@ export default function BySentenceMode() {
                 </div>
             </div>
 
-            <div className="mx-auto my-5 mb-7">
+            <div
+                className={cn(
+                    'mx-auto transition-opacity',
+                    isFiller ? 'opacity-0' : 'opacity-100',
+                )}
+            >
                 <Button
                     size="lg"
                     onClick={() => {
                         dispatch({ type: 'SENTENCE_UNDERSTOOD' })
                     }}
-                    disabled={understood || isFiller}
+                    disabled={understood}
                 >
                     听懂了
                 </Button>

@@ -14,7 +14,7 @@ export default function MainOperator({}: Props) {
     const dispatch = useAudioListenerDispatch()
 
     return (
-        <div className="my-6 flex w-full justify-around">
+        <div className="fixed bottom-0 flex w-full justify-around bg-background p-2 pb-5">
             <Button
                 fill="outline"
                 onClick={() => dispatch({ type: 'TOGGLE_MODE' })}

@@ -12,8 +12,8 @@ export default function OnePassMode() {
     const contentOnly = transcription.filter(isContentType)
 
     return (
-        <div>
-            <div>
+        <div className="mb-20 flex flex-grow flex-col items-center">
+            <div className="flex-grow">
                 {showText ? (
                     contentOnly.map((sentence, i) => (
                         <div key={i} className="my-2 flex gap-2">
@@ -35,7 +35,7 @@ export default function OnePassMode() {
                 Slider: {currentTime}/{duration}
             </div>
 
-            <div className="flex gap-2">
+            <div className="fixed bottom-20 w-full bg-background text-center">
                 <Button fill="outline" onClick={() => setShowText(!showText)}>
                     {showText ? '隐藏原文' : '显示原文'}
                 </Button>
