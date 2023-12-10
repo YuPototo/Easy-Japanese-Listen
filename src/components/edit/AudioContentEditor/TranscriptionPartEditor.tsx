@@ -32,11 +32,11 @@ export default function TranscriptionPartEditor({
     const dispatch = useAudioContentEditorDispatch()
 
     const sentenceType = transcriptionPartDraft.type
-    // @ts-ignore
-    const speaker = transcriptionPartDraft.speaker
-    // @ts-ignore
-    const text = transcriptionPartDraft.text
-    // @ts-ignore
+    const speaker = getSpeaker(transcriptionPartDraft)
+    const text =
+        transcriptionPartDraft.type === 'content'
+            ? transcriptionPartDraft.text
+            : ''
     const endTime = transcriptionPartDraft.endTime
 
     const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -264,9 +264,7 @@ export default function TranscriptionPartEditor({
                             label: s,
                             value: s,
                         }))}
-                        selected={
-                            speakerList.includes(speaker) ? speaker : null
-                        }
+                        selected={speakerList.includes(speaker) ? speaker : ''}
                         onChange={handleUpdateSpeaker}
                     />
                 </div>
@@ -299,4 +297,11 @@ export default function TranscriptionPartEditor({
             </div>
         </div>
     )
+}
+
+function getSpeaker(part: TranscriptionPart): string {
+    if (part.type === 'content') {
+        return part.speaker ?? ''
+    }
+    return ''
 }

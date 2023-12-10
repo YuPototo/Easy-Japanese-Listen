@@ -13,7 +13,6 @@ test('empty draft should fail', () => {
 })
 
 test('Not array should fail', () => {
-    // @ts-ignore
     const draft = {}
     const result = validateTranscriptionDraft(draft)
 
