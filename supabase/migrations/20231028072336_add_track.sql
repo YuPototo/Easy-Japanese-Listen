@@ -7,8 +7,8 @@ create table track (
     album_id integer not null references album(id),
     created_at timestamp with time zone not null default now(),
     updated_at timestamp with time zone not null default now(),
-    position_index integer,
-    sections jsonb
+    position_index integer not null default -1,
+    sections jsonb not null default '[]'::jsonb
 );
 
 -- -- temporarily disable row level security

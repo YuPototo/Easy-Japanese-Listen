@@ -63,8 +63,8 @@ export interface Database {
           album_id: number
           created_at: string
           id: number
-          position_index: number | null
-          sections: Json | null
+          position_index: number
+          sections: Json
           storage_path: string
           title: string
           transcription: Json
@@ -74,8 +74,8 @@ export interface Database {
           album_id: number
           created_at?: string
           id?: number
-          position_index?: number | null
-          sections?: Json | null
+          position_index?: number
+          sections?: Json
           storage_path: string
           title: string
           transcription: Json
@@ -85,8 +85,8 @@ export interface Database {
           album_id?: number
           created_at?: string
           id?: number
-          position_index?: number | null
-          sections?: Json | null
+          position_index?: number
+          sections?: Json
           storage_path?: string
           title?: string
           transcription?: Json

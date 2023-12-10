@@ -5,7 +5,8 @@ import {
 } from '@/constants'
 import { Track } from '@/database/dbTypeHelper'
 import supabase from '@/database/supabaseClient'
-import { AlbumWithCover } from '@/types/EnhancedType'
+import { AlbumWithCover, EnhancedTrack } from '@/types/EnhancedType'
+import { AudioSectionListSchema } from '@/types/schema/audioSectionSchema'
 import { TranscriptionSchema } from '@/types/schema/transcriptionSchema'
 import { useEffect, useState } from 'react'
 
@@ -118,9 +119,17 @@ export function useTrackList(albumId: string | number) {
     return tracks
 }
 
-export function useTrack(trackId: string | number) {
-    const [track, setTrack] = useState<Track | null>(null)
-    const [audioUrl, setAudioUrl] = useState<string | null>(null)
+type UseTrackResult = {
+    track: EnhancedTrack | null
+    audioUrl: string
+    isLoading: boolean
+    loadingSuccess: boolean
+    error: string | null
+}
+
+export function useTrack(trackId: string | number): UseTrackResult {
+    const [track, setTrack] = useState<EnhancedTrack | null>(null)
+    const [audioUrl, setAudioUrl] = useState<string>('')
     const [isLoading, setIsLoading] = useState(true)
     const [loadingSuccess, setLoadingSuccess] = useState(false)
     const [error, setError] = useState<string | null>(null)
@@ -143,18 +152,36 @@ export function useTrack(trackId: string | number) {
             }
 
             // validate transcription schema
-            const transcription = data[0].transcription
-            try {
-                TranscriptionSchema.parse(transcription)
-            } catch (e) {
-                console.error(e)
+            const parseResult = TranscriptionSchema.safeParse(
+                data[0].transcription,
+            )
+
+            if (!parseResult.success) {
+                console.error(parseResult.error)
                 setError('Invalid transcription schema')
                 setLoadingSuccess(false)
                 setIsLoading(false)
                 return
             }
 
-            setTrack(data[0])
+            const transcription = parseResult.data
+
+            // validate audio section schema
+            const audioSectionParseResult = AudioSectionListSchema.safeParse(
+                data[0].sections,
+            )
+
+            if (!audioSectionParseResult.success) {
+                console.error(audioSectionParseResult.error)
+                setError('Invalid audio section schema')
+                setLoadingSuccess(false)
+                setIsLoading(false)
+                return
+            }
+
+            const sections = audioSectionParseResult.data
+
+            setTrack({ ...data[0], transcription, sections })
 
             // get audio url: 一定会获取到一个链接
             const { data: audioData } = supabase.storage

@@ -14,7 +14,7 @@ type Props = {
 }
 
 export default function UpdateTrackNew({ trackId, onUpdated }: Props) {
-    const { track, audioUrl, loadingSuccess } = useTrack(trackId)
+    const { track, loadingSuccess } = useTrack(trackId)
     const [message, setMessage] = useState('')
 
     const handleUpdateAudio = async (
@@ -57,11 +57,8 @@ export default function UpdateTrackNew({ trackId, onUpdated }: Props) {
                     audio={{
                         fileName: track.storage_path,
                         audioTitle: track.title,
-                        // @ts-expect-error
                         transcription: track.transcription,
-                        // @ts-expect-error
                         sections: track.sections,
-                        audioUrl,
                     }}
                     onSubmit={handleUpdateAudio}
                 />
