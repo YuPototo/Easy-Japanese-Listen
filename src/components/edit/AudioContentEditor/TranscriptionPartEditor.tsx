@@ -191,7 +191,6 @@ export default function TranscriptionPartEditor({
         }
     }
 
-    // todo: refactor this event handler
     const handleConfirm = () => {
         if (!validateEndTime()) {
             return
