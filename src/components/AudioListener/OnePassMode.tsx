@@ -31,6 +31,13 @@ function SubOperator() {
         })
     }
 
+    const handleSeekTime = (time: number) => {
+        dispatch({
+            type: 'SEEK_TIME',
+            payload: time,
+        })
+    }
+
     return (
         <>
             <div>
@@ -38,8 +45,7 @@ function SubOperator() {
                     audioDuration={duration}
                     currentTime={currentTime}
                     onSeek={(e) => {
-                        // todo p1: seek
-                        console.log(e)
+                        handleSeekTime(e.target.valueAsNumber)
                     }}
                     togglePlay={() => {}}
                 />

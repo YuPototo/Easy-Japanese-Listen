@@ -84,6 +84,16 @@ export function audioListenerReducer(
             break
         }
 
+        case 'SEEK_TIME': {
+            state.audio.jumpToTime = action.payload
+            break
+        }
+
+        case 'JUMP_TIME_FINISHED': {
+            state.audio.jumpToTime = null
+            break
+        }
+
         default: {
             // action.type should be exhaustive, as a result,
             // TS will complain that type is never, which is right

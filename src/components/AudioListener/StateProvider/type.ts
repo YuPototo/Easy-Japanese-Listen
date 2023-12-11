@@ -17,6 +17,7 @@ export interface AudioListenerState {
         slowPlay: boolean
         duration: number
         currentTime: number
+        jumpToTime: number | null
     }
 
     currentSentence: {
@@ -70,3 +71,8 @@ export type AudioListenerAction =
     | {
           type: 'TOGGLE_SHOW_TRANSCRIPTION'
       }
+    | {
+          type: 'SEEK_TIME'
+          payload: number
+      }
+    | { type: 'JUMP_TIME_FINISHED' }

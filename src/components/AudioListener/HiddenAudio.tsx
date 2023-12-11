@@ -18,7 +18,7 @@ export default function HiddenAudio({ onFinish }: Props) {
         transcription,
     } = useAudioListenerState()
 
-    const { isPlaying, playMode } = audioSlice
+    const { isPlaying, playMode, jumpToTime } = audioSlice
 
     const { understood } = currentSentence
 
@@ -73,6 +73,19 @@ export default function HiddenAudio({ onFinish }: Props) {
             audio.removeEventListener('canplay', onCanPlay)
         }
     }, [listenerState, dispatch])
+
+    useEffect(() => {
+        const audio = audioRef.current
+        if (audio === null) {
+            return
+        }
+
+        if (jumpToTime === null) return
+
+        audio.currentTime = jumpToTime
+
+        dispatch({ type: 'JUMP_TIME_FINISHED' })
+    }, [jumpToTime, dispatch])
 
     const breakpoints = useMemo(
         () => transcription.map((el) => el.endTime),

@@ -14,6 +14,7 @@ export const initialState: AudioListenerState = {
         slowPlay: false,
         duration: 0,
         currentTime: 0,
+        jumpToTime: null,
     },
     currentSentence: {
         understood: false,
