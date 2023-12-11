@@ -108,7 +108,7 @@ export default function HiddenAudio({ onFinish }: Props) {
             dispatch({ type: 'FINISH_CONTENT_SENTENCE' })
         } else {
             audio.currentTime = lastBreakpoint
-            dispatch({ type: 'SENENCE_REPEATED' })
+            dispatch({ type: 'SENTENCE_REPEATED' })
         }
     }
 

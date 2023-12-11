@@ -5,6 +5,7 @@ export const initialState: AudioListenerState = {
     audioUrl: '',
     listenerState: 'loading',
     transcription: [],
+    sections: [],
     transcriptionPartIndex: 0,
     contentIndex: 0,
     audio: {
@@ -17,6 +18,9 @@ export const initialState: AudioListenerState = {
     currentSentence: {
         understood: false,
         repeatTime: 0,
+    },
+    onePassMode: {
+        showTranscription: false,
     },
 }
 

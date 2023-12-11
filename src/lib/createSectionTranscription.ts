@@ -1,7 +1,7 @@
 import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
 import { AudioSection } from '@/types/schema/audioSectionSchema'
 
-type IndexedTranscriptionPart = TranscriptionPart & {
+export type IndexedTranscriptionPart = TranscriptionPart & {
     // index here is the index of the transcription part in the whole transcription
     globalIndex: number
 }

@@ -72,8 +72,15 @@ export function audioListenerReducer(
             break
         }
 
-        case 'SENENCE_REPEATED': {
+        case 'SENTENCE_REPEATED': {
             state.currentSentence.repeatTime += 1
+            break
+        }
+
+        /* one pass mode */
+        case 'TOGGLE_SHOW_TRANSCRIPTION': {
+            state.onePassMode.showTranscription =
+                !state.onePassMode.showTranscription
             break
         }
 

@@ -1,8 +1,10 @@
+import { AudioSection } from '@/types/schema/audioSectionSchema'
 import { Transcription } from '@/types/schema/transcriptionSchema'
 
 export interface AudioListenerState {
     audioUrl: string
     transcription: Transcription
+    sections: AudioSection[]
 
     listenerState: 'loading' | 'loaded' | 'studying' | 'loadError'
 
@@ -20,6 +22,9 @@ export interface AudioListenerState {
     currentSentence: {
         understood: boolean
         repeatTime: number
+    }
+    onePassMode: {
+        showTranscription: boolean
     }
 }
 
@@ -60,5 +65,8 @@ export type AudioListenerAction =
           type: 'SENTENCE_UNDERSTOOD'
       }
     | {
-          type: 'SENENCE_REPEATED'
+          type: 'SENTENCE_REPEATED'
+      }
+    | {
+          type: 'TOGGLE_SHOW_TRANSCRIPTION'
       }

@@ -48,6 +48,7 @@ export default function TrackPage({ params }: PageParam) {
                     <AudioListener
                         audioUrl={audioUrl}
                         transcription={track.transcription}
+                        sections={track.sections}
                         onFinish={() => setTrackFinished(true)}
                     />
                 )}

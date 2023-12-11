@@ -5,7 +5,7 @@ import {
 } from './StateProvider'
 import { cn } from '@/lib/utils'
 import { useEffect, useMemo, useRef } from 'react'
-import { createSectionTranscription } from '../utils/createSectionTranscription'
+import { createSectionTranscription } from '@/lib/createSectionTranscription'
 import AudioSection from './AudioSection'
 import TranscriptionPartEditor from './TranscriptionPartEditor'
 import { SPEAKER_LIST } from '@/constants'
