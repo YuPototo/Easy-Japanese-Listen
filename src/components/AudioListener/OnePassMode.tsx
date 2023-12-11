@@ -3,12 +3,9 @@ import { Button } from '../ui/button'
 import { useState } from 'react'
 import { useAudioListenerState } from './StateProvider'
 import Slider from '../Slider'
+import MainOperator from './MainOperator'
 
-type Props = {
-    mainOperator: React.ReactNode
-}
-
-export default function OnePassMode({ mainOperator }: Props) {
+export default function OnePassMode() {
     const [showText, setShowText] = useState(false)
 
     const { transcription } = useAudioListenerState()
@@ -40,7 +37,7 @@ export default function OnePassMode({ mainOperator }: Props) {
                     showText={showText}
                     onShowText={() => setShowText(!showText)}
                 />
-                {mainOperator}
+                <MainOperator />
             </div>
         </div>
     )

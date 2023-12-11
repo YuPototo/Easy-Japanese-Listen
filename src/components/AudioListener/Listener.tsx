@@ -1,6 +1,5 @@
 import { Button } from '../ui/button'
 import { Play } from 'lucide-react'
-import MainOperator from './MainOperator'
 import BySentenceMode from './BySentenceMode'
 import OnePassMode from './OnePassMode'
 import {
@@ -38,11 +37,7 @@ function StudyStage() {
 
     return (
         <div className="flex w-full flex-grow flex-col items-center justify-between">
-            {playMode === 'bySentence' ? (
-                <BySentenceMode mainOperator={<MainOperator />} />
-            ) : (
-                <OnePassMode mainOperator={<MainOperator />} />
-            )}
+            {playMode === 'bySentence' ? <BySentenceMode /> : <OnePassMode />}
         </div>
     )
 }

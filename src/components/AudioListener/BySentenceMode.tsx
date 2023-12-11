@@ -5,12 +5,9 @@ import {
     useAudioListenerState,
 } from './StateProvider'
 import { cn } from '@/lib/utils'
+import MainOperator from './MainOperator'
 
-type Props = {
-    mainOperator: React.ReactNode
-}
-
-export default function BySentenceMode({ mainOperator }: Props) {
+export default function BySentenceMode() {
     const {
         transcription,
         contentIndex,
@@ -60,7 +57,7 @@ export default function BySentenceMode({ mainOperator }: Props) {
                     hide={isFiller}
                 />
 
-                {mainOperator}
+                <MainOperator />
             </div>
         </div>
     )
