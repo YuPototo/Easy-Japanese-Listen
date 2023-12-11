@@ -42,7 +42,7 @@ function SectionContent({
     const showTranscription = onePassMode.showTranscription
 
     return (
-        <div>
+        <div className="flex flex-col gap-4">
             {transcription
                 .filter((el) => el.type === 'content')
                 .map((el) => (
@@ -70,10 +70,10 @@ function MaskTranscriptionPart({
 
     const show = showAll || showPart
     return (
-        <div className="relative my-2">
+        <div className="relative w-fit">
             <div
                 className={cn(
-                    'z-2 absolute inset-0 rounded bg-gray-600 transition-all',
+                    'absolute inset-0 rounded bg-gray-600 transition-all',
                     show ? 'opacity-0' : 'opacity-100',
                 )}
                 onClick={() => setShowPart(true)}
