@@ -8,7 +8,7 @@ export interface AudioListenerState {
 
     listenerState: 'loading' | 'loaded' | 'studying' | 'loadError'
 
-    transcriptionPartIndex: number
+    transcriptionPartIndex: number // 当前正在听的句子的 index
     contentIndex: number
 
     audio: {

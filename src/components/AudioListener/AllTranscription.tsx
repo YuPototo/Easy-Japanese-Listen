@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useAudioListenerState } from './StateProvider'
 import {
     IndexedTranscriptionPart,
@@ -67,18 +67,41 @@ function MaskTranscriptionPart({
     // 现在的 show 是 local state
     // 如果 showAll 从 true 变为 false，不会让这里变为 hide
     const [showPart, setShowPart] = useState(false)
+    const { transcriptionPartIndex } = useAudioListenerState()
+
+    const sentenceRef = useRef<HTMLDivElement>(null)
+
+    const globalIndex = part.globalIndex
+
+    useEffect(() => {
+        if (transcriptionPartIndex == globalIndex) {
+            sentenceRef.current?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            })
+        }
+    }, [transcriptionPartIndex, globalIndex])
 
     const show = showAll || showPart
     return (
-        <div className="relative w-fit">
+        <div className="relative w-fit" ref={sentenceRef}>
             <div
                 className={cn(
-                    'absolute inset-0 rounded bg-gray-600 transition-all',
-                    show ? 'opacity-0' : 'opacity-100',
+                    'absolute inset-0 rounded transition-all',
+                    show ? 'opacity-0' : 'opacity-100 hover:cursor-pointer',
+                    transcriptionPartIndex === part.globalIndex
+                        ? 'bg-green-500'
+                        : 'bg-gray-600',
                 )}
                 onClick={() => setShowPart(true)}
             ></div>
-            <div className="flex gap-4">
+            <div
+                className={cn(
+                    'flex gap-4',
+                    transcriptionPartIndex === part.globalIndex &&
+                        'text-green-500',
+                )}
+            >
                 {/* @ts-expect-error */}
                 <div>{part.speaker}</div>
                 {/* @ts-expect-error */}
