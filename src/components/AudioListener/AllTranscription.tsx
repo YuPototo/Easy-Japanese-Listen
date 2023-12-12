@@ -88,7 +88,7 @@ function MaskTranscriptionPart({
             <div
                 className={cn(
                     'absolute inset-0 rounded transition-all',
-                    show ? 'opacity-0' : 'opacity-100 hover:cursor-pointer',
+                    show ? 'invisible' : 'hover:cursor-pointer',
                     transcriptionPartIndex === part.globalIndex
                         ? 'bg-green-500'
                         : 'bg-gray-600',

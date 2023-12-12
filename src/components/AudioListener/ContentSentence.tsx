@@ -33,7 +33,7 @@ export default function ContentSentence({
                             'bg-gray-500': repeatCount === 1,
                             'bg-gray-400': repeatCount === 2,
                         },
-                        showSentence ? 'opacity-0' : 'opacity-100',
+                        showSentence ? 'invisible' : 'hover:cursor-pointer',
                     )}
                 ></div>
                 <div className="relative">{text}</div>
