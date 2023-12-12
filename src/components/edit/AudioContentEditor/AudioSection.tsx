@@ -1,6 +1,6 @@
+import { SectionTranscription } from '@/lib/createSectionTranscription'
 import SectionTitle from './SectionTitle'
 import SectionTitleEditor from './SectionTitleEditor'
-import { SectionTranscription } from '../utils/createSectionTranscription'
 import { useAudioContentEditorState } from './StateProvider'
 import TranscriptionPart from './TranscriptionPart'
 import TranscriptionPartEditor from './TranscriptionPartEditor'
