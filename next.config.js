@@ -3,9 +3,8 @@ const nextConfig = {
     experimental: {
         typedRoutes: true,
     },
-    // allow image from localhost
     images: {
-        domains: ['localhost', 'https://xjoipcfbmhsbhtcasxnk.supabase.co'],
+        domains: ['localhost', 'xjoipcfbmhsbhtcasxnk.supabase.co'],
     },
 }
 
