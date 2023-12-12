@@ -4,17 +4,19 @@ import { useAlbumList } from '@/fetchData'
 import AlbumListCard from './AlbumListCard'
 
 type Props = {
-    isUser?: boolean
+    isEditing?: boolean
 }
 
-export default function AlbumGrid({ isUser }: Props) {
-    const { albums, isLoading, error } = useAlbumList()
+export default function AlbumGrid({ isEditing }: Props) {
+    const { albums, isLoading, error } = useAlbumList({
+        publicOnly: !isEditing,
+    })
 
     return (
         <div className="flex flex-col items-center gap-12">
             {albums?.map((album, i) => (
                 <AlbumListCard
-                    isUser={isUser}
+                    isEditing={isEditing}
                     album={album}
                     key={album.id}
                     index={i}

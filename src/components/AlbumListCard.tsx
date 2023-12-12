@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 type Props = {
     album: AlbumWithCover
     index: number
-    isUser?: boolean
+    isEditing?: boolean
 }
 
 // reason for not using more than 1 background:
@@ -25,15 +25,15 @@ const background = [
     // 'linear-gradient(180deg, #3A2A02 0%, rgba(58, 42, 2, 0.03) 64.58%)',
 ]
 
-export default function AlbumListCard({ album, index, isUser }: Props) {
+export default function AlbumListCard({ album, index, isEditing }: Props) {
     const [isHover, setIsHover] = useState(false)
 
     return (
         <Link
             href={
-                isUser
-                    ? `/listen/album/${album.id}`
-                    : `/edit/listen/album/${album.id}`
+                isEditing
+                    ? `/edit/listen/album/${album.id}`
+                    : `/listen/album/${album.id}`
             }
             style={{
                 background: background[index % background.length],

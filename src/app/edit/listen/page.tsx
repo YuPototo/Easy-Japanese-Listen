@@ -8,7 +8,7 @@ export default function EditHomePage() {
     return (
         <div className="flex flex-col items-center gap-10">
             <div className="my-6">
-                <AlbumGrid isUser={false} />
+                <AlbumGrid isEditing />
             </div>
             <Link href="/edit/listen/album/new">
                 <Button>Add Album</Button>

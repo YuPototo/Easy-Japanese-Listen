@@ -16,7 +16,7 @@ export default async function ListenHomePage() {
                 <h1 className={cn(kuaileFont.className, 'text-2xl')}>精听</h1>
             </div>
             <div className="mt-16">
-                <AlbumGrid isUser />
+                <AlbumGrid />
             </div>
         </main>
     )

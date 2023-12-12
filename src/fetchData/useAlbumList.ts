@@ -4,7 +4,7 @@ import supabase from '@/database/supabaseClient'
 import { AlbumWithCover } from '@/types/EnhancedType'
 import { useEffect, useState } from 'react'
 
-export function useAlbumList() {
+export function useAlbumList({ publicOnly = true }: { publicOnly: boolean }) {
     const [albums, setAlbums] = useState<AlbumWithCover[] | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -13,7 +13,13 @@ export function useAlbumList() {
         const fetchAlbums = async () => {
             setIsLoading(true)
 
-            const { data, error } = await supabase.from('album').select('*')
+            let query = supabase.from('album').select('*')
+
+            if (publicOnly) {
+                query = query.eq('is_public', true)
+            }
+
+            const { data, error } = await query
 
             if (error) {
                 console.log(error)
@@ -26,7 +32,7 @@ export function useAlbumList() {
             setIsLoading(false)
         }
         fetchAlbums()
-    }, [])
+    }, [publicOnly])
 
     return { albums, isLoading, error }
 }
