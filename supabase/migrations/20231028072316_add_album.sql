@@ -9,11 +9,3 @@ create table album (
 );
 
 ALTER SEQUENCE album_id_seq RESTART WITH 100;
-
-
--- -- temporarily disable row level security
--- alter table
---     album enable row level security;
--- create policy "enable read access for all users" on "public"."album" as permissive for
--- select
---     to public using (true);

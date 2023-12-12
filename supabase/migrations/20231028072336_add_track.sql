@@ -12,11 +12,3 @@ create table track (
 );
 
  ALTER SEQUENCE track_id_seq RESTART WITH 1000;
-
-
--- -- temporarily disable row level security
--- alter table
---     track enable row level security;
--- create policy "enable read access for all users" on "public"."track" as permissive for
--- select
---     to public using (true);
