@@ -5,7 +5,7 @@ const nextConfig = {
     },
     // allow image from localhost
     images: {
-        domains: ['localhost', 'https://jlpt-2023.vercel.app'],
+        domains: ['localhost', 'https://xjoipcfbmhsbhtcasxnk.supabase.co'],
     },
 }
 
