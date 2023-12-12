@@ -11,6 +11,9 @@ create table track (
     sections jsonb not null default '[]'::jsonb
 );
 
+ ALTER SEQUENCE track_id_seq RESTART WITH 1000;
+
+
 -- -- temporarily disable row level security
 -- alter table
 --     track enable row level security;
