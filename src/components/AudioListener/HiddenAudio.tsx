@@ -74,6 +74,7 @@ export default function HiddenAudio({ onFinish }: Props) {
         }
     }, [listenerState, dispatch])
 
+    // A hack to jump to time
     useEffect(() => {
         const audio = audioRef.current
         if (audio === null) {
@@ -175,7 +176,7 @@ export default function HiddenAudio({ onFinish }: Props) {
             onTimeUpdate={handleAudioTimeUpdate}
             onEnded={handleAudioEnded}
             onLoadedMetadata={handleLoadedMetadata}
-            //  p3: how to identify load error?
+            // p3: how to identify load error?
             // Here I assume that all error is load error
             // When audio doesn't exist, there will be an error here
             onError={handleLoadError}

@@ -1,3 +1,4 @@
+import { getPartAndContentIndexByTime } from '@/lib/getPartIndexByTime'
 import { AudioListenerAction, AudioListenerState } from './type'
 
 export function audioListenerReducer(
@@ -86,11 +87,35 @@ export function audioListenerReducer(
 
         case 'SEEK_TIME': {
             state.audio.jumpToTime = action.payload
+
+            const { partIndex, contentIndex } = getPartAndContentIndexByTime(
+                action.payload,
+                state.transcription,
+            )
+
+            state.transcriptionPartIndex = partIndex
+            state.contentIndex = contentIndex
+
             break
         }
 
         case 'JUMP_TIME_FINISHED': {
             state.audio.jumpToTime = null
+            break
+        }
+
+        case 'MOVE_TIME_BY': {
+            const jumpToTime = state.audio.currentTime + action.payload
+            state.audio.jumpToTime = jumpToTime
+
+            const { partIndex, contentIndex } = getPartAndContentIndexByTime(
+                jumpToTime,
+                state.transcription,
+            )
+
+            state.transcriptionPartIndex = partIndex
+            state.contentIndex = contentIndex
+
             break
         }
 

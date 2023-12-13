@@ -76,3 +76,7 @@ export type AudioListenerAction =
           payload: number
       }
     | { type: 'JUMP_TIME_FINISHED' }
+    | {
+          type: 'MOVE_TIME_BY'
+          payload: number
+      }

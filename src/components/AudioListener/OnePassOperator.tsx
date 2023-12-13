@@ -24,6 +24,13 @@ export default function OnePassOperator() {
         })
     }
 
+    const handleJumpTime = (deltaTime: number) => {
+        dispatch({
+            type: 'MOVE_TIME_BY',
+            payload: deltaTime,
+        })
+    }
+
     return (
         <>
             <div>
@@ -43,8 +50,12 @@ export default function OnePassOperator() {
                 <Button fill="outline" onClick={handleShowTranscription}>
                     {onePassMode.showTranscription ? '隐藏原文' : '显示原文'}
                 </Button>
-                <Button fill="outline">-5</Button>
-                <Button fill="outline">+5</Button>
+                <Button fill="outline" onClick={() => handleJumpTime(-5)}>
+                    -5
+                </Button>
+                <Button fill="outline" onClick={() => handleJumpTime(5)}>
+                    +5
+                </Button>
             </div>
         </>
     )
