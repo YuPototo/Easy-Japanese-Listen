@@ -3,7 +3,13 @@ import { Input } from '@/components/ui/input'
 import RadioGroup from '@/components/ui/radioGroup'
 import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
 import { useImmer } from 'use-immer'
-import { useAudioContentEditorDispatch } from './StateProvider'
+import {
+    useAudioContentEditorDispatch,
+    useAudioContentEditorState,
+} from './StateProvider'
+import { useEffect } from 'react'
+import guessNextSpeaker from '@/lib/editAudio/setSpeaker'
+import { useAudioListenerState } from '@/components/AudioListener/StateProvider'
 
 type Props = {
     isNew: boolean
@@ -28,7 +34,9 @@ export default function TranscriptionPartEditor({
 }: Props) {
     const [transcriptionPartDraft, updateTranscriptionDraft] =
         useImmer<TranscriptionPart>(transcriptionPart ?? initialDraft)
+
     const dispatch = useAudioContentEditorDispatch()
+    const { audio } = useAudioContentEditorState()
 
     const sentenceType = transcriptionPartDraft.type
     const speaker = getSpeaker(transcriptionPartDraft)
@@ -37,6 +45,20 @@ export default function TranscriptionPartEditor({
             ? transcriptionPartDraft.text
             : ''
     const endTime = transcriptionPartDraft.endTime
+
+    // update speaker when new part is added
+    const transcription = audio.transcription
+    useEffect(() => {
+        if (isNew) {
+            const nextSpeaker = guessNextSpeaker(transcription)
+            if (nextSpeaker && sentenceType === 'content') {
+                updateTranscriptionDraft((draft) => {
+                    //@ts-expect-error
+                    draft.speaker = nextSpeaker
+                })
+            }
+        }
+    }, [isNew, transcription, sentenceType, updateTranscriptionDraft])
 
     const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
@@ -119,7 +141,6 @@ export default function TranscriptionPartEditor({
 
     const handleConfirmNewPart = () => {
         if (sentenceType === 'content') {
-            console.log(validateContent())
             if (!validateContent()) {
                 return
             }
