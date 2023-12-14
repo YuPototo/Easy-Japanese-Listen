@@ -74,6 +74,7 @@ export default function AddAudio({ albumId, onAdded }: Props) {
                             transcription: [],
                             sections: [],
                         }}
+                        isNew
                         onSubmit={handleSubmit}
                     />
                 )}

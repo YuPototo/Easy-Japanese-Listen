@@ -64,6 +64,7 @@ export default function UpdateTrackNew({ trackId, onUpdated }: Props) {
                         transcription: track.transcription,
                         sections: track.sections,
                     }}
+                    isNew={false}
                     onSubmit={handleUpdateAudio}
                 />
             )}

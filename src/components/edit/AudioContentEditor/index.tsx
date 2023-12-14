@@ -11,12 +11,16 @@ type Props = {
         sections: AudioSection[]
     }
     onSubmit: (sections: AudioSection[], transcription: Transcription) => void
+    isNew: boolean
 }
 
-export default function AudioContentEditor({ audio, onSubmit }: Props) {
+export default function AudioContentEditor({ audio, isNew, onSubmit }: Props) {
     return (
         <>
-            <AudioContentEditorProvider audio={audio}>
+            <AudioContentEditorProvider
+                audio={audio}
+                addNewTranscriptionPart={isNew}
+            >
                 <ContentEditor onSubmit={onSubmit} />
             </AudioContentEditorProvider>
         </>

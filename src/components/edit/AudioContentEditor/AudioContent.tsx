@@ -53,11 +53,13 @@ export default function AudioContent() {
             </div>
 
             {addNewTranscriptionPart ? (
-                <TranscriptionPartEditor
-                    isNew={true}
-                    speakerList={SPEAKER_LIST}
-                    currentTime={currentTime}
-                />
+                <div className="my-5">
+                    <TranscriptionPartEditor
+                        isNew={true}
+                        speakerList={SPEAKER_LIST}
+                        currentTime={currentTime}
+                    />
+                </div>
             ) : (
                 <div className="my-5">
                     <Button

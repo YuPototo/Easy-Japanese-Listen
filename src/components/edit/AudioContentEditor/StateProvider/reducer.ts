@@ -73,6 +73,7 @@ export function audioContentReducer(
         case 'START_UPDATE_TRANSCRIPTION_PART': {
             const { payload: transcriptionPartIndex } = action
             state.updateTranscriptionPartIndex = transcriptionPartIndex
+            state.addNewTranscriptionPart = false
             break
         }
 

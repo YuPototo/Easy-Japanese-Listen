@@ -18,10 +18,15 @@ type Props = {
         transcription: Transcription
         sections: AudioSection[]
     }
+    addNewTranscriptionPart: boolean
 }
 
-export function AudioContentEditorProvider({ children, audio }: Props) {
-    const fixInitialState = { ...initialState, audio }
+export function AudioContentEditorProvider({
+    children,
+    audio,
+    addNewTranscriptionPart,
+}: Props) {
+    const fixInitialState = { ...initialState, addNewTranscriptionPart, audio }
     const [state, dispatch] = useImmerReducer(
         audioContentReducer,
         fixInitialState,
