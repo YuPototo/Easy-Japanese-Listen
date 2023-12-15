@@ -6,7 +6,7 @@ import { Play, Pause } from 'lucide-react'
 
 type Props = {
     playing?: boolean
-    togglePlay: () => void
+    togglePlay?: () => void
     currentTime: number
     audioDuration: number
     onSeek: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -16,7 +16,7 @@ export default function Slider({
     playing,
     togglePlay,
     currentTime,
-    audioDuration: audioDuration,
+    audioDuration,
     onSeek,
 }: Props) {
     return (

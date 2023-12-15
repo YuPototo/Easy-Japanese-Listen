@@ -31,6 +31,10 @@ export function audioListenerReducer(
             const currentMode = state.audio.playMode
             state.audio.playMode =
                 currentMode === 'bySentence' ? 'onePass' : 'bySentence'
+
+            // 切换模式时会删除 ab point
+            state.onePassMode.aPoint = null
+            state.onePassMode.bPoint = null
             break
         }
 
@@ -116,6 +120,32 @@ export function audioListenerReducer(
             state.transcriptionPartIndex = partIndex
             state.contentIndex = contentIndex
 
+            break
+        }
+
+        case 'SET_A_POINT': {
+            state.onePassMode.aPoint = action.payload
+            break
+        }
+
+        case 'CLEAR_A_POINT': {
+            state.onePassMode.aPoint = null
+            break
+        }
+
+        case 'SET_B_POINT': {
+            state.onePassMode.bPoint = action.payload
+            break
+        }
+
+        case 'CLEAR_B_POINT': {
+            state.onePassMode.bPoint = null
+            break
+        }
+
+        case 'CLEAR_AB_POINT': {
+            state.onePassMode.aPoint = null
+            state.onePassMode.bPoint = null
             break
         }
 

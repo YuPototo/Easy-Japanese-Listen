@@ -26,6 +26,8 @@ export interface AudioListenerState {
     }
     onePassMode: {
         showTranscription: boolean
+        aPoint: number | null
+        bPoint: number | null
     }
 }
 
@@ -79,4 +81,22 @@ export type AudioListenerAction =
     | {
           type: 'MOVE_TIME_BY'
           payload: number
+      }
+    // AB point
+    | {
+          type: 'SET_A_POINT'
+          payload: number
+      }
+    | {
+          type: 'SET_B_POINT'
+          payload: number
+      }
+    | {
+          type: 'CLEAR_A_POINT'
+      }
+    | {
+          type: 'CLEAR_B_POINT'
+      }
+    | {
+          type: 'CLEAR_AB_POINT'
       }

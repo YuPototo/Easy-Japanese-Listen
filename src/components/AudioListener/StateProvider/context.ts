@@ -22,6 +22,8 @@ export const initialState: AudioListenerState = {
     },
     onePassMode: {
         showTranscription: false,
+        aPoint: null,
+        bPoint: null,
     },
 }
 

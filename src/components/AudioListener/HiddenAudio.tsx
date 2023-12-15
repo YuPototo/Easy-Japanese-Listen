@@ -16,11 +16,14 @@ export default function HiddenAudio({ onFinish }: Props) {
         transcriptionPartIndex,
         currentSentence,
         transcription,
+        onePassMode,
     } = useAudioListenerState()
 
     const { isPlaying, playMode, jumpToTime } = audioSlice
 
     const { understood } = currentSentence
+
+    const { aPoint, bPoint } = onePassMode
 
     const dispatch = useAudioListenerDispatch()
 
@@ -101,28 +104,52 @@ export default function HiddenAudio({ onFinish }: Props) {
         }
 
         const currentTime = audio.currentTime
-
         dispatch({ type: 'AUDIO_TIME_UPDATE', payload: { currentTime } })
 
-        const currentBreakpoint =
-            breakpoints[transcriptionPartIndex] ?? Infinity
+        if (playMode === 'onePass') {
+            // change sentence
+            const currentBreakpoint =
+                breakpoints[transcriptionPartIndex] ?? Infinity
 
-        const lastBreakpoint = breakpoints[transcriptionPartIndex - 1] ?? 0
+            if (currentTime > currentBreakpoint) {
+                const transcriptionPart = transcription[transcriptionPartIndex]
 
-        if (currentTime < currentBreakpoint) return
+                if (transcriptionPart.type === 'filler') {
+                    dispatch({ type: 'FINISH_FILLER_SENTENCE' })
+                } else {
+                    dispatch({ type: 'FINISH_CONTENT_SENTENCE' })
+                }
+            }
 
-        const transcriptionPart = transcription[transcriptionPartIndex]
-
-        if (transcriptionPart.type === 'filler') {
-            dispatch({ type: 'FINISH_FILLER_SENTENCE' })
-            return
+            // check if there is ab points
+            const hasAbPoints = aPoint !== null && bPoint !== null
+            if (hasAbPoints) {
+                if (currentTime > bPoint) {
+                    audio.currentTime = aPoint
+                }
+            }
         }
 
-        if (understood || playMode === 'onePass') {
-            dispatch({ type: 'FINISH_CONTENT_SENTENCE' })
-        } else {
-            audio.currentTime = lastBreakpoint
-            dispatch({ type: 'SENTENCE_REPEATED' })
+        if (playMode === 'bySentence') {
+            const currentBreakpoint =
+                breakpoints[transcriptionPartIndex] ?? Infinity
+
+            if (currentTime > currentBreakpoint) {
+                const transcriptionPart = transcription[transcriptionPartIndex]
+
+                if (transcriptionPart.type === 'filler') {
+                    dispatch({ type: 'FINISH_FILLER_SENTENCE' })
+                } else {
+                    if (understood) {
+                        dispatch({ type: 'FINISH_CONTENT_SENTENCE' })
+                    } else {
+                        const lastBreakpoint =
+                            breakpoints[transcriptionPartIndex - 1] ?? 0
+                        audio.currentTime = lastBreakpoint
+                        dispatch({ type: 'SENTENCE_REPEATED' })
+                    }
+                }
+            }
         }
     }
 
