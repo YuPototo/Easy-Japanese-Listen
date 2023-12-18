@@ -11,7 +11,7 @@ export const initialState: AudioListenerState = {
     audio: {
         playMode: 'bySentence',
         isPlaying: false,
-        slowPlay: false,
+        playbackRate: 1,
         duration: 0,
         currentTime: 0,
         jumpToTime: null,

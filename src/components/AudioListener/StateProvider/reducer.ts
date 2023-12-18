@@ -43,8 +43,8 @@ export function audioListenerReducer(
             break
         }
 
-        case 'TOGGLE_SLOW_PLAY': {
-            state.audio.slowPlay = !state.audio.slowPlay
+        case 'SET_PLAYBACK_RATE': {
+            state.audio.playbackRate = action.payload
             break
         }
 

@@ -14,7 +14,7 @@ export interface AudioListenerState {
     audio: {
         playMode: 'bySentence' | 'onePass'
         isPlaying: boolean
-        slowPlay: boolean
+        playbackRate: number
         duration: number
         currentTime: number
         jumpToTime: number | null
@@ -30,6 +30,25 @@ export interface AudioListenerState {
         bPoint: number | null
     }
 }
+
+type AbRepeatAction =
+    | {
+          type: 'SET_A_POINT'
+          payload: number
+      }
+    | {
+          type: 'SET_B_POINT'
+          payload: number
+      }
+    | {
+          type: 'CLEAR_A_POINT'
+      }
+    | {
+          type: 'CLEAR_B_POINT'
+      }
+    | {
+          type: 'CLEAR_AB_POINT'
+      }
 
 export type AudioListenerAction =
     | {
@@ -48,7 +67,8 @@ export type AudioListenerAction =
           type: 'TOGGLE_PLAY_AUDIO'
       }
     | {
-          type: 'TOGGLE_SLOW_PLAY'
+          type: 'SET_PLAYBACK_RATE'
+          payload: number
       }
     | {
           type: 'AUDIO_METADATA_LOADED'
@@ -82,21 +102,4 @@ export type AudioListenerAction =
           type: 'MOVE_TIME_BY'
           payload: number
       }
-    // AB point
-    | {
-          type: 'SET_A_POINT'
-          payload: number
-      }
-    | {
-          type: 'SET_B_POINT'
-          payload: number
-      }
-    | {
-          type: 'CLEAR_A_POINT'
-      }
-    | {
-          type: 'CLEAR_B_POINT'
-      }
-    | {
-          type: 'CLEAR_AB_POINT'
-      }
+    | AbRepeatAction

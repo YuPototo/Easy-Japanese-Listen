@@ -50,8 +50,8 @@ export default function HiddenAudio({ onFinish }: Props) {
             return
         }
 
-        audio.playbackRate = audioSlice.slowPlay ? 0.75 : 1
-    }, [audioSlice.slowPlay])
+        audio.playbackRate = audioSlice.playbackRate
+    }, [audioSlice.playbackRate])
 
     useEffect(() => {
         const audio = audioRef.current

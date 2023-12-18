@@ -4,10 +4,11 @@ import {
     useAudioListenerDispatch,
     useAudioListenerState,
 } from './StateProvider'
+import SpeedSelector from './SpeedSelector'
 
 export default function MainOperator() {
     const { audio } = useAudioListenerState()
-    const { playMode, isPlaying, slowPlay } = audio
+    const { playMode, isPlaying, playbackRate } = audio
 
     const dispatch = useAudioListenerDispatch()
 
@@ -28,13 +29,7 @@ export default function MainOperator() {
                 {isPlaying ? <Pause size={20} /> : <PlayCircle size={20} />}
             </Button>
 
-            <Button
-                fill="outline"
-                onClick={() => dispatch({ type: 'TOGGLE_SLOW_PLAY' })}
-                className="flex gap-2"
-            >
-                {slowPlay ? '常速' : '慢速'}
-            </Button>
+            <SpeedSelector />
         </div>
     )
 }
