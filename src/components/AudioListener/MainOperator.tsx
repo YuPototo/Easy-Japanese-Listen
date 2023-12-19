@@ -21,13 +21,16 @@ export default function MainOperator() {
                 {playMode == 'bySentence' ? '全文' : '分句'}
             </Button>
 
-            <Button
-                fill="outline"
-                size="icon"
+            <div
+                className="flex items-center"
                 onClick={() => dispatch({ type: 'TOGGLE_PLAY_AUDIO' })}
             >
-                {isPlaying ? <Pause size={20} /> : <PlayCircle size={20} />}
-            </Button>
+                {isPlaying ? (
+                    <Pause size={35} color="#EA580C" strokeWidth={1} />
+                ) : (
+                    <PlayCircle size={35} color="#EA580C" strokeWidth={1} />
+                )}
+            </div>
 
             <SpeedSelector />
         </div>

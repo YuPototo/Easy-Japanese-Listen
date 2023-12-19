@@ -24,7 +24,7 @@ export default function SpeedSelector() {
     return (
         <div className="relative">
             {showSelector && (
-                <div className="absolute bottom-0 mb-16 flex flex-col gap-3 rounded bg-gray-600 p-2">
+                <div className="absolute bottom-0 mb-16 flex flex-col gap-3 rounded bg-gray-800 p-4">
                     <Button
                         fill="outline"
                         onClick={() => handleChangePlaybackRate(0.7)}
