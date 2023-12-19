@@ -8,7 +8,7 @@ import SpeedSelector from './SpeedSelector'
 
 export default function MainOperator() {
     const { audio } = useAudioListenerState()
-    const { playMode, isPlaying, playbackRate } = audio
+    const { playMode, isPlaying } = audio
 
     const dispatch = useAudioListenerDispatch()
 

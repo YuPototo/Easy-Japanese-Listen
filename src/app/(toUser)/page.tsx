@@ -3,6 +3,7 @@ import ModuleCard from '@/components/ModuleCard'
 import { Headphones } from 'lucide-react'
 import { kuaileFont } from '@/lib/font'
 import { cn } from '@/lib/utils'
+import AlbumGrid from '@/components/AlbumGrid'
 
 export default async function Home() {
     return (
@@ -15,13 +16,11 @@ export default async function Home() {
                     height="48"
                 />
                 <h1 className={cn(kuaileFont.className, 'text-2xl')}>
-                    日语轻松练
+                    日语轻松练 - 精听
                 </h1>
             </div>
-            <div className="mt-16 flex flex-col items-center">
-                <ModuleCard href="/listen" title="精听">
-                    <Headphones size={64} />
-                </ModuleCard>
+            <div className="mt-16">
+                <AlbumGrid />
             </div>
         </main>
     )
