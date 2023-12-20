@@ -17,6 +17,13 @@ export default function EditAlbumPage({ params }: PageParam) {
         <div className="">
             <div className=" flex h-full flex-col items-center bg-gray-800">
                 <AlbumTitle title={album?.title} isLoading={isLoading} />
+
+                <div className="my-5">
+                    <Link href={`/edit/listen/album/${albumId}/new`}>
+                        <Button>Add Track</Button>
+                    </Link>
+                </div>
+
                 <div className="flex flex-col gap-2 p-2">
                     {tracks?.map((track) => (
                         <Link
@@ -27,12 +34,6 @@ export default function EditAlbumPage({ params }: PageParam) {
                             {track.title}
                         </Link>
                     ))}
-
-                    <div className="mt-10">
-                        <Link href={`/edit/listen/album/${albumId}/new`}>
-                            <Button>Add Track</Button>
-                        </Link>
-                    </div>
                 </div>
             </div>
         </div>
