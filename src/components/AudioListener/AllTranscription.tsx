@@ -17,7 +17,7 @@ export default function AllTranscription() {
     return (
         <div>
             {audioSections.map((section, index) => (
-                <div key={index} className="mt-6">
+                <div key={index} className="mt-8">
                     <SectionTitle title={section.title} />
                     <div>
                         <SectionContent transcription={section.transcription} />
@@ -29,7 +29,13 @@ export default function AllTranscription() {
 }
 
 function SectionTitle({ title }: { title?: string }) {
-    return <div className="mb-4">--- {title ?? '⭐️'} ---</div>
+    return (
+        <div className="mb-3 flex items-center justify-center gap-2 text-center">
+            <div className="w-8 border-t border-gray-500"></div>
+            <div>{title ?? '⭐️'}</div>
+            <div className="w-8 border-t border-gray-500"></div>
+        </div>
+    )
 }
 
 function SectionContent({
@@ -90,8 +96,8 @@ function MaskTranscriptionPart({
                     'absolute inset-0 rounded transition-all',
                     show ? 'invisible' : 'hover:cursor-pointer',
                     transcriptionPartIndex === part.globalIndex
-                        ? 'bg-green-500'
-                        : 'bg-gray-600',
+                        ? 'bg-green-700'
+                        : 'bg-gray-500',
                 )}
                 onClick={() => setShowPart(true)}
             ></div>

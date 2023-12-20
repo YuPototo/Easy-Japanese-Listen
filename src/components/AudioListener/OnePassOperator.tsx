@@ -43,17 +43,16 @@ export default function OnePassOperator() {
                     {bPoint && <div>B: {formatTime(bPoint)}</div>}
                 </div>
             )}
-            <div>
-                <Slider
-                    audioDuration={duration}
-                    currentTime={currentTime}
-                    onSeek={(e) => {
-                        handleSeekTime(e.target.valueAsNumber)
-                    }}
-                />
-            </div>
 
-            <div className="w-full bg-background text-center">
+            <Slider
+                audioDuration={duration}
+                currentTime={currentTime}
+                onSeek={(e) => {
+                    handleSeekTime(e.target.valueAsNumber)
+                }}
+            />
+
+            <div className="flex w-full justify-between bg-background text-center">
                 <AbPointOperator />
                 <Button fill="outline" onClick={handleShowTranscription}>
                     {showTranscription ? '隐藏原文' : '显示原文'}

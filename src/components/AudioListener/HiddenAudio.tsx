@@ -61,10 +61,10 @@ export default function HiddenAudio({ onFinish }: Props) {
 
         const onCanPlay = async () => {
             try {
-                throw Error('sdf')
-                // await audio.play()
-                // dispatch({ type: 'START_STUDY' })
+                await audio.play()
+                dispatch({ type: 'START_STUDY' })
             } catch (err) {
+                console.log('auto play failed')
                 // 仅在自动播放失败后，触发下面的 action
                 dispatch({ type: 'DATA_LOADED' })
             }

@@ -224,13 +224,15 @@ export default function WaveAudio({
             <div className="w-[1200px]" ref={waveSurferRef} />
 
             {audioDuration && (
-                <Slider
-                    playing={isPlaying}
-                    togglePlay={handleTogglePlay}
-                    currentTime={currentTime}
-                    audioDuration={audioDuration}
-                    onSeek={handleSeek}
-                />
+                <div className="mb-4">
+                    <Slider
+                        playing={isPlaying}
+                        togglePlay={handleTogglePlay}
+                        currentTime={currentTime}
+                        audioDuration={audioDuration}
+                        onSeek={handleSeek}
+                    />
+                </div>
             )}
 
             <div className="flex items-center justify-between">

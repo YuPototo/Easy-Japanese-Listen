@@ -20,7 +20,7 @@ export default function Slider({
     onSeek,
 }: Props) {
     return (
-        <div className="my-3 flex items-center gap-2">
+        <div className="flex items-center gap-2">
             {playing === undefined ? null : (
                 <button
                     className="btn btn-circle btn-primary"
@@ -44,7 +44,7 @@ export default function Slider({
                 value={currentTime}
                 onChange={onSeek}
             />
-            <div className="whitespace-nowrap">
+            <div className="whitespace-nowrap text-sm">
                 <span>{formatTime(currentTime)}</span> /{' '}
                 <span>{formatTime(audioDuration)}</span>
             </div>

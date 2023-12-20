@@ -111,17 +111,21 @@ function FinishTrackOperator({
 
     if (nextTrackId !== null) {
         return (
-            <div className="flex flex-col gap-4">
-                <Link href={`/listen/album/${albumId}`}>返回听力列表</Link>
-                <Button onClick={onRestart}>再听一次</Button>
+            <div className="-mt-32 flex flex-grow flex-col items-center justify-center gap-12">
+                <Link href={`/listen/album/${albumId}`}>
+                    <Button fill="outline">返回听力列表</Button>
+                </Link>
+                <Button fill="outline" onClick={onRestart}>
+                    再听一次
+                </Button>
                 <Link href={`/listen/album/${albumId}/track/${nextTrackId}`}>
-                    下一个听力
+                    <Button>下一个听力</Button>
                 </Link>
             </div>
         )
     }
     return (
-        <div className="flex flex-grow flex-col items-center justify-center gap-12">
+        <div className="-mt-32 flex flex-grow flex-col items-center justify-center gap-12">
             <div>这张专辑已经听完了</div>
             <Link href={`/`}>
                 <Button fill="outline">返回专辑列表</Button>
