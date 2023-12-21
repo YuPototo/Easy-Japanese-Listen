@@ -43,7 +43,7 @@ function StudyStage() {
 }
 
 function LoadingStage() {
-    return <>Loading ...</>
+    return <>Downloading AUdio ...</>
 }
 
 function BeforeStudyStage() {
