@@ -53,13 +53,18 @@ export default function HiddenAudio({ onFinish }: Props) {
         audio.playbackRate = audioSlice.playbackRate
     }, [audioSlice.playbackRate])
 
+    // can play side effect
     useEffect(() => {
+        console.log('Run can play side effect')
+
         const audio = audioRef.current
         if (audio === null) {
+            console.log('audio is null')
             return
         }
 
         const onCanPlay = async () => {
+            console.log('can play event triggered')
             try {
                 await audio.play()
                 dispatch({ type: 'START_STUDY' })
@@ -73,6 +78,7 @@ export default function HiddenAudio({ onFinish }: Props) {
         audio.addEventListener('canplay', onCanPlay)
 
         return () => {
+            console.log('can play event listener removed')
             audio.removeEventListener('canplay', onCanPlay)
         }
     }, [listenerState, dispatch])

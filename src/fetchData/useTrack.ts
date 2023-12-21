@@ -22,8 +22,6 @@ export function useTrack(trackId: string | number) {
 
     useEffect(() => {
         const fetchTracks = async () => {
-            console.log(`fetching track ${trackId}`)
-
             setIsLoading(true)
 
             const { data, error } = await supabase
@@ -31,16 +29,12 @@ export function useTrack(trackId: string | number) {
                 .select('*')
                 .eq('id', trackId)
 
-            console.log(`Finish fetching track ${trackId} from Supabase`)
-
             if (error) {
-                console.error(error)
                 setError(error.message)
                 setIsLoading(false)
                 setLoadingSuccess(false)
                 return
             }
-            console.log('No error from Supabase')
 
             const {
                 result: validateResult,
@@ -49,14 +43,11 @@ export function useTrack(trackId: string | number) {
             } = validateTrack(data[0])
 
             if (!validateResult) {
-                console.error('validate track failed')
                 setError('数据格式错误')
                 setIsLoading(false)
                 setLoadingSuccess(false)
                 return
             }
-
-            console.log('No error from track schema validation')
 
             setTrack({ ...data[0], transcription, sections })
 
@@ -65,14 +56,10 @@ export function useTrack(trackId: string | number) {
                 .from(AUDIO_BUCKET_NAME)
                 .getPublicUrl(data[0].storage_path)
 
-            console.log('Finish getting audio url')
-
             setAudioUrl(audioData.publicUrl)
 
             setIsLoading(false)
             setLoadingSuccess(true)
-
-            console.log('Fetch and validate track success')
         }
 
         fetchTracks()

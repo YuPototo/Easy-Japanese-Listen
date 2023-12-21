@@ -8,6 +8,7 @@ export function audioListenerReducer(
     switch (action.type) {
         /* Listener state */
         case 'DATA_LOADED': {
+            console.log('DATA_LOADED action')
             // 如果没有这个条件，就会经常触发这个 action
             if (state.listenerState === 'loading') {
                 state.listenerState = 'loaded'
@@ -16,6 +17,7 @@ export function audioListenerReducer(
         }
 
         case 'START_STUDY': {
+            console.log('START_STUDY action')
             state.listenerState = 'studying'
             state.audio.isPlaying = true
             break
