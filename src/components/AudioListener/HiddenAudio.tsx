@@ -203,6 +203,7 @@ export default function HiddenAudio({ onFinish }: Props) {
 
     return (
         <audio
+            preload="auto" // Try this to fix iOS error
             className="my-4"
             ref={audioRef}
             src={audioUrl}
