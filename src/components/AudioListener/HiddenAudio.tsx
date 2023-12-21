@@ -53,26 +53,6 @@ export default function HiddenAudio({ onFinish }: Props) {
         audio.playbackRate = audioSlice.playbackRate
     }, [audioSlice.playbackRate])
 
-    // // can play side effect
-    // useEffect(() => {
-    //     console.log('Run can play side effect')
-
-    //     const audio = audioRef.current
-    //     if (audio === null) {
-    //         console.log('audio is null')
-    //         return
-    //     }
-
-    //     const onCanPlay = async () => {}
-
-    //     audio.addEventListener('canplay', onCanPlay)
-
-    //     return () => {
-    //         console.log('can play event listener removed')
-    //         audio.removeEventListener('canplay', onCanPlay)
-    //     }
-    // }, [listenerState, dispatch])
-
     // A hack to jump to time
     useEffect(() => {
         const audio = audioRef.current
@@ -175,6 +155,8 @@ export default function HiddenAudio({ onFinish }: Props) {
     }
 
     const handleLoadedMetadata = () => {
+        console.log('loaded metadata event triggered')
+
         const audio = audioRef.current
         if (audio === null) {
             console.error('audioRef.current is null')
@@ -193,6 +175,7 @@ export default function HiddenAudio({ onFinish }: Props) {
 
     const handleCanPlay = async () => {
         console.log('can play event triggered')
+
         const audio = audioRef.current
         if (audio === null) {
             return
@@ -210,7 +193,6 @@ export default function HiddenAudio({ onFinish }: Props) {
 
     return (
         <audio
-            preload="auto" // Try this to fix iOS error
             className="my-4"
             ref={audioRef}
             src={audioUrl}
