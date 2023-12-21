@@ -115,7 +115,7 @@ function FinishTrackOperator({
     const { nextTrackId, isLoading } = useNextTrackId(currentTrackId)
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <div>Loading Next Track Info...</div>
     }
 
     if (nextTrackId !== null) {
