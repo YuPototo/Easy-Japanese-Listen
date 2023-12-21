@@ -31,10 +31,6 @@ export default function TrackPage({ params }: PageParam) {
     console.log('isLoadingAlbum ', isLoadingAlbum)
     console.log('isLoadingTrack ', isLoadingTrack)
 
-    const isLoading = isLoadingAlbum || isLoadingTrack
-
-    console.log('isLoading ', isLoading)
-
     console.log('trackLoadingSuccess ', trackLoadingSuccess)
 
     console.groupEnd()
@@ -42,7 +38,7 @@ export default function TrackPage({ params }: PageParam) {
     return (
         <div className="flex flex-grow flex-col">
             <BreadcrumbNav
-                isLoading={isLoading}
+                isLoading={isLoadingAlbum}
                 albumId={albumId}
                 albumTitle={album?.title}
                 trackTitle={track?.title}
@@ -58,7 +54,9 @@ export default function TrackPage({ params }: PageParam) {
                 {trackFinished == false && trackLoadingSuccess === true && (
                     <AudioListener
                         audioUrl={audioUrl}
+                        //@ts-expect-error
                         transcription={track.transcription}
+                        //@ts-expect-error
                         sections={track.sections}
                         onFinish={() => setTrackFinished(true)}
                     />
