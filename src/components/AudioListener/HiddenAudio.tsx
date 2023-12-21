@@ -53,35 +53,25 @@ export default function HiddenAudio({ onFinish }: Props) {
         audio.playbackRate = audioSlice.playbackRate
     }, [audioSlice.playbackRate])
 
-    // can play side effect
-    useEffect(() => {
-        console.log('Run can play side effect')
+    // // can play side effect
+    // useEffect(() => {
+    //     console.log('Run can play side effect')
 
-        const audio = audioRef.current
-        if (audio === null) {
-            console.log('audio is null')
-            return
-        }
+    //     const audio = audioRef.current
+    //     if (audio === null) {
+    //         console.log('audio is null')
+    //         return
+    //     }
 
-        const onCanPlay = async () => {
-            console.log('can play event triggered')
-            try {
-                await audio.play()
-                dispatch({ type: 'START_STUDY' })
-            } catch (err) {
-                console.log('auto play failed')
-                // 仅在自动播放失败后，触发下面的 action
-                dispatch({ type: 'DATA_LOADED' })
-            }
-        }
+    //     const onCanPlay = async () => {}
 
-        audio.addEventListener('canplay', onCanPlay)
+    //     audio.addEventListener('canplay', onCanPlay)
 
-        return () => {
-            console.log('can play event listener removed')
-            audio.removeEventListener('canplay', onCanPlay)
-        }
-    }, [listenerState, dispatch])
+    //     return () => {
+    //         console.log('can play event listener removed')
+    //         audio.removeEventListener('canplay', onCanPlay)
+    //     }
+    // }, [listenerState, dispatch])
 
     // A hack to jump to time
     useEffect(() => {
@@ -201,6 +191,23 @@ export default function HiddenAudio({ onFinish }: Props) {
         dispatch({ type: 'AUDIO_LOAD_ERROR' })
     }
 
+    const handleCanPlay = async () => {
+        console.log('can play event triggered')
+        const audio = audioRef.current
+        if (audio === null) {
+            return
+        }
+
+        try {
+            await audio.play()
+            dispatch({ type: 'START_STUDY' })
+        } catch (err) {
+            console.log('auto play failed')
+            // 仅在自动播放失败后，触发下面的 action
+            dispatch({ type: 'DATA_LOADED' })
+        }
+    }
+
     return (
         <audio
             preload="auto" // Try this to fix iOS error
@@ -210,6 +217,7 @@ export default function HiddenAudio({ onFinish }: Props) {
             onTimeUpdate={handleAudioTimeUpdate}
             onEnded={handleAudioEnded}
             onLoadedMetadata={handleLoadedMetadata}
+            onCanPlay={handleCanPlay}
             // p3: how to identify load error?
             // Here I assume that all error is load error
             // When audio doesn't exist, there will be an error here
