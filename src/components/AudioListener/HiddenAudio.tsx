@@ -167,6 +167,10 @@ export default function HiddenAudio({ onFinish }: Props) {
             type: 'AUDIO_METADATA_LOADED',
             payload: { duration: audio.duration },
         })
+
+        // iOS can't trigger canplay event, therefore I trigger the event
+        // manually here
+        handleCanPlay()
     }
 
     const handleLoadError = () => {
@@ -199,7 +203,6 @@ export default function HiddenAudio({ onFinish }: Props) {
             onTimeUpdate={handleAudioTimeUpdate}
             onEnded={handleAudioEnded}
             onLoadedMetadata={handleLoadedMetadata}
-            onCanPlay={handleCanPlay}
             // p3: how to identify load error?
             // Here I assume that all error is load error
             // When audio doesn't exist, there will be an error here
