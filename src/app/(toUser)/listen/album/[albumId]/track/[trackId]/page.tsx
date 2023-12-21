@@ -45,7 +45,7 @@ export default function TrackPage({ params }: PageParam) {
             />
 
             <>
-                {isLoadingTrack && <div>Loading...</div>}
+                {isLoadingTrack && <div>Loading Audio...</div>}
 
                 {trackError !== null && (
                     <div className="text-red-800">Error: {trackError}</div>
