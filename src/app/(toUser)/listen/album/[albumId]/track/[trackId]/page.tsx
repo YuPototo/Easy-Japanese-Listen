@@ -26,7 +26,18 @@ export default function TrackPage({ params }: PageParam) {
         loadingSuccess: trackLoadingSuccess,
     } = useTrack(trackId)
 
+    console.group('Loading Status in track page')
+
+    console.log('isLoadingAlbum ', isLoadingAlbum)
+    console.log('isLoadingTrack ', isLoadingTrack)
+
     const isLoading = isLoadingAlbum || isLoadingTrack
+
+    console.log('isLoading ', isLoading)
+
+    console.log('trackLoadingSuccess ', trackLoadingSuccess)
+
+    console.groupEnd()
 
     return (
         <div className="flex flex-grow flex-col">
