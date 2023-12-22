@@ -7,6 +7,7 @@ import {
     useAudioListenerDispatch,
 } from './StateProvider'
 import HiddenAudio from './HiddenAudio'
+import LoadingAudioSkeleton from '../LoadingAudioSkeleton'
 
 type Props = {
     onFinish: () => void
@@ -21,7 +22,7 @@ export default function Listener({ onFinish }: Props) {
 
             {listenerState === 'loadError' && <LoadErrorStage />}
 
-            {listenerState === 'loading' && <LoadingStage />}
+            {listenerState === 'loading' && <LoadingAudioSkeleton />}
 
             {listenerState === 'loaded' && <BeforeStudyStage />}
 
@@ -40,10 +41,6 @@ function StudyStage() {
             {playMode === 'bySentence' ? <BySentenceMode /> : <OnePassMode />}
         </div>
     )
-}
-
-function LoadingStage() {
-    return <>Downloading Audio ...</>
 }
 
 function BeforeStudyStage() {

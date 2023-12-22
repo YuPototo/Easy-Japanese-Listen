@@ -18,11 +18,22 @@ type Props = {
 export default function AlbumTopCard({ albumId, firstTrackId }: Props) {
     const { album, isLoading, error } = useAlbumInfo(albumId)
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading)
+        return (
+            <div className="flex h-[140px] w-[310px] animate-pulse gap-4 rounded-md p-2">
+                <div className="h-[125px] w-[100px] rounded bg-gray-500"></div>
+                <div className="flex flex-grow flex-col justify-between">
+                    <div className="mt-2 h-6 w-32 rounded bg-gray-500"></div>
+                    <div className={'mb-4 ml-6'}>
+                        <div className="h-10 w-20 rounded bg-gray-500"></div>
+                    </div>
+                </div>
+            </div>
+        )
 
-    if (error) return <div>{error}</div>
+    if (error) return <div className="text-red-500">{error}</div>
 
-    if (!album) return <div>Album not found</div>
+    if (!album) return <div className="text-red-500">Album not found</div>
 
     return (
         <div className="sticky top-0 bg-background pt-2">

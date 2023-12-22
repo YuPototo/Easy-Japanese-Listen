@@ -6,6 +6,7 @@ import Link from 'next/link'
 import AudioListener from '@/components/AudioListener'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
+import LoadingAudioSkeleton from '@/components/LoadingAudioSkeleton'
 
 type PageParam = {
     params: { albumId: string; trackId: string }
@@ -36,7 +37,7 @@ export default function TrackPage({ params }: PageParam) {
             />
 
             <>
-                {isLoadingTrack && <div>Loading Audio...</div>}
+                {isLoadingTrack && <LoadingAudioSkeleton />}
 
                 {trackError !== null && (
                     <div className="text-red-800">Error: {trackError}</div>
@@ -77,10 +78,11 @@ function BreadcrumbNav({
     isLoading: boolean
 }) {
     if (isLoading) {
-        /* todo p3 use skeleton */
         return (
-            <div className="flex items-center gap-2">
-                <div>Loading...</div>
+            <div className="mb-8 flex animate-pulse items-center gap-2">
+                <div className="h-6 w-24 rounded bg-gray-500"></div>
+                <ChevronRight size={16} />
+                <div className="h-6 w-12 rounded bg-gray-500"></div>
             </div>
         )
     }
