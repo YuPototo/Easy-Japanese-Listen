@@ -4,7 +4,7 @@
  * Only used in album page
  */
 
-import { useAlbumInfo } from '@/fetchData'
+import { useAlbumInfo } from '@/fetchData/client'
 import Image from 'next/image'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'

@@ -1,6 +1,6 @@
 'use client'
 
-import { useAlbumList } from '@/fetchData'
+import { useAlbumList } from '@/fetchData/client'
 import AlbumListCard from './AlbumListCard'
 
 type Props = {

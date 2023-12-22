@@ -1,0 +1,1 @@
+export { getAlbumList } from './getAlbumList'

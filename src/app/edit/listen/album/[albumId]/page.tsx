@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { useAlbumInfo, useTrackList } from '@/fetchData'
+import { useAlbumInfo, useTrackList } from '@/fetchData/client'
 import Link from 'next/link'
 
 type PageParam = {

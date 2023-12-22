@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import ModuleCard from '@/components/ModuleCard'
-import { Headphones } from 'lucide-react'
 import { kuaileFont } from '@/lib/font'
 import { cn } from '@/lib/utils'
-import AlbumGrid from '@/components/AlbumGrid'
+import AlbumGridServer from '@/components/AlbumGridServer'
+
+export const revalidate = 3600 // revalidate the data at most every hour
 
 export default async function Home() {
     return (
@@ -20,7 +20,7 @@ export default async function Home() {
                 </h1>
             </div>
             <div className="mt-16">
-                <AlbumGrid />
+                <AlbumGridServer />
             </div>
         </main>
     )
