@@ -47,6 +47,21 @@ values
             where
                 title = 'Test Album'
         )
+    ),
+    (
+        'By Sentence',
+        '[{"text":"句子1","type":"content","endTime":1.042985,"speaker":"男"},{"text":"第二句","type":"content","endTime":3.284433,"speaker":"女"},{"text":"第3句","type":"content","endTime":4.105541,"speaker":"男"},{"text":"第4句","type":"content","endTime":6.44374,"speaker":"女"},{"text":"第5句","type":"content","endTime":7.616214,"speaker":"男"},{"type":"filler","endTime":9999}]',
+        'by_sentence_test.mp3',
+        3,
+        '[]',
+        (
+            select
+                id
+            from
+                public .album
+            where
+                title = 'Test Album'
+        )
     );
 
 
