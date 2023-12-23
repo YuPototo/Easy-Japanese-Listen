@@ -9,7 +9,7 @@ export const initialState: AudioListenerState = {
     transcriptionPartIndex: 0,
     contentIndex: 0,
     audio: {
-        playMode: 'bySentence',
+        playMode: 'onePass',
         isPlaying: false,
         playbackRate: 1,
         duration: 0,
