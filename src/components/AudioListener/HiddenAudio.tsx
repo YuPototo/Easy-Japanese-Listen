@@ -12,7 +12,6 @@ export default function HiddenAudio({ onFinish }: Props) {
     const {
         audioUrl,
         audio: audioSlice,
-        listenerState,
         transcriptionPartIndex,
         currentSentence,
         transcription,
@@ -80,6 +79,8 @@ export default function HiddenAudio({ onFinish }: Props) {
         }
 
         const currentTime = audio.currentTime
+        console.log(currentTime)
+
         dispatch({ type: 'AUDIO_TIME_UPDATE', payload: { currentTime } })
 
         if (playMode === 'onePass') {
@@ -130,7 +131,6 @@ export default function HiddenAudio({ onFinish }: Props) {
     }
 
     const handleAudioEnded = () => {
-        console.log('audio ended')
         const audio = audioRef.current
         if (audio === null) {
             console.error('audioRef.current is null')
@@ -155,8 +155,6 @@ export default function HiddenAudio({ onFinish }: Props) {
     }
 
     const handleLoadedMetadata = () => {
-        console.log('loaded metadata event triggered')
-
         const audio = audioRef.current
         if (audio === null) {
             console.error('audioRef.current is null')
@@ -178,8 +176,6 @@ export default function HiddenAudio({ onFinish }: Props) {
     }
 
     const handleCanPlay = async () => {
-        console.log('can play event triggered')
-
         const audio = audioRef.current
         if (audio === null) {
             return
@@ -189,7 +185,7 @@ export default function HiddenAudio({ onFinish }: Props) {
             await audio.play()
             dispatch({ type: 'START_STUDY' })
         } catch (err) {
-            console.log('auto play failed')
+            console.warn('auto play failed')
             // 仅在自动播放失败后，触发下面的 action
             dispatch({ type: 'DATA_LOADED' })
         }

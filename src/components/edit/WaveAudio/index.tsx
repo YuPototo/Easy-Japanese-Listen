@@ -107,7 +107,6 @@ export default function WaveAudio({
         audio.addEventListener('timeupdate', onTimeUpdate)
 
         return () => {
-            console.log('remove time update listener')
             audio.removeEventListener('timeupdate', onTimeUpdate)
         }
     }, [loopPoints, onAudioTimeUpdate])

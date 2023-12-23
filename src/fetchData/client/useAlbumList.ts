@@ -21,7 +21,7 @@ export function useAlbumList({ publicOnly = true }: { publicOnly: boolean }) {
             const { data, error } = await query
 
             if (error) {
-                console.log(error)
+                console.error(error)
                 setError(error.message)
             } else {
                 const albumsWithCover = await getCovers({ albums: data })
