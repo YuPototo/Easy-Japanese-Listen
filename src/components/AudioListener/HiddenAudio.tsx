@@ -79,7 +79,6 @@ export default function HiddenAudio({ onFinish }: Props) {
         }
 
         const currentTime = audio.currentTime
-        console.log(currentTime)
 
         dispatch({ type: 'AUDIO_TIME_UPDATE', payload: { currentTime } })
 
