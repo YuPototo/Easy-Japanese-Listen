@@ -28,7 +28,7 @@ export default function TrackPage({ params }: PageParam) {
     } = useTrack(trackId)
 
     return (
-        <div className="flex flex-grow flex-col">
+        <div className="mx-auto flex flex-grow flex-col md:w-2/3">
             <BreadcrumbNav
                 isLoading={isLoadingAlbum}
                 albumId={albumId}

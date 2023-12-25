@@ -48,7 +48,7 @@ export default function BySentenceMode() {
                 </div>
             </div>
 
-            <div className="fixed bottom-0 flex w-full flex-col gap-4 bg-background px-3 pt-2">
+            <div className="fixed bottom-0 flex w-full flex-col gap-4 bg-background px-3 pt-2  md:w-1/2 md:pb-6">
                 <SubOperator
                     onUnderstood={() =>
                         dispatch({ type: 'SENTENCE_UNDERSTOOD' })

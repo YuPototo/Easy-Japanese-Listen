@@ -44,13 +44,15 @@ export default function OnePassOperator() {
                 </div>
             )}
 
-            <Slider
-                audioDuration={duration}
-                currentTime={currentTime}
-                onSeek={(e) => {
-                    handleSeekTime(e.target.valueAsNumber)
-                }}
-            />
+            <div className="mb-3">
+                <Slider
+                    audioDuration={duration}
+                    currentTime={currentTime}
+                    onSeek={(e) => {
+                        handleSeekTime(e.target.valueAsNumber)
+                    }}
+                />
+            </div>
 
             <div className="flex w-full justify-between bg-background text-center">
                 <AbPointOperator />

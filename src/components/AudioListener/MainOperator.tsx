@@ -22,7 +22,7 @@ export default function MainOperator() {
             </Button>
 
             <div
-                className="flex items-center"
+                className="flex items-center hover:cursor-pointer"
                 onClick={() => dispatch({ type: 'TOGGLE_PLAY_AUDIO' })}
             >
                 {isPlaying ? (
