@@ -25,6 +25,7 @@ const initialLoopRange: LoopRange = [null, null]
 export default function YoutubeLooperPage({ params }: PageParam) {
     const [playing, setPlaying] = useState<boolean>(true)
     const [loopRange, dispatch] = useReducer(loopRangeReducer, initialLoopRange)
+    const [hideOverlay, setHideOverlay] = useState<boolean>(false)
 
     const videoRef = useRef<ReactPlayer>(null)
 
@@ -116,6 +117,9 @@ export default function YoutubeLooperPage({ params }: PageParam) {
             } else if (event.shiftKey && event.key === 'B') {
                 event.preventDefault() // Prevent default actions
                 handleClickButtonB()
+            } else if (event.shiftKey && event.key === 'O') {
+                event.preventDefault() // Prevent default actions
+                setHideOverlay((prev) => !prev)
             }
         }
 
@@ -145,16 +149,24 @@ export default function YoutubeLooperPage({ params }: PageParam) {
 
     return (
         <div className="flex flex-col items-center justify-center">
-            <div className="h-[600px] w-[1000px]">
-                <ReactPlayer
-                    controls
-                    ref={videoRef}
-                    playing={playing}
-                    width="100%"
-                    height="100%"
-                    url={`https://www.youtube.com/watch?v=${params.videoId}`}
-                    onProgress={handleProgress}
-                />
+            <div className="relative h-[600px] w-[1000px]">
+                <div className="absolute left-0 top-0 h-full w-full">
+                    <ReactPlayer
+                        controls
+                        ref={videoRef}
+                        playing={playing}
+                        width="100%"
+                        height="100%"
+                        url={`https://www.youtube.com/watch?v=${params.videoId}`}
+                        onProgress={handleProgress}
+                    />
+                </div>
+                <div
+                    className={clsx(
+                        'absolute bottom-0 h-[120px] w-full bg-gray-600',
+                        { invisible: hideOverlay },
+                    )}
+                ></div>
             </div>
 
             <div className="my-4 flex gap-4">
@@ -178,6 +190,13 @@ export default function YoutubeLooperPage({ params }: PageParam) {
                 </Button>
                 <Button btnColor="gray" onClick={() => moveProgressBy(5)}>
                     +5
+                </Button>
+
+                <Button
+                    btnColor="gray"
+                    onClick={() => setHideOverlay((prev) => !prev)}
+                >
+                    {hideOverlay ? 'Show' : 'Hide'} overlay
                 </Button>
             </div>
 
@@ -216,6 +235,7 @@ function HotKeys() {
                         points
                     </div>
                     <div>Shift + B: Set B point, or cancel B point</div>
+                    <div>Shift + O: Toggle Overlay</div>
                 </div>
             )}
         </div>
