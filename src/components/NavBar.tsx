@@ -24,6 +24,10 @@ export default function NavBar() {
                         日语轻松练
                     </p>
                 </Link>
+
+                <div className="flex items-center gap-2">
+                    <Link href="/youtubeLooper">Youtube Looper</Link>
+                </div>
             </div>
         </div>
     )

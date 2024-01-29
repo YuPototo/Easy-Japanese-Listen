@@ -31,7 +31,7 @@ export interface AudioListenerState {
     }
 }
 
-type AbRepeatAction =
+export type AbRepeatAction =
     | {
           type: 'SET_A_POINT'
           payload: number

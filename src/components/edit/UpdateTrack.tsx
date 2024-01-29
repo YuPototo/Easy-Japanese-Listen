@@ -17,7 +17,7 @@ type Props = {
  * 一个 supabase 的 bug：
  *    开启 RLS 后，如果在没有权限的情况下更新数据，不会报错；但数据也不会更新成功。
  */
-export default function UpdateTrackNew({ trackId, onUpdated }: Props) {
+export default function UpdateTrack({ trackId, onUpdated }: Props) {
     const { track, loadingSuccess } = useTrack(trackId)
     const [message, setMessage] = useState('')
 
