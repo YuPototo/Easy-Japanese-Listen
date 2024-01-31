@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import getYoutubeId from '@/lib/getYoutubeId'
 import Link from 'next/link'
 import React, { useState } from 'react'
 
@@ -18,22 +19,13 @@ export default function YoutubeLooperPage() {
                     onChange={(e) => setUrl(e.target.value)}
                 />
             </div>
-            <Button>
-                <Link href={`/youtubeLooper/${getYoutubeId(url)}`}>
-                    Confirm
-                </Link>
+            <Button
+                onClick={() => {
+                    window.location.href = `/youtubeLooper/${getYoutubeId(url)}`
+                }}
+            >
+                Confirm
             </Button>
         </div>
     )
-}
-
-// https:/www.youtube.com/watch?v=_htphHWq5bM
-// --> _htphHWq5bM
-function getYoutubeId(url: string) {
-    const re = /v=([^&]+)/
-    const match = re.exec(url)
-    if (match) {
-        return match[1]
-    }
-    return null
 }
