@@ -149,7 +149,7 @@ export default function YoutubeLooperPage({ params }: PageParam) {
 
     return (
         <div className="flex flex-col items-center justify-center">
-            <div className="relative h-[600px] w-[1000px]">
+            <div className="relative h-[300px] w-full md:h-[600px]">
                 <div className="absolute left-0 top-0 h-full w-full">
                     <ReactPlayer
                         controls
@@ -163,40 +163,50 @@ export default function YoutubeLooperPage({ params }: PageParam) {
                 </div>
                 <div
                     className={clsx(
-                        'absolute bottom-0 h-[120px] w-full bg-gray-600',
+                        'absolute bottom-0 h-[80px] w-full bg-gray-600 md:h-[120px]',
                         { invisible: hideOverlay },
                     )}
                 ></div>
             </div>
 
-            <div className="my-4 flex gap-4">
-                <Button btnColor="gray" onClick={handleClickButtonA}>
-                    {getButtonAText(abStatus)}
-                </Button>
+            <div className="my-4 flex flex-col gap-4">
+                <div className="flex gap-4">
+                    <Button btnColor="gray" onClick={handleClickButtonA}>
+                        {getButtonAText(abStatus)}
+                    </Button>
 
-                <Button
-                    btnColor="gray"
-                    onClick={handleClickButtonB}
-                    disabled={loopStart === null}
-                >
-                    {loopEnd === null ? 'B' : '- B'}
-                </Button>
+                    <Button
+                        btnColor="gray"
+                        onClick={handleClickButtonB}
+                        disabled={loopStart === null}
+                    >
+                        {loopEnd === null ? 'B' : '- B'}
+                    </Button>
+                </div>
 
-                <Button btnColor="gray" onClick={handleTogglePlay}>
-                    Play
-                </Button>
-                <Button btnColor="gray" onClick={() => moveProgressBy(-5)}>
-                    -5
-                </Button>
-                <Button btnColor="gray" onClick={() => moveProgressBy(5)}>
-                    +5
-                </Button>
+                <div className="flex gap-4">
+                    <Button btnColor="gray" onClick={() => moveProgressBy(-5)}>
+                        -5
+                    </Button>
+                    <Button btnColor="gray" onClick={() => moveProgressBy(5)}>
+                        +5
+                    </Button>
+                </div>
 
                 <Button
                     btnColor="gray"
                     onClick={() => setHideOverlay((prev) => !prev)}
                 >
                     {hideOverlay ? 'Show' : 'Hide'} overlay
+                </Button>
+
+                <Button
+                    fill="outline"
+                    btnColor="orange"
+                    onClick={handleTogglePlay}
+                    size="lg"
+                >
+                    {playing ? 'Pause' : 'Play'}
                 </Button>
             </div>
 
