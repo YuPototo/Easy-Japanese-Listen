@@ -1,7 +1,7 @@
 import supabase from '@/database/supabaseClient'
 import { AlbumWithCover } from '@/types/EnhancedType'
 import { useEffect, useState } from 'react'
-import { getCovers } from '../utils/getCovers'
+import { getAlbumsWithCover } from '../utils/getCovers'
 
 export function useAlbumList({ publicOnly = true }: { publicOnly: boolean }) {
     const [albums, setAlbums] = useState<AlbumWithCover[] | null>(null)
@@ -24,7 +24,7 @@ export function useAlbumList({ publicOnly = true }: { publicOnly: boolean }) {
                 console.error(error)
                 setError(error.message)
             } else {
-                const albumsWithCover = await getCovers({ albums: data })
+                const albumsWithCover = await getAlbumsWithCover(data)
                 setAlbums(albumsWithCover)
             }
 

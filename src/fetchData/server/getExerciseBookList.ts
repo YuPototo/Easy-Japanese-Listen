@@ -1,15 +1,15 @@
 import { cache } from 'react'
 import supabase from '@/database/supabaseClient'
-import { getAlbumsWithCover } from '../utils/getCovers'
+import { getExerciseBookWithCover } from '../utils/getCovers'
 
-export const getAlbumList = cache(async () => {
+export const getExerciseBookList = cache(async () => {
     const { data, error } = await supabase
-        .from('album')
+        .from('exercise_book')
         .select('*')
         .eq('is_public', true)
 
     if (!data) {
-        console.error('No Album from Supabase')
+        console.error('No Exercise Book from DB')
         return []
     }
 
@@ -18,7 +18,7 @@ export const getAlbumList = cache(async () => {
         return []
     }
 
-    const albumsWithCover = await getAlbumsWithCover(data)
+    const albumsWithCover = await getExerciseBookWithCover(data)
 
     return albumsWithCover
 })

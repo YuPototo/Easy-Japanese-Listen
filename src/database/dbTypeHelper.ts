@@ -13,3 +13,4 @@ export type Procedure<T extends keyof Database['public']['Functions']> =
 
 export type Album = Tables<'album'>
 export type Track = Tables<'track'>
+export type ExerciseBook = Tables<'exercise_book'>

@@ -584,3 +584,13 @@ values (
         )
     )
     ;
+
+
+-- insert exercise book
+insert into
+    public .exercise_book (title, is_public, test_level, test_section)
+values
+    ('Test Exercise Book', TRUE, 'N1', 'listening'),
+    ('Test Exercise Book 2', TRUE, 'N2', 'reading'),
+    ('Test Exercise Book 3', TRUE, 'N3', 'grammar'),
+    ('Test Exercise Book 4', TRUE, 'N4', 'vocabulary');
