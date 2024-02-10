@@ -1,10 +1,12 @@
 import Image from 'next/image'
 import { kuaileFont } from '@/lib/font'
 import { cn } from '@/lib/utils'
-import AlbumGridServer from '@/components/AlbumGridServer'
-import ExerciseBookGridServer from '@/components/ExerciseBookGrid'
+import AlbumGrid from '@/components/AlbumGrid'
+import ExerciseBookGrid from '@/components/ExerciseBookGrid'
 
 export const revalidate = 3600 // revalidate the data at most every hour
+
+// todo: use a component to describe sections
 
 export default async function Home() {
     return (
@@ -22,7 +24,7 @@ export default async function Home() {
                     </h1>
                 </div>
                 <div className="mx-auto mt-8 w-10/12 ">
-                    <ExerciseBookGridServer />
+                    <ExerciseBookGrid />
                 </div>
             </div>
             <div className="mb-12">
@@ -38,7 +40,7 @@ export default async function Home() {
                     </h1>
                 </div>
                 <div className="mx-auto mt-8 w-10/12 ">
-                    <AlbumGridServer />
+                    <AlbumGrid />
                 </div>
             </div>
         </main>

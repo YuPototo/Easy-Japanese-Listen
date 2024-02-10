@@ -3,7 +3,7 @@
 import { getExerciseBookList } from '@/fetchData/server'
 import MaterialCard from './MaterialCard'
 
-export default async function ExerciseBookGridServer() {
+export default async function ExerciseBookGrid() {
     const data = await getExerciseBookList()
 
     return (

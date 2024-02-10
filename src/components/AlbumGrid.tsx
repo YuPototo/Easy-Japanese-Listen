@@ -3,7 +3,7 @@
 import { getAlbumList } from '@/fetchData/server'
 import MaterialCard from './MaterialCard'
 
-export default async function AlbumGridServer() {
+export default async function AlbumGrid() {
     const data = await getAlbumList()
 
     return (
