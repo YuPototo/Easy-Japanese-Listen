@@ -18,7 +18,5 @@ export const getExerciseBookList = cache(async () => {
         return []
     }
 
-    const albumsWithCover = await getExerciseBookWithCover(data)
-
-    return albumsWithCover
+    return await getExerciseBookWithCover(data)
 })
