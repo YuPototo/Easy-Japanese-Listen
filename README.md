@@ -16,8 +16,22 @@ Start Next.js
 npm run dev
 ```
 
-Test
+## Test
+
+Unit test:
 
 ```bash
 npm run test
+```
+
+E2E test:
+
+```bash
+npm run test-e2e
+```
+
+DB test:
+
+```bash
+npm run test-db
 ```
