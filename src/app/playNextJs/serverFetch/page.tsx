@@ -18,6 +18,18 @@ export default async function Page() {
                     >
                         Force Refresh Fetch
                     </Link>
+                    <Link
+                        className="text-blue-500"
+                        href="/playNextJs/serverFetch/fetchMethod/loading"
+                    >
+                        Slow Fetch - loading state
+                    </Link>
+                    <Link
+                        className="text-blue-500"
+                        href="/playNextJs/serverFetch/fetchMethod/error"
+                    >
+                        Error while getting data
+                    </Link>
                 </div>
             </div>
         </main>
