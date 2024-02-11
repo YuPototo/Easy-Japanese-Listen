@@ -15,6 +15,7 @@ CREATE TABLE exercise_book (
 
 ALTER SEQUENCE exercise_book_id_seq RESTART WITH 1000;
 
+-- Enable row level security for exercise book table --
 alter table exercise_book enable row level security;
 
 create policy "enable read access for all users" on "public"."exercise_book" as permissive for

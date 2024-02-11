@@ -11,7 +11,7 @@ type PageParam = {
 export default function EditAlbumPage({ params }: PageParam) {
     const { albumId } = params
     const { album, isLoading } = useAlbumInfo(albumId)
-    const {tracks} = useTrackList(albumId)
+    const { tracks } = useTrackList(albumId)
 
     return (
         <div className="">

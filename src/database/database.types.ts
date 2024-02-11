@@ -61,6 +61,58 @@ export interface Database {
         }
         Relationships: []
       }
+      chapter: {
+        Row: {
+          group_id: number
+          id: number
+          title: string
+        }
+        Insert: {
+          group_id: number
+          id?: number
+          title: string
+        }
+        Update: {
+          group_id?: number
+          id?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chapter_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "chapter_group"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      chapter_group: {
+        Row: {
+          book_id: number
+          id: number
+          title: string
+        }
+        Insert: {
+          book_id: number
+          id?: number
+          title: string
+        }
+        Update: {
+          book_id?: number
+          id?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chapter_group_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "exercise_book"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       exercise_book: {
         Row: {
           cover_path: string | null

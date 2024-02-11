@@ -594,3 +594,100 @@ values
     ('Test Exercise Book 2', TRUE, 'N2', 'reading'),
     ('Test Exercise Book 3', TRUE, 'N3', 'grammar'),
     ('Test Exercise Book 4', TRUE, 'N4', 'vocabulary');
+
+-- insert chapter group to book 1 ---
+insert into
+    public .chapter_group (title, book_id)
+values
+    ('Chapter Group 1',  (
+            select
+                id
+            from
+                public .exercise_book
+            where
+                title = 'Test Exercise Book'
+        )),
+    ('Chapter Group 2', (
+            select
+                id
+            from
+                public .exercise_book
+            where
+                title = 'Test Exercise Book'
+        )),
+    ('Chapter Group 3', (
+            select
+                id
+            from
+                public .exercise_book
+            where
+                title = 'Test Exercise Book'
+        )),
+    ('Chapter Group 4', (
+            select
+                id
+            from
+                public .exercise_book
+            where
+                title = 'Test Exercise Book'
+        ));
+
+-- insert chapter to chapter group 1 --
+
+insert into
+    public .chapter (title, group_id)
+values
+    ('Chapter 1.1', (
+            select
+                id
+            from
+                public .chapter_group
+            where
+                title = 'Chapter Group 1'
+        )),
+    ('Chapter 1.2', (
+            select
+                id
+            from
+                public .chapter_group
+            where
+                title = 'Chapter Group 1'
+        )),
+    ('Chapter 1.3', (
+            select
+                id
+            from
+                public .chapter_group
+            where
+                title = 'Chapter Group 1'
+        ));
+
+-- insert chapter to chapter group 2 --
+
+insert into
+    public .chapter (title, group_id)
+values
+    ('Chapter 2.1', (
+            select
+                id
+            from
+                public .chapter_group
+            where
+                title = 'Chapter Group 2'
+        )),
+    ('Chapter 2.2', (
+            select
+                id
+            from
+                public .chapter_group
+            where
+                title = 'Chapter Group 2'
+        )),
+    ('Chapter 2.3', (
+            select
+                id
+            from
+                public .chapter_group
+            where
+                title = 'Chapter Group 2'
+        ));

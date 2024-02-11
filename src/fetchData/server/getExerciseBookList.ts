@@ -2,6 +2,8 @@ import { cache } from 'react'
 import supabase from '@/database/supabaseClient'
 import { getExerciseBookWithCover } from '../utils/getCovers'
 
+// todo: rename file name
+
 export const getExerciseBookList = cache(async () => {
     const { data, error } = await supabase
         .from('exercise_book')
@@ -19,4 +21,26 @@ export const getExerciseBookList = cache(async () => {
     }
 
     return await getExerciseBookWithCover(data)
+})
+
+export const getExerciseBook = cache(async (id: string | number) => {
+    const { data, error } = await supabase
+        .from('exercise_book')
+        .select('*')
+        .eq('id', id)
+
+    if (!data) {
+        // todo: what would happen if there is error?
+        throw new Error('No Exercise Book from DB')
+    }
+
+    if (error) {
+        console.error(error)
+        // todo: what would happen if there is error?
+        throw new Error('Error in getExerciseBook')
+    }
+
+    const booksWithCover = await getExerciseBookWithCover(data)
+
+    return booksWithCover[0]
 })

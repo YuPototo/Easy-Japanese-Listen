@@ -1,2 +1,2 @@
 export { getAlbumList } from './getAlbumList'
-export { getExerciseBookList } from './getExerciseBookList'
+export { getExerciseBookList, getExerciseBook } from './getExerciseBookList'

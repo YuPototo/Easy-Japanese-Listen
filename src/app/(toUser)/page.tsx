@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { kuaileFont } from '@/lib/font'
 import { cn } from '@/lib/utils'
 import AlbumGrid from '@/components/AlbumGrid'
-import ExerciseBookGrid from '@/components/ExerciseBookGrid'
+import JlptBookGrid from '@/components/ExerciseBookGrid'
 
 export const revalidate = 3600 // revalidate the data at most every hour
 
@@ -24,7 +24,7 @@ export default async function Home() {
                     </h1>
                 </div>
                 <div className="mx-auto mt-8 w-10/12 ">
-                    <ExerciseBookGrid />
+                    <JlptBookGrid />
                 </div>
             </div>
             <div className="mb-12">
