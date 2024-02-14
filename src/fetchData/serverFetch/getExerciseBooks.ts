@@ -33,14 +33,12 @@ export const getExerciseBook = cache(async (id: string | number) => {
         .select('*')
         .eq('id', id)
 
-    if (!data) {
-        // todo: what would happen if there is error?
+    if (!data || data.length === 0) {
         throw new Error('No Exercise Book from DB')
     }
 
     if (error) {
         console.error(error)
-        // todo: what would happen if there is error?
         throw new Error('Error in getExerciseBook')
     }
 

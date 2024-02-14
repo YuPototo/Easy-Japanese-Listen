@@ -1,6 +1,7 @@
 'use server'
 
-import { getExerciseBook } from '@/fetchData/serverFetch'
+import ExerciseBookContents from '@/components/ExerciseBookContents'
+import ExerciseBookTopCard from '@/components/ExerciseBookTopCard'
 
 /**
  * Show book info
@@ -12,10 +13,10 @@ type PageParam = {
 }
 
 export default async function ExerciseBookDetail({ params }: PageParam) {
-    const book = await getExerciseBook(params.bookId)
     return (
         <main className="">
-            <div>{book.title}</div>
+            <ExerciseBookTopCard bookId={params.bookId} />
+            <ExerciseBookContents bookId={params.bookId} />
         </main>
     )
 }
