@@ -2,7 +2,7 @@
 
 import AlbumTopCard from '@/components/AlbumTopCard'
 import TrackList from '@/components/TrackList'
-import { useTrackList } from '@/fetchData/client'
+import { useTrackList } from '@/fetchData/clientFetch'
 
 type PageParam = {
     params: { albumId: string }

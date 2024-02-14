@@ -2,8 +2,9 @@ import { cache } from 'react'
 import supabase from '@/database/supabaseClient'
 import { getExerciseBookWithCover } from '../utils/getCovers'
 
-// todo: rename file name
-
+/**
+ * Get all exercise books from the database
+ */
 export const getExerciseBookList = cache(async () => {
     const { data, error } = await supabase
         .from('exercise_book')
@@ -23,6 +24,9 @@ export const getExerciseBookList = cache(async () => {
     return await getExerciseBookWithCover(data)
 })
 
+/**
+ * Get one exercise book from the database
+ */
 export const getExerciseBook = cache(async (id: string | number) => {
     const { data, error } = await supabase
         .from('exercise_book')

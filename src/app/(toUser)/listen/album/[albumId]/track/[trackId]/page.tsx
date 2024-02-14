@@ -1,6 +1,6 @@
 'use client'
 
-import { useAlbumInfo, useNextTrackId, useTrack } from '@/fetchData/client'
+import { useAlbumInfo, useNextTrackId, useTrack } from '@/fetchData/clientFetch'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import AudioListener from '@/components/AudioListener'

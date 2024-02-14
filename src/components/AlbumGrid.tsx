@@ -1,6 +1,6 @@
 'use server'
 
-import { getAlbumList } from '@/fetchData/server'
+import { getAlbumList } from '@/fetchData/serverFetch'
 import MaterialCard from './MaterialCard'
 
 export default async function AlbumGrid() {

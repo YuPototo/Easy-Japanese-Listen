@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { useAlbumList } from '@/fetchData/client'
+import { useAlbumList } from '@/fetchData/clientFetch'
 import Link from 'next/link'
 
 export default function EditHomePage() {

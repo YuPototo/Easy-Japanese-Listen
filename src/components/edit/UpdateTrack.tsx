@@ -1,6 +1,6 @@
 'use client'
 
-import { useTrack } from '@/fetchData/client'
+import { useTrack } from '@/fetchData/clientFetch'
 import { TranscriptionPart } from '@/types/schema/transcriptionSchema'
 import { Button } from '../ui/button'
 import { useState } from 'react'

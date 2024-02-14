@@ -1,6 +1,6 @@
 'use server'
 
-import { getExerciseBook } from '@/fetchData/server'
+import { getExerciseBook } from '@/fetchData/serverFetch'
 
 /**
  * Show book info

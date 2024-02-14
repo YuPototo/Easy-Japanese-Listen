@@ -1,6 +1,6 @@
 'use server'
 
-import { getExerciseBookList } from '@/fetchData/server'
+import { getExerciseBookList } from '@/fetchData/serverFetch'
 import MaterialCard from './MaterialCard'
 
 export default async function JlptBookGrid() {
